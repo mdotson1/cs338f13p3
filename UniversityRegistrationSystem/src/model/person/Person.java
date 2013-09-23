@@ -18,4 +18,8 @@ public class Person extends ContactInformation {
 		ssn = social;
 		dateOfBirth = dob;
 	}
+	
+	public int getSsn() {
+		return ssn;
+	}
 }

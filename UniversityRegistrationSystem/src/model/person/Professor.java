@@ -13,8 +13,4 @@ public class Professor extends Person {
 				social, dob);
 		department = dept;
 	}
-	
-	public int getSsn() {
-		return ssn;
-	}
 }

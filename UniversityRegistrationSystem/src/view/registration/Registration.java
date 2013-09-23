@@ -1,3 +1,4 @@
+package view.registration;
 
 public class Registration {
 

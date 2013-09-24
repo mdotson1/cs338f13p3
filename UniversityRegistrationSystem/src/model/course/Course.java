@@ -14,4 +14,12 @@ public class Course {
 		this.prereqs = prereqs;
 		this.cost = cost;
 	}
+	
+	public String getDepartment() {
+		return department;
+	}
+	
+	public short getCourseNumber() {
+		return courseNumber;
+	}
 }

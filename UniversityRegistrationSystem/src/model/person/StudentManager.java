@@ -1,9 +1,12 @@
 package model.person;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
-public class StudentManager {
+import model.manager.PersonManager;
+
+public class StudentManager implements PersonManager<Student> {
 
 	private List<Student> students;
 	
@@ -11,19 +14,12 @@ public class StudentManager {
 		students = new ArrayList<Student>();
 	}
 	
-	public void add(Student stu) {
-		students.add(stu);
-	}
-	
-	public void modify(Student oldStu, Student newStu) {
-		int index = students.indexOf(oldStu);
-		students.set(index, newStu);
-	}
-	
+	@Override
 	public boolean delete(Student stu) {
 		return students.remove(stu);
 	}
 	
+	@Override
 	public Student get(int ssn) {
 		Student returnStu = null;
 		for (int i = 0; i < students.size(); i++) {
@@ -31,8 +27,25 @@ public class StudentManager {
 			if (thisStu.getSsn() == ssn)
 			{
 				returnStu = thisStu;
+				break;
 			}
 		}
 		return returnStu;
+	}
+
+	@Override
+	public void add(Student obj) {
+		students.add(obj);
+	}
+
+	@Override
+	public void modify(Student oldObj, Student newObj) {
+		int index = students.indexOf(oldObj);
+		students.set(index, newObj);
+	}
+
+	@Override
+	public Iterator<Student> getAll() {
+		return students.iterator();
 	}
 }

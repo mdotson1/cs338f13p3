@@ -14,5 +14,15 @@ public class CourseOffering extends Course {
 	public CourseOffering(String dept, short courseNum, List<Course> prereqs, int cost,
 			Semester sem, short section) {
 		super(dept, courseNum, prereqs, cost);
+		this.section = section;
+		semester = sem;
+	}
+	
+	public void assignTeacher(Professor prof) {
+		teacher = prof;
+	}
+	
+	public short getSectionNumber() {
+		return section;
 	}
 }

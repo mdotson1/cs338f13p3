@@ -1,9 +1,12 @@
 package model.person;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
-public class ProfessorManager {
+import model.manager.PersonManager;
+
+public class ProfessorManager implements PersonManager<Professor> {
 	
 	private List<Professor> professors;
 	
@@ -31,9 +34,15 @@ public class ProfessorManager {
 			if (thisProf.getSsn() == ssn)
 			{
 				returnProf = thisProf;
+				break;
 			}
 		}
 		return returnProf;
+	}
+
+	@Override
+	public Iterator<Professor> getAll() {
+		return professors.iterator();
 	}
 
 }

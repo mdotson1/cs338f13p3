@@ -3,6 +3,8 @@ package model.person;
 import java.util.ArrayList;
 import java.util.List;
 
+import model.billing.Payment;
+import model.course.CourseOffering;
 import model.time.Date;
 
 
@@ -17,7 +19,7 @@ public class Student extends Person {
 			int social, Date dob) {
 		super(homeAddr, workAddr, phoneNums, fName, lName,
 				social, dob);
-		courses = new ArrayList<CourseOferring>();
+		courses = new ArrayList<CourseOffering>();
 		paymentHistory = new ArrayList<Payment>();
 	}
 

@@ -6,190 +6,124 @@ public class Date {
 	private byte month;
 	private short year;
 	
-	public Date(byte dd, byte mm, short yyyy) throws Exception
-	{
-		switch (mm) {
-        case 1:  
-        	if (dd > 31 && dd < 59) {
-        		day = (byte) (dd - 31);
-        		month = mm++;
-        		year = yyyy;
-        	} else if (dd < 1) {
-        		
-        	} else if (dd >= 59) {
-        		
-        	} else {
-        		day = dd;
-        		month = mm;
-        		year = yyyy;
-        	}
-                 break;
-        case 2:
-        	if (dd > 28 && dd < 59) {
-        		day = (byte) (dd - 28);
-        		month = mm++;
-        		year = yyyy;
-        	} else if (dd < 1) {
-        		
-        	} else if (dd >= 59) {
-        		
-        	} else {
-        		day = dd;
-        		month = mm;
-        		year = yyyy;
-        	}
-                 break;
-        case 3:  
-        	if (dd > 31 && dd < 61) {
-        		day = (byte) (dd - 31);
-        		month = mm++;
-        		year = yyyy;
-        	} else if (dd < 1) {
-        		
-        	} else if (dd >= 61) {
-        		
-        	} else {
-        		day = dd;
-        		month = mm;
-        		year = yyyy;
-        	}
-                 break;
-        case 4:
-        	if (dd > 30 && dd < 61) {
-        		day = (byte) (dd - 30);
-        		month = mm++;
-        		year = yyyy;
-        	} else if (dd < 1) {
-        		
-        	} else if (dd >= 61) {
-        		
-        	} else {
-        		day = dd;
-        		month = mm;
-        		year = yyyy;
-        	}
-                 break;
-        case 5:
-        	if (dd > 31 && dd < 61) {
-        		day = (byte) (dd - 31);
-        		month = mm++;
-        		year = yyyy;
-        	} else if (dd < 1) {
-        		
-        	} else if (dd >= 61) {
-        		
-        	} else {
-        		day = dd;
-        		month = mm;
-        		year = yyyy;
-        	}
-                 break;
-        case 6:
-        	if (dd > 30 && dd < 61) {
-        		day = (byte) (dd - 30);
-        		month = mm++;
-        		year = yyyy;
-        	} else if (dd < 1) {
-        		
-        	} else if (dd >= 61) {
-        		
-        	} else {
-        		day = dd;
-        		month = mm;
-        		year = yyyy;
-        	}
-                 break;
-        case 7:
-        	if (dd > 31 && dd < 62) {
-        		day = (byte) (dd - 31);
-        		month = mm++;
-        		year = yyyy;
-        	} else if (dd < 1) {
-        		
-        	} else if (dd >= 62) {
-        		
-        	} else {
-        		day = dd;
-        		month = mm;
-        		year = yyyy;
-        	}
-                 break;
-        case 8:
-        	if (dd > 31 && dd < 61) {
-        		day = (byte) (dd - 31);
-        		month = mm++;
-        		year = yyyy;
-        	} else if (dd < 1) {
-        		
-        	} else if (dd >= 61) {
-        		
-        	} else {
-        		day = dd;
-        		month = mm;
-        		year = yyyy;
-        	}
-                 break;
-        case 9:
-        	if (dd > 30 && dd < 61) {
-        		day = (byte) (dd - 30);
-        		month = mm++;
-        		year = yyyy;
-        	} else if (dd < 1) {
-        		
-        	} else if (dd >= 61) {
-        		
-        	} else {
-        		day = dd;
-        		month = mm;
-        		year = yyyy;
-        	}
-                 break;
-        case 10:
-        	if (dd > 31 && dd < 61) {
-        		day = (byte) (dd - 31);
-        		month = mm++;
-        		year = yyyy;
-        	} else if (dd < 1) {
-        		
-        	} else if (dd >= 61) {
-        		
-        	} else {
-        		day = dd;
-        		month = mm;
-        		year = yyyy;
-        	}
-                 break;
-        case 11:
-        	if (dd > 30 && dd < 61) {
-        		day = (byte) (dd - 30);
-        		month = mm++;
-        		year = yyyy;
-        	} else if (dd < 1) {
-        		
-        	} else if (dd >= 61) {
-        		
-        	} else {
-        		day = dd;
-        		month = mm;
-        		year = yyyy;
-        	}
-                 break;
-        case 12:
-        	if (dd > 31 && dd < 62) {
-        		day = (byte) (dd - 31);
-        		month = mm++;
-        		year = yyyy++;
-        	} else if (dd < 1) {
-        		
-        	} else if (dd >= 62) {
-        		
-        	} else {
-        		day = dd;
-        		month = mm;
-        		year = yyyy;
-        	}
-                 break;
+	private final byte DAYS_IN_WEEK = 7;
+	
+	public Date oneWeekThirty() {
+		byte newDay;
+		byte newMonth;
+		
+		final byte DAYS_IN_MONTH = 30;
+		final byte MAXIMUM = DAYS_IN_MONTH - DAYS_IN_WEEK;
+		
+		if (day > MAXIMUM) { // we need to move up a month
+    		newDay = (byte) (day - MAXIMUM);
+    		newMonth = (byte) (month + 1);
+    	} else {
+    		newDay = (byte) (day + DAYS_IN_WEEK);
+    		newMonth = month;
+    	}
+		return new Date(newDay, newMonth, year);
+	}
+	
+	public Date oneWeekDecember() {
+		byte newDay;
+		byte newMonth;
+		short newYear;
+		
+		final byte DAYS_IN_MONTH = 31;
+		final byte MAXIMUM = DAYS_IN_MONTH - DAYS_IN_WEEK;
+		
+		if (day > MAXIMUM) { // we need to move up a month and one year
+    		newDay = (byte) (day - MAXIMUM);
+    		newMonth = 1; // january
+    		newYear = (short) (year + 1);
+    	} else {
+    		newDay = (byte) (day + DAYS_IN_WEEK);
+    		newMonth = month;
+    		newYear = year;
+    	}
+		return new Date(newDay, newMonth, newYear);
+	}
+	
+	public Date oneWeekFebruary() {
+		byte newDay;
+		byte newMonth;
+		
+		final byte DAYS_IN_MONTH;
+		switch (year % 4) {
+		case 0: 
+			DAYS_IN_MONTH = 29;
+			break;
+		default:
+			DAYS_IN_MONTH = 28;
+			break;
 		}
+		
+		final byte MAXIMUM = (byte) (DAYS_IN_MONTH - DAYS_IN_WEEK);
+		
+		if (day > MAXIMUM) { // we need to move up a month
+    		newDay = (byte) (day - MAXIMUM);
+    		newMonth = (byte) (month + 1);
+    	} else {
+    		newDay = (byte) (day + DAYS_IN_WEEK);
+    		newMonth = month;
+    	}
+		return new Date(newDay, newMonth, year);
+	}
+	
+	public Date oneWeekThirtyOne() {
+		byte newDay;
+		byte newMonth;
+		
+		final byte DAYS_IN_MONTH = 31;
+		final byte MAXIMUM = DAYS_IN_MONTH - DAYS_IN_WEEK;
+		
+		if (day > MAXIMUM) { // we need to move up a month
+    		newDay = (byte) (day - MAXIMUM);
+    		newMonth = (byte) (month + 1);
+    	} else {
+    		newDay = (byte) (day + DAYS_IN_WEEK);
+    		newMonth = month;
+    	}
+		return new Date(newDay, newMonth, year);
+	}
+	
+	public Date oneWeekAfterStart() {
+		switch (month) {
+        case 1:  
+            return oneWeekThirtyOne();
+        case 2:
+        	return oneWeekFebruary();
+        case 3:  
+        	return oneWeekThirtyOne();
+        case 4:
+        	return oneWeekThirty();
+        case 5:
+        	return oneWeekThirtyOne();
+        case 6:
+        	return oneWeekThirty();
+        case 7:
+        	// fall through
+        case 8:
+        	return oneWeekThirtyOne();
+        case 9:
+        	return oneWeekThirty();
+        case 10:
+        	return oneWeekThirtyOne();
+        case 11:
+        	return oneWeekThirty();
+        case 12:
+        	return oneWeekDecember();
+        default:
+        	return null;
+		}
+	}
+	
+	public Date(byte dd, byte mm, short yyyy)
+	{
+		day = dd;
+		month = mm;
+		year = yyyy;
 	}
 	
 	public byte getDay() {

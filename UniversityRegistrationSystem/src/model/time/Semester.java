@@ -19,5 +19,9 @@ public class Semester {
 	public Date getStartDate() {
 		return period.getStartDate();
 	}
+	
+	public Date dropDate() {
+		return period.getStartDate().oneWeekAfterStart();
+	}
 
 }

@@ -19,4 +19,8 @@ public class Period {
 	public short startingYear() {
 		return startDate.getYear();
 	}
+	
+	public Date getStartDate() {
+		return startDate;
+	}
 }

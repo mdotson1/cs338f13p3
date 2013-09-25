@@ -4,12 +4,12 @@ import model.time.Date;
 
 public class Person extends ContactInformation {
 	
-	protected int ssn;
+	protected long ssn;
 	protected Date dateOfBirth;
 	
 	public Person(Address homeAddr, Address workAddr,
 			PhoneNumbers phoneNums, String fName, String lName,
-			int social, Date dob) {
+			long social, Date dob) {
 		homeAddress = homeAddr;
 		workAddress = workAddr;
 		phones = phoneNums;
@@ -19,7 +19,7 @@ public class Person extends ContactInformation {
 		dateOfBirth = dob;
 	}
 	
-	public int getSsn() {
+	public long getSsn() {
 		return ssn;
 	}
 }

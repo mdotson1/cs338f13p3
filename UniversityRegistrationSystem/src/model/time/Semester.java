@@ -16,5 +16,8 @@ public class Semester {
 		period = p;
 	}
 	
+	public Date getStartDate() {
+		return period.getStartDate();
+	}
 
 }

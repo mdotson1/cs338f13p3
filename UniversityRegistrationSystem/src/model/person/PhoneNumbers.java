@@ -6,7 +6,9 @@ public class PhoneNumbers {
 	private String homePhone;
 	private String cellPhone;
 	
-	public PhoneNumbers() {
-		
+	public PhoneNumbers(String work, String home, String cell) {
+		workPhone = work;
+		homePhone = home;
+		cellPhone = cell;
 	}
 }

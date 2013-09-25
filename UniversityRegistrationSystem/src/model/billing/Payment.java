@@ -8,4 +8,8 @@ public class Payment {
 		paymentType = type;
 		paymentAmount = amount;
 	}
+	
+	public int getPaymentAmount() {
+		return paymentAmount;
+	}
 }

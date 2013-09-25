@@ -9,7 +9,12 @@ public class Address {
 	private String state;
 	private int zipCode;
 	
-	public Address() {
-		
+	public Address(int num, String name, int apt, String city, String state, int zip) {
+		streetNumber = num;
+		streetName = name;
+		apartmentNumber = apt;
+		this.city = city;
+		this.state = state;
+		zipCode = zip;
 	}
 }

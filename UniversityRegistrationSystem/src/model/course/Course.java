@@ -22,4 +22,8 @@ public class Course {
 	public short getCourseNumber() {
 		return courseNumber;
 	}
+	
+	public int getCost() {
+		return cost;
+	}
 }

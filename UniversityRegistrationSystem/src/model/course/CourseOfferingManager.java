@@ -5,7 +5,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import model.manager.Manager;
-import model.person.Professor;
 
 public class CourseOfferingManager implements Manager<CourseOffering> {
 

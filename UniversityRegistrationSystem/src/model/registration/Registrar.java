@@ -69,14 +69,41 @@ public class Registrar {
 			List<CourseOffering> alternatives, Date currentDate) {
 		ArrayList<CourseOffering> concatenated = new ArrayList<CourseOffering>(desiredCourses);
 		concatenated.addAll(alternatives);
-		if (allCoursesInSameSemester(concatenated.iterator())) {
+		Iterator<CourseOffering> desiredAndAlternatives = concatenated.iterator();
+		
+		if (allCoursesInSameSemester(desiredAndAlternatives)) {
 			if (! s.hasRegistered()) {
-				if (currentDate.compareTo(sem.dropDate()) < 0) {
-					
+				// get first course's semester, because they are guaranteed to
+				// be identical at this point
+				if (beforeDropDate(currentDate, concatenated.get(0).getSemester())) {
+					// this will do desired courses first and alternatives next, because
+					// they were concatenated in that order.
+					while (desiredAndAlternatives.hasNext()) {
+						enrollStudentInCourse(s, desiredAndAlternatives.next(), currentDate);
+					}
+					return true;
+				} else {
+					return false;
 				}
 			} else {
 				return false;
 			}
+		} else {
+			return false;
+		}
+	}
+	
+	public boolean beforeDropDate(Date currentDate, Semester sem) {
+		if (currentDate.compareTo(sem.dropDate()) < 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public boolean addAfterRegistering(Student s, CourseOffering course, Date currentDate) {
+		if (validDate(s, course.getSemester(), currentDate)) {
+			return enrollStudentInCourse(s, course, currentDate);
 		} else {
 			return false;
 		}
@@ -88,18 +115,16 @@ public class Registrar {
 	 * @param course to add to student
 	 * @return true if added both, false if not
 	 */
-	public boolean enrollStudentInCourse(Student s, CourseOffering course, Date currentDate) {
-		if (validDate(s, course.getSemester(), currentDate)) {
-			boolean addedCourseToStudent = s.enrollInCourse(course);
-			if (addedCourseToStudent) {
-				boolean addedStudentToCourse = course.addStudent(s);
-				if (addedStudentToCourse) {
-					return true;
-				} else {
-					s.dropCourse(course); // backtrack and drop the student
-					return false;
-				}
+	private boolean enrollStudentInCourse(Student s, CourseOffering course, Date currentDate) {
+		boolean addedCourseToStudent = s.enrollInCourse(course);
+		
+		if (addedCourseToStudent) {
+			boolean addedStudentToCourse = course.addStudent(s);
+			
+			if (addedStudentToCourse) {
+				return true;
 			} else {
+				s.dropCourse(course); // backtrack and drop the student
 				return false;
 			}
 		} else {
@@ -108,10 +133,12 @@ public class Registrar {
 	}
 	
 	public boolean dropStudentFromCourse(Student s, CourseOffering course, Date currentDate) {
-		if (validDate(s, course.getSemester(), currentDate)) {
+		if (validDate(s, course.getSemester(), currentDate)) {		
 			boolean droppedCourseFromStudent = s.dropCourse(course);
+			
 			if (droppedCourseFromStudent) {
 				boolean droppedStudentFromCourse = course.dropStudent(s);
+				
 				if (droppedStudentFromCourse) {
 					return true;
 				} else {
@@ -132,13 +159,9 @@ public class Registrar {
 	 * @param currentDate
 	 * @return true if the date is valid for enrolling or dropping
 	 */
-	public boolean validDate(Student student, Semester sem, Date currentDate) {
+	private boolean validDate(Student student, Semester sem, Date currentDate) {
 		if (student.hasRegistered()) {
-			if (currentDate.compareTo(sem.dropDate()) < 0) {
-				return true;
-			} else {
-				return false;
-			}
+			return beforeDropDate(currentDate, sem);
 		} else {
 			return false;
 		}

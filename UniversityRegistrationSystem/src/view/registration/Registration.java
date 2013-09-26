@@ -70,7 +70,7 @@ public class Registration {
 		// test enrolling student
 		System.out.println("before-adding-student: " + s1.getCourses());
 		System.out.println("before-adding-course: " + co1.getRoster());
-		registrar.enrollStudentInCourse(s1, co1);
+		registrar.enrollStudentInCourse(s1, co1, currentDate);
 		System.out.println("added-course-to-student: " + s1.getCourses());
 		System.out.println("added-student-to-course: " + co1.getRoster());
 		

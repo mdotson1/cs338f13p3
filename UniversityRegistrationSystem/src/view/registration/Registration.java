@@ -2,7 +2,6 @@ package view.registration;
 
 import model.billing.Bursar;
 import model.billing.Payment;
-import model.course.CourseManager;
 import model.course.CourseOffering;
 import model.course.CourseOfferingManager;
 import model.person.Address;
@@ -11,7 +10,6 @@ import model.person.Professor;
 import model.person.ProfessorManager;
 import model.person.Student;
 import model.person.StudentManager;
-import model.registration.CourseCatalogManager;
 import model.registration.Registrar;
 import model.time.Date;
 import model.time.Period;

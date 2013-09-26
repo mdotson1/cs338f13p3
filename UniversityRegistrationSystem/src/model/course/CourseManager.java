@@ -1,3 +1,4 @@
+/*
 package model.course;
 
 import java.util.ArrayList;
@@ -33,12 +34,6 @@ public class CourseManager implements Manager<Course> {
 			courses.add(created);
 			return true;
 		}
-	}
-
-	@Override
-	public void modify(Course oldObj, Course newObj) {
-		int index = courses.indexOf(oldObj);
-		courses.set(index, newObj);
 	}
 
 	@Override
@@ -79,3 +74,5 @@ public class CourseManager implements Manager<Course> {
 	}
 
 }
+
+ */

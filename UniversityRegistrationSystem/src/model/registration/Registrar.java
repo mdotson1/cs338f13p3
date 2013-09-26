@@ -5,33 +5,24 @@ import java.util.Iterator;
 import java.util.List;
 
 import model.course.CourseOffering;
+import model.course.CourseOfferingManager;
 import model.person.Professor;
 import model.person.Student;
 import model.time.Date;
 import model.time.Semester;
 
 public class Registrar {
-
-	private List<CourseOffering> courseCatalog = new ArrayList<CourseOffering>();
 	
 	public Registrar() {
 		
 	}
 	
-	public void addCourseToCatalog(CourseOffering course) {
-		courseCatalog.add(course);
-	}
-	
-	public List<CourseOffering> getCourseCatalog() {
-		return courseCatalog;
+	public List<CourseOffering> getCourseCatalog(Semester sem) {
+		return CourseOfferingManager.getInstance().getCoursesInSemester(sem);
 	}
 	
 	public List<Student> getRosterForCourse(CourseOffering course) {
 		return course.getRoster();
-	}
-	
-	public List<CourseOffering> getCourseCatalog(Semester sem) {
-		return null;
 	}
 	
 	// modify courseoffering

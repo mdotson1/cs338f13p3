@@ -36,4 +36,12 @@ public class Semester {
 		return period.getStartDate();
 	}
 
+	public boolean equals(Semester sem) {
+		if (sem.getSeason() == season && sem.getYear() == year) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 }

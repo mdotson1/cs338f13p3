@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import model.billing.Payment;
 import model.manager.PersonManager;
 import model.time.Date;
 
@@ -22,6 +23,26 @@ public class StudentManager implements PersonManager<Student> {
 	
 	private StudentManager() {
 		students = new ArrayList<Student>();
+	}
+	
+	// TODO maybe need more error checking to make sure we bill
+	// after drop date
+	public void billStudents() {
+		Iterator<Student> all = getAll();
+		while (all.hasNext()) {
+			all.next().bill();
+		}
+	}
+	
+	// true if successful, false if not
+	public boolean payBalance(Student s, Payment payment) {
+		Student stu = get(s.getId());
+		if (stu != null) {
+			stu.payBalance(payment);
+			return true;
+		} else {
+			return false;
+		}
 	}
 	
 	@Override
@@ -46,7 +67,6 @@ public class StudentManager implements PersonManager<Student> {
 		return returnStu;
 	}
 
-	@Override
 	public boolean add(Address homeAddr, Address workAddr, PhoneNumbers phones, String fName, 
 			String lName, Date dob, int id) {
 		
@@ -58,12 +78,6 @@ public class StudentManager implements PersonManager<Student> {
 			students.add(created);
 			return true;
 		}
-	}
-
-	@Override
-	public void modify(Student oldObj, Student newObj) {
-		int index = students.indexOf(oldObj);
-		students.set(index, newObj);
 	}
 
 	@Override

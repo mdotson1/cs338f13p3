@@ -24,6 +24,19 @@ public class CourseOfferingManager implements Manager<CourseOffering> {
 		courses = new ArrayList<CourseOffering>();
 	}
 	
+	public List<CourseOffering> getCoursesInSemester(Semester sem) {
+		List<CourseOffering> courses = new ArrayList<CourseOffering>();
+		Iterator<CourseOffering> all = getAll();
+		
+		while (all.hasNext()) {
+			CourseOffering thisCourse = all.next();
+			if (thisCourse.getSemester().equals(sem)) {
+				courses.add(thisCourse);
+			}
+		}
+		return courses;
+	}
+	
 	public boolean add(String dept, short courseNum, List<Course> prereqs, 
 			int cost, Semester sem, short sectionNum) {
 		
@@ -34,12 +47,6 @@ public class CourseOfferingManager implements Manager<CourseOffering> {
 			courses.add(created);
 			return true;
 		}
-	}
-
-	@Override
-	public void modify(CourseOffering oldObj, CourseOffering newObj) {
-		int index = courses.indexOf(oldObj);
-		courses.set(index, newObj);
 	}
 
 	@Override

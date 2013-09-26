@@ -23,5 +23,9 @@ public class Semester {
 	public Date dropDate() {
 		return period.getStartDate().oneWeekAfterStart();
 	}
+	
+	public Date firstDayOfClasses() {
+		return period.getStartDate();
+	}
 
 }

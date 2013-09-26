@@ -1,6 +1,6 @@
 package model.time;
 
-public class Date {
+public class Date implements Comparable<Date> {
 
 	private byte day;
 	private byte month;
@@ -136,5 +136,22 @@ public class Date {
 	}
 	public short getYear() {
 		return year;
+	}
+
+	@Override
+	public int compareTo(Date d) {
+		if (year == d.getYear()) {
+			if (month == d.getMonth()) {
+				if (day == d.getDay()) {
+					return 0;
+				} else {
+					return day - d.getDay();
+				}
+			} else {
+				return month - d.getMonth();
+			}
+		} else {
+			return year - d.getYear();
+		}
 	}
 }

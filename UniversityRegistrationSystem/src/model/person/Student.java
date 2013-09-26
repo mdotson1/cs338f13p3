@@ -12,9 +12,9 @@ import model.time.Date;
 public class Student extends Person {
 	
 	private List<CourseOffering> courses;
-	private List<Course> coursesTaken;
 	private int currentBalance;
 	private List<Payment> paymentHistory;
+	private boolean hasRegistered;
 	
 	public Student(Address homeAddr, Address workAddr,
 			PhoneNumbers phoneNums, String fName, String lName,
@@ -23,6 +23,11 @@ public class Student extends Person {
 				social, dob);
 		courses = new ArrayList<CourseOffering>();
 		paymentHistory = new ArrayList<Payment>();
+		hasRegistered = false;
+	}
+	
+	public boolean hasRegistered() {
+		return hasRegistered;
 	}
 	
 	public int getCurrentBalance() {

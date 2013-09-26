@@ -22,6 +22,10 @@ public class CourseOffering extends Course {
 		students = new ArrayList<Student>();
 	}
 	
+	public Semester getSemester() {
+		return semester;
+	}
+	
 	public Professor getProfessor() {
 		return teacher;
 	}

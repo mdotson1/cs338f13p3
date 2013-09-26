@@ -1,6 +1,7 @@
 package model.registration;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import model.course.CourseOffering;
@@ -12,17 +13,9 @@ import model.time.Semester;
 public class Registrar {
 
 	private List<CourseOffering> courseCatalog = new ArrayList<CourseOffering>();
-	private Semester semester;
-	private Date lastDayToChange;
 	
 	public Registrar() {
 		
-	}
-	
-	public void setSemester(Semester sem) {
-		semester = sem;
-		Date start = sem.getStartDate();
-		lastDayToChange = sem.dropDate();
 	}
 	
 	public void addCourseToCatalog(CourseOffering course) {
@@ -50,15 +43,43 @@ public class Registrar {
 		return course.removeProfessor();
 	}
 	
+	public boolean allCoursesInSameSemester(Iterator<CourseOffering> courses) {
+		Semester firstSemester;
+		if (courses.hasNext()) {
+			firstSemester = courses.next().getSemester();
+		} else {
+			return false;
+		}
+		while (courses.hasNext()) {
+			if (!(courses.next().getSemester().equals(firstSemester))) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
 	/**
 	 * Enrolls a student in the desired courses 
 	 * @param s student to add courses to
 	 * @param desiredCourses list of all courses a student wishes to enroll in
 	 * @param alternatives list of alternative courses to enroll in if desired is full
+	 * @return true if registered, false if not
 	 */
-	public void registerForCourses(Student s, List<CourseOffering> desiredCourses,
-			List<CourseOffering> alternatives) {
-		
+	public boolean registerForCourses(Student s, List<CourseOffering> desiredCourses,
+			List<CourseOffering> alternatives, Date currentDate) {
+		ArrayList<CourseOffering> concatenated = new ArrayList<CourseOffering>(desiredCourses);
+		concatenated.addAll(alternatives);
+		if (allCoursesInSameSemester(concatenated.iterator())) {
+			if (! s.hasRegistered()) {
+				if (currentDate.compareTo(sem.dropDate()) < 0) {
+					
+				}
+			} else {
+				return false;
+			}
+		} else {
+			return false;
+		}
 	}
 	
 	/**
@@ -68,38 +89,54 @@ public class Registrar {
 	 * @return true if added both, false if not
 	 */
 	public boolean enrollStudentInCourse(Student s, CourseOffering course, Date currentDate) {
-		if (currentDate.compareTo(lastDayToChange)) {
+		if (validDate(s, course.getSemester(), currentDate)) {
 			boolean addedCourseToStudent = s.enrollInCourse(course);
 			if (addedCourseToStudent) {
-				if (course.addStudent(s)) {
+				boolean addedStudentToCourse = course.addStudent(s);
+				if (addedStudentToCourse) {
 					return true;
 				} else {
-					s.dropCourse(course);
+					s.dropCourse(course); // backtrack and drop the student
 					return false;
 				}
 			} else {
 				return false;
 			}
+		} else {
+			return false;
+		}
+	}
+	
+	public boolean dropStudentFromCourse(Student s, CourseOffering course, Date currentDate) {
+		if (validDate(s, course.getSemester(), currentDate)) {
+			boolean droppedCourseFromStudent = s.dropCourse(course);
+			if (droppedCourseFromStudent) {
+				boolean droppedStudentFromCourse = course.dropStudent(s);
+				if (droppedStudentFromCourse) {
+					return true;
+				} else {
+					s.enrollInCourse(course);
+					return false;
+				}
+			} else {
+				return false;
+			}
+		} else {
+			return false;
 		}
 	}
 	
 	/**
-	 * Drop a course from a student
-	 * @param s student to drop course from
-	 * @param course to drop from student
-	 * @return true if dropped, false if not
+	 * Can only enroll or drop after registering and 1 week before classes
+	 * @param sem course's semester
+	 * @param currentDate
+	 * @return true if the date is valid for enrolling or dropping
 	 */
-	public boolean dropStudentFromCourse(Student s, short courseNum, short sectionNum) {
-		return false;
-	}
-	
-	public boolean dropStudentFromCourse(Student s, CourseOffering course) {
-		boolean droppedCourseFromStudent = s.dropCourse(course);
-		if (droppedCourseFromStudent) {
-			if (course.dropStudent(s)) {
+	public boolean validDate(Student student, Semester sem, Date currentDate) {
+		if (student.hasRegistered()) {
+			if (currentDate.compareTo(sem.dropDate()) < 0) {
 				return true;
 			} else {
-				s.enrollInCourse(course);
 				return false;
 			}
 		} else {

@@ -8,9 +8,18 @@ import model.manager.Manager;
 
 public class CourseManager implements Manager<Course> {
 	
-private List<Course> courses;
+	private List<Course> courses;
 	
-	public CourseManager() {
+	private static class SingletonHolder { 
+        public static final CourseManager INSTANCE = new CourseManager();
+	}
+	
+	public static CourseManager getInstance() {
+		
+		return SingletonHolder.INSTANCE;
+	}
+	
+	private CourseManager() {
 		courses = new ArrayList<Course>();
 	}
 	
@@ -31,15 +40,18 @@ private List<Course> courses;
 	}
 	
 	public Course get(String department, short courseNumber) {
+		
 		Course returnCourse = null;
-		for (int i = 0; i < courses.size(); i++) {
-			Course thisCourse = courses.get(i);
-			if (thisCourse.getCourseNumber() == courseNumber)
-			{
-				if (thisCourse.getDepartment() == department) {
-					returnCourse = thisCourse;
-					break;
-				}
+		Iterator<Course> allCourses = getAll();
+		
+		while (allCourses.hasNext()) {
+			
+			Course thisCourse = allCourses.next();
+			
+			if (thisCourse.getCourseNumber() == courseNumber
+					&& thisCourse.getDepartment().equals(department)) {
+				returnCourse = thisCourse;
+				break;
 			}
 		}
 		return returnCourse;

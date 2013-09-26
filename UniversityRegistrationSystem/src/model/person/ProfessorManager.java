@@ -10,7 +10,16 @@ public class ProfessorManager implements PersonManager<Professor> {
 	
 	private List<Professor> professors;
 	
-	public ProfessorManager() {
+	private static class SingletonHolder { 
+        public static final ProfessorManager INSTANCE = new ProfessorManager();
+	}
+	
+	public static ProfessorManager getInstance() {
+		
+		return SingletonHolder.INSTANCE;
+	}
+	
+	private ProfessorManager() {
 		professors = new ArrayList<Professor>();
 	}
 	
@@ -28,9 +37,12 @@ public class ProfessorManager implements PersonManager<Professor> {
 	}
 	
 	public Professor get(int ssn) {
+		
 		Professor returnProf = null;
-		for (int i = 0; i < professors.size(); i++) {
-			Professor thisProf = professors.get(i);
+		Iterator<Professor> allProfs = getAll();
+		
+		while (allProfs.hasNext()) {
+			Professor thisProf = allProfs.next();
 			if (thisProf.getSsn() == ssn)
 			{
 				returnProf = thisProf;

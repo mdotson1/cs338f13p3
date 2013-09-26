@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.billing.Payment;
-import model.course.Course;
 import model.course.CourseOffering;
 import model.time.Date;
 

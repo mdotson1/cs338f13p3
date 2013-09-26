@@ -10,7 +10,16 @@ public class StudentManager implements PersonManager<Student> {
 
 	private List<Student> students;
 	
-	public StudentManager() {
+	private static class SingletonHolder { 
+        public static final StudentManager INSTANCE = new StudentManager();
+	}
+	
+	public static StudentManager getInstance() {
+		
+		return SingletonHolder.INSTANCE;
+	}
+	
+	private StudentManager() {
 		students = new ArrayList<Student>();
 	}
 	
@@ -21,9 +30,12 @@ public class StudentManager implements PersonManager<Student> {
 	
 	@Override
 	public Student get(int ssn) {
+		
 		Student returnStu = null;
-		for (int i = 0; i < students.size(); i++) {
-			Student thisStu = students.get(i);
+		Iterator<Student> allStudents = getAll();
+		
+		while (allStudents.hasNext()) {
+			Student thisStu = allStudents.next();
 			if (thisStu.getSsn() == ssn)
 			{
 				returnStu = thisStu;

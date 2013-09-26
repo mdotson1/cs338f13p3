@@ -16,6 +16,14 @@ public class Semester {
 		period = p;
 	}
 	
+	public short getYear() {
+		return year;
+	}
+	
+	public Season getSeason() {
+		return season;
+	}
+	
 	public Date getStartDate() {
 		return period.getStartDate();
 	}

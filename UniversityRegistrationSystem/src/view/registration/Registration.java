@@ -2,11 +2,16 @@ package view.registration;
 
 import model.billing.Bursar;
 import model.billing.Payment;
+import model.course.CourseManager;
 import model.course.CourseOffering;
+import model.course.CourseOfferingManager;
 import model.person.Address;
 import model.person.PhoneNumbers;
 import model.person.Professor;
+import model.person.ProfessorManager;
 import model.person.Student;
+import model.person.StudentManager;
+import model.registration.CourseCatalogManager;
 import model.registration.Registrar;
 import model.time.Date;
 import model.time.Period;
@@ -14,7 +19,7 @@ import model.time.Semester;
 import model.time.Semester.Season;
 
 public class Registration {
-
+	
 	public static void main(String[] args) {
 		
 		Registrar registrar = new Registrar();
@@ -70,7 +75,7 @@ public class Registration {
 		// test enrolling student
 		System.out.println("before-adding-student: " + s1.getCourses());
 		System.out.println("before-adding-course: " + co1.getRoster());
-		registrar.enrollStudentInCourse(s1, co1, currentDate);
+		//registrar.addAfterRegistering(s1, co1, );
 		System.out.println("added-course-to-student: " + s1.getCourses());
 		System.out.println("added-student-to-course: " + co1.getRoster());
 		
@@ -101,7 +106,7 @@ public class Registration {
 		// test dropping student from course
 		System.out.println("before-dropping-student: " + s1.getCourses());
 		System.out.println("before-dropping-course: " + co1.getRoster());
-		registrar.dropStudentFromCourse(s1, co1);
+		//registrar.dropStudentFromCourse(s1, co1);
 		System.out.println("dropped-course-from-student: " + s1.getCourses());
 		System.out.println("dropped-student-from-course: " + co1.getRoster());
 		

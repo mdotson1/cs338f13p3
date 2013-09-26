@@ -23,9 +23,16 @@ public class CourseManager implements Manager<Course> {
 		courses = new ArrayList<Course>();
 	}
 	
-	@Override
-	public void add(Course obj) {
-		courses.add(obj);
+	public boolean add(String dept, short courseNum, List<Course> prereqs, 
+			int cost) {
+		
+		Course created = new Course(dept, courseNum, prereqs, cost);
+		if (contains(created)) {
+			return false;
+		} else {
+			courses.add(created);
+			return true;
+		}
 	}
 
 	@Override
@@ -60,6 +67,15 @@ public class CourseManager implements Manager<Course> {
 	@Override
 	public Iterator<Course> getAll() {
 		return courses.iterator();
+	}
+
+	@Override
+	public boolean contains(Course obj) {
+		if (get(obj.getDepartment(), obj.getCourseNumber()) == null) {
+			return false;
+		} else {
+			return true;
+		}
 	}
 
 }

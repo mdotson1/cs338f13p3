@@ -30,13 +30,18 @@ public class Registration {
 		Address workAddr = new Address(110, "E Pearson St", 520, "Chicago", "IL", 60610);
 		PhoneNumbers phones = new PhoneNumbers(null, "920-284-6892", "920-284-6892");
 		Date dob = new Date((byte) 5, (byte) 10, (short) 1990);
-		Student s1 = new Student(homeAddr, workAddr, phones, "Michael", "Dotson", 9999999999L, dob);
+		
+		// add student to database or not if already exists
+		StudentManager.getInstance().add(homeAddr, workAddr, phones, "Michael", "Dotson", dob, 987654);
 		
 		// CourseOffering co1
-		CourseOffering co1 = new CourseOffering("CS", (short) 170, null, 4000, 
-				new Semester(Season.FALL, new Period(
-						new Date((byte) 8, (byte) 26, (short) 2013), new Date((byte) 12, (byte) 15, (short) 2013))), 
-						(short) 1);
+		Date start = new Date((byte) 8, (byte) 26, (short) 2013);
+		Date end = new Date((byte) 12, (byte) 15, (short) 2013);
+		Period length = new Period(start, end);
+		Semester sem = new Semester(Season.FALL, length);
+		
+		// add CourseOffering to database
+		CourseOfferingManager.getInstance().add("CS", (short) 170, null, 4000, sem, (short) 1);
 		
 		System.out.println("before adding course: " + registrar.getCourseCatalog());
 		registrar.addCourseToCatalog(co1);

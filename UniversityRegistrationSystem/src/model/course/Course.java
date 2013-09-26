@@ -9,6 +9,7 @@ public class Course {
 	protected int cost;
 	
 	public Course(String dept, short courseNum, List<Course> prereqs, int cost) {
+		
 		department = dept;
 		courseNumber = courseNum;
 		this.prereqs = prereqs;

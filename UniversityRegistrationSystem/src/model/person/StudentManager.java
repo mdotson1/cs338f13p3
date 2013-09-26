@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import model.manager.PersonManager;
+import model.time.Date;
 
 public class StudentManager implements PersonManager<Student> {
 
@@ -29,14 +30,14 @@ public class StudentManager implements PersonManager<Student> {
 	}
 	
 	@Override
-	public Student get(int ssn) {
+	public Student get(int id) {
 		
 		Student returnStu = null;
 		Iterator<Student> allStudents = getAll();
 		
 		while (allStudents.hasNext()) {
 			Student thisStu = allStudents.next();
-			if (thisStu.getSsn() == ssn)
+			if (thisStu.getId() == id)
 			{
 				returnStu = thisStu;
 				break;
@@ -46,8 +47,17 @@ public class StudentManager implements PersonManager<Student> {
 	}
 
 	@Override
-	public void add(Student obj) {
-		students.add(obj);
+	public boolean add(Address homeAddr, Address workAddr, PhoneNumbers phones, String fName, 
+			String lName, Date dob, int id) {
+		
+		Student created = new Student(homeAddr, workAddr, phones, fName, lName, dob, id);
+		
+		if (contains(created)) {
+			return false;
+		} else {
+			students.add(created);
+			return true;
+		}
 	}
 
 	@Override
@@ -59,5 +69,14 @@ public class StudentManager implements PersonManager<Student> {
 	@Override
 	public Iterator<Student> getAll() {
 		return students.iterator();
+	}
+
+	@Override
+	public boolean contains(Student s) {
+		if (get(s.getId()) == null) {
+			return false;
+		} else {
+			return true;
+		}
 	}
 }

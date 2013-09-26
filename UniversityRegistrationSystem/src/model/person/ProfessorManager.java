@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import model.manager.PersonManager;
+import model.time.Date;
 
 public class ProfessorManager implements PersonManager<Professor> {
 	
@@ -36,14 +37,14 @@ public class ProfessorManager implements PersonManager<Professor> {
 		return professors.remove(prof);
 	}
 	
-	public Professor get(int ssn) {
+	public Professor get(int id) {
 		
 		Professor returnProf = null;
 		Iterator<Professor> allProfs = getAll();
 		
 		while (allProfs.hasNext()) {
 			Professor thisProf = allProfs.next();
-			if (thisProf.getSsn() == ssn)
+			if (thisProf.getId() == id)
 			{
 				returnProf = thisProf;
 				break;
@@ -55,6 +56,28 @@ public class ProfessorManager implements PersonManager<Professor> {
 	@Override
 	public Iterator<Professor> getAll() {
 		return professors.iterator();
+	}
+
+	@Override
+	public boolean contains(Professor obj) {
+		if (get(obj.getId()) == null) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+	public boolean add(Address homeAddr, Address workAddr, PhoneNumbers phones,
+			String fName, String lName, Date dob, int id, String department) {
+		
+		Professor created = new Professor(homeAddr, workAddr, phones, fName, lName, id, dob, department);
+		
+		if (contains(created)) {
+			return false;
+		} else {
+			professors.add(created);
+			return true;
+		}
 	}
 
 }

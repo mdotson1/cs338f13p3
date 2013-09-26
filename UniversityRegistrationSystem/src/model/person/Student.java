@@ -8,7 +8,7 @@ import model.course.CourseOffering;
 import model.time.Date;
 
 
-public class Student extends Person {
+public class Student extends UniversityPerson {
 	
 	private List<CourseOffering> courses;
 	private int currentBalance;
@@ -17,9 +17,11 @@ public class Student extends Person {
 	
 	public Student(Address homeAddr, Address workAddr,
 			PhoneNumbers phoneNums, String fName, String lName,
-			long social, Date dob) {
+			Date dob, int id) {
+		
 		super(homeAddr, workAddr, phoneNums, fName, lName,
-				social, dob);
+				dob, id);
+		
 		courses = new ArrayList<CourseOffering>();
 		paymentHistory = new ArrayList<Payment>();
 		hasRegistered = false;

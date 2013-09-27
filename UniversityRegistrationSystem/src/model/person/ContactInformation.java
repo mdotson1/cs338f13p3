@@ -8,8 +8,9 @@ public class ContactInformation {
 	protected String firstName;
 	protected String lastName;
 	
-	public ContactInformation(Address homeAddr, Address workAddr, 
-			PhoneNumbers phoneNums, String fName, String lName) {
+	public ContactInformation(final Address homeAddr, final Address workAddr, 
+			final PhoneNumbers phoneNums, final String fName,
+			final String lName) {
 		homeAddress = homeAddr;
 		workAddress = workAddr;
 		phones = phoneNums;

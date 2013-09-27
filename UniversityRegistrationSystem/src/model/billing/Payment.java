@@ -4,7 +4,7 @@ public class Payment {
 	private String paymentType;
 	private int paymentAmount;
 	
-	public Payment(String type, int amount) {
+	public Payment(final String type, final int amount) {
 		paymentType = type;
 		paymentAmount = amount;
 	}

@@ -10,33 +10,33 @@ public class Semester {
 	private short year;
 	private Period period;
 	
-	public Semester(Season s, Period p) {
+	public Semester(final Season s, final Period p) {
 		season = s;
 		year = p.startingYear();
 		period = p;
 	}
 	
-	public short getYear() {
+	public final short getYear() {
 		return year;
 	}
 	
-	public Season getSeason() {
+	public final Season getSeason() {
 		return season;
 	}
 	
-	public Date getStartDate() {
+	public final Date getStartDate() {
 		return period.getStartDate();
 	}
 	
-	public Date dropDate() {
+	public final Date dropDate() {
 		return period.getStartDate().oneWeekAfterStart();
 	}
 	
-	public Date firstDayOfClasses() {
+	public final Date firstDayOfClasses() {
 		return period.getStartDate();
 	}
 
-	public boolean equals(Semester sem) {
+	public boolean equals(final Semester sem) {
 		if (sem.getSeason() == season && sem.getYear() == year) {
 			return true;
 		} else {

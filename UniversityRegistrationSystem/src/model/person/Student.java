@@ -15,9 +15,9 @@ public class Student extends UniversityPerson {
 	private List<Payment> paymentHistory;
 	private boolean hasRegistered;
 	
-	public Student(Address homeAddr, Address workAddr,
-			PhoneNumbers phoneNums, String fName, String lName,
-			Date dob, int id) {
+	public Student(final Address homeAddr, final Address workAddr,
+			final PhoneNumbers phoneNums, final String fName, 
+			final String lName, final Date dob, final int id) {
 		
 		super(homeAddr, workAddr, phoneNums, fName, lName,
 				dob, id);
@@ -27,11 +27,11 @@ public class Student extends UniversityPerson {
 		hasRegistered = false;
 	}
 	
-	public boolean hasRegistered() {
+	public final boolean hasRegistered() {
 		return hasRegistered;
 	}
 	
-	public int getCurrentBalance() {
+	public final int getCurrentBalance() {
 		return currentBalance;
 	}
 	
@@ -41,43 +41,25 @@ public class Student extends UniversityPerson {
 		}
 	}
 	
-	public List<Payment> getPaymentHistory() {
+	public final List<Payment> getPaymentHistory() {
 		return paymentHistory;
 	}
 	
-	public void payBalance(Payment payment) {
+	public void payBalance(final Payment payment) {
 		paymentHistory.add(payment);
 		currentBalance -= payment.getPaymentAmount();
 	}
 	
-	// true = added, false = not added
-	public boolean enrollInCourse(CourseOffering course) {
-		if (courses.size() == 4) {
-			return false;
-		}
-		else
-		{
-			if (courses.contains(course)) {
-				return false;
-			}
-			else
-			{
-				courses.add(course);
-				return true;
-			}
-		}
+	public void addCourse(final CourseOffering course) {
+		courses.add(course);
 	}
 	
-	// true = dropped, false = not dropped
-	public boolean dropCourse(CourseOffering course) {
-		if (courses.contains(course)) {
-			courses.remove(course);
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+	public int getNumCourses() {
+		return courses.size();
+	}
+	
+	public void removeCourse(final CourseOffering course) {
+		courses.remove(course);
 	}
 	
 	public List<CourseOffering> getCourses() {

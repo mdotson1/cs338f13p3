@@ -9,8 +9,8 @@ public class Date implements Comparable<Date> {
 	private final byte DAYS_IN_WEEK = 7;
 	
 	public Date oneWeekThirty() {
-		byte newDay;
-		byte newMonth;
+		final byte newDay;
+		final byte newMonth;
 		
 		final byte DAYS_IN_MONTH = 30;
 		final byte MAXIMUM = DAYS_IN_MONTH - DAYS_IN_WEEK;
@@ -26,9 +26,9 @@ public class Date implements Comparable<Date> {
 	}
 	
 	public Date oneWeekDecember() {
-		byte newDay;
-		byte newMonth;
-		short newYear;
+		final byte newDay;
+		final byte newMonth;
+		final short newYear;
 		
 		final byte DAYS_IN_MONTH = 31;
 		final byte MAXIMUM = DAYS_IN_MONTH - DAYS_IN_WEEK;
@@ -46,8 +46,8 @@ public class Date implements Comparable<Date> {
 	}
 	
 	public Date oneWeekFebruary() {
-		byte newDay;
-		byte newMonth;
+		final byte newDay;
+		final byte newMonth;
 		
 		final byte DAYS_IN_MONTH;
 		switch (year % 4) {
@@ -72,8 +72,8 @@ public class Date implements Comparable<Date> {
 	}
 	
 	public Date oneWeekThirtyOne() {
-		byte newDay;
-		byte newMonth;
+		final byte newDay;
+		final byte newMonth;
 		
 		final byte DAYS_IN_MONTH = 31;
 		final byte MAXIMUM = DAYS_IN_MONTH - DAYS_IN_WEEK;
@@ -126,15 +126,15 @@ public class Date implements Comparable<Date> {
 		year = yyyy;
 	}
 	
-	public byte getDay() {
+	public final byte getDay() {
 		return day;
 	}
 	
-	public byte getMonth() {
+	public final byte getMonth() {
 		
 		return month;
 	}
-	public short getYear() {
+	public final short getYear() {
 		return year;
 	}
 

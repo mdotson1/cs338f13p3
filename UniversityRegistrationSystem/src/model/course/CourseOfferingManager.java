@@ -5,6 +5,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import model.manager.Manager;
+import model.person.Professor;
+import model.person.Student;
 import model.time.Semester;
 
 public class CourseOfferingManager implements Manager<CourseOffering> {
@@ -12,7 +14,8 @@ public class CourseOfferingManager implements Manager<CourseOffering> {
 	private List<CourseOffering> courses;
 	
 	private static class SingletonHolder { 
-        public static final CourseOfferingManager INSTANCE = new CourseOfferingManager();
+        public static final CourseOfferingManager INSTANCE = 
+        		new CourseOfferingManager();
 	}
 	
 	public static CourseOfferingManager getInstance() {
@@ -24,9 +27,9 @@ public class CourseOfferingManager implements Manager<CourseOffering> {
 		courses = new ArrayList<CourseOffering>();
 	}
 	
-	public List<CourseOffering> getCoursesInSemester(Semester sem) {
-		List<CourseOffering> courses = new ArrayList<CourseOffering>();
-		Iterator<CourseOffering> all = getAll();
+	public List<CourseOffering> getCoursesInSemester(final Semester sem) {
+		final List<CourseOffering> courses = new ArrayList<CourseOffering>();
+		final Iterator<CourseOffering> all = getAll();
 		
 		while (all.hasNext()) {
 			CourseOffering thisCourse = all.next();
@@ -37,30 +40,81 @@ public class CourseOfferingManager implements Manager<CourseOffering> {
 		return courses;
 	}
 	
-	public boolean add(String dept, short courseNum, List<Course> prereqs, 
-			int cost, Semester sem, short sectionNum) {
+	// true = added, false = not added
+	public boolean addStudent(final Student s, final CourseOffering course) {
 		
-		CourseOffering created = new CourseOffering(dept, courseNum, prereqs, cost, sem, sectionNum);
-		if (contains(created)) {
+		if (course.getNumberOfStudents() == 10) {
 			return false;
 		} else {
+			return course.addStudent(s);
+		}
+	}
+	
+	public boolean dropStudent(final Student student, 
+			final CourseOffering course) {
+		
+		if (course.getNumberOfStudents() == 3) {
+			return false;
+		} else {
+			return course.removeStudent(student);
+		}
+	}
+	
+	public CourseOffering add(final String dept, final short courseNum,
+			final List<Course> prereqs, final int cost, final Semester sem,
+			final short sectionNum) {
+		
+		final CourseOffering created = new CourseOffering(dept, courseNum, 
+				prereqs, cost, sem, sectionNum);
+		
+		if (contains(created)) {
+			return null;
+		} else {
 			courses.add(created);
+			return created;
+		}
+	}
+	
+	// true = assigned prof, false = not assigned
+	public boolean assignProfessorForCourse(final CourseOffering course,
+			final Professor prof) {
+		
+		if (course.getProfessor() == null) {
+			course.setProfessor(prof);
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	// true = removed prof, false = not removed
+	public boolean removeProfessor(final CourseOffering course) {
+		if (course.getProfessor() == null) {
+			return false;
+		} else {
+			course.setProfessor(null);
 			return true;
 		}
 	}
+	
+	public List<Student> getRoster(final CourseOffering course) {
+		return course.getRoster();
+	}
 
 	@Override
-	public boolean delete(CourseOffering obj) {
+	public boolean delete(final CourseOffering obj) {
 		return courses.remove(obj);
 	}
 	
-	public CourseOffering get(String department, short courseNumber, short sectionNumber) {
+	public CourseOffering get(final String department, 
+			final short courseNumber, final short sectionNumber) {
 		
 		CourseOffering returnCourseOffering = null;
-		Iterator<CourseOffering> allOfferings = getAll();
+		final Iterator<CourseOffering> allOfferings = getAll();
 		
+		CourseOffering thisOffering ;
 		while (allOfferings.hasNext()) {
-			CourseOffering thisOffering = allOfferings.next();
+			thisOffering = allOfferings.next();
 			
 			if (thisOffering.getCourseNumber() == courseNumber
 					&& thisOffering.getDepartment().equals(department)
@@ -79,7 +133,7 @@ public class CourseOfferingManager implements Manager<CourseOffering> {
 	}
 
 	@Override
-	public boolean contains(CourseOffering obj) {
+	public boolean contains(final CourseOffering obj) {
 		if (get(obj.getDepartment(), obj.getCourseNumber(), 
 				obj.getSectionNumber()) == null) {
 			return false;

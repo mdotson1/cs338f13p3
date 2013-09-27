@@ -5,7 +5,7 @@ public class Period {
 	private Date startDate;
 	private Date endDate;
 	
-	public Period(Date start, Date end) {
+	public Period(final Date start, final Date end) {
 		startDate = start;
 		endDate = end;
 	}
@@ -16,11 +16,11 @@ public class Period {
 	 * returned is 1990.
 	 * @return the year of the starting date.
 	 */
-	public short startingYear() {
+	public final short startingYear() {
 		return startDate.getYear();
 	}
 	
-	public Date getStartDate() {
+	public final Date getStartDate() {
 		return startDate;
 	}
 }

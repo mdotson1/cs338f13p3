@@ -9,7 +9,7 @@ import model.time.Date;
 
 public class ProfessorManager implements PersonManager<Professor> {
 	
-	private List<Professor> professors;
+	final private List<Professor> professors;
 	
 	private static class SingletonHolder { 
         public static final ProfessorManager INSTANCE = new ProfessorManager();
@@ -24,12 +24,8 @@ public class ProfessorManager implements PersonManager<Professor> {
 		professors = new ArrayList<Professor>();
 	}
 	
-	public void add(Professor prof) {
-		professors.add(prof);
-	}
-	
-	public void modify(Professor oldProf, Professor newProf) {
-		int index = professors.indexOf(oldProf);
+	public void modify(final Professor oldProf, final Professor newProf) {
+		final int index = professors.indexOf(oldProf);
 		professors.set(index, newProf);
 	}
 	
@@ -37,13 +33,14 @@ public class ProfessorManager implements PersonManager<Professor> {
 		return professors.remove(prof);
 	}
 	
-	public Professor get(int id) {
+	public Professor get(final int id) {
 		
 		Professor returnProf = null;
-		Iterator<Professor> allProfs = getAll();
+		final Iterator<Professor> allProfs = getAll();
 		
+		Professor thisProf;
 		while (allProfs.hasNext()) {
-			Professor thisProf = allProfs.next();
+			thisProf = allProfs.next();
 			if (thisProf.getId() == id)
 			{
 				returnProf = thisProf;
@@ -59,7 +56,7 @@ public class ProfessorManager implements PersonManager<Professor> {
 	}
 
 	@Override
-	public boolean contains(Professor obj) {
+	public boolean contains(final Professor obj) {
 		if (get(obj.getId()) == null) {
 			return false;
 		} else {
@@ -67,16 +64,18 @@ public class ProfessorManager implements PersonManager<Professor> {
 		}
 	}
 
-	public boolean add(Address homeAddr, Address workAddr, PhoneNumbers phones,
-			String fName, String lName, Date dob, int id, String department) {
+	public Professor add(final Address homeAddr, final Address workAddr,
+			final PhoneNumbers phones, final String fName, final String lName,
+			final Date dob, final int id, final String department) {
 		
-		Professor created = new Professor(homeAddr, workAddr, phones, fName, lName, id, dob, department);
+		final Professor created = new Professor(homeAddr, workAddr, phones, 
+				fName, lName, id, dob, department);
 		
 		if (contains(created)) {
-			return false;
+			return null;
 		} else {
 			professors.add(created);
-			return true;
+			return created;
 		}
 	}
 

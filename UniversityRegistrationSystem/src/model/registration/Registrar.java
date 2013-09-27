@@ -8,6 +8,7 @@ import model.course.CourseOffering;
 import model.course.CourseOfferingManager;
 import model.person.Professor;
 import model.person.Student;
+import model.person.StudentManager;
 import model.time.Date;
 import model.time.Semester;
 
@@ -17,25 +18,29 @@ public class Registrar {
 		
 	}
 	
-	public List<CourseOffering> getCourseCatalog(Semester sem) {
+	public List<CourseOffering> getCourseCatalog(final Semester sem) {
 		return CourseOfferingManager.getInstance().getCoursesInSemester(sem);
 	}
 	
-	public List<Student> getRosterForCourse(CourseOffering course) {
-		return course.getRoster();
+	public List<Student> getRosterForCourse(final CourseOffering course) {
+		return CourseOfferingManager.getInstance().getRoster(course);
 	}
 	
 	// modify courseoffering
-	public boolean assignProfessorToCourse(CourseOffering course, Professor prof) {
-		return course.assignProfessor(prof);
+	public boolean assignProfessorToCourse(final CourseOffering course, 
+			final Professor prof) {
+		return CourseOfferingManager.getInstance().assignProfessorForCourse(
+				course, prof);
 	}
 	
-	public boolean removeProfessorFromCourse(CourseOffering course) {
-		return course.removeProfessor();
+	public boolean removeProfessorFromCourse(final CourseOffering course) {
+		return CourseOfferingManager.getInstance().removeProfessor(course);
 	}
 	
-	public boolean allCoursesInSameSemester(Iterator<CourseOffering> courses) {
-		Semester firstSemester;
+	private boolean allCoursesInSameSemester(
+			final Iterator<CourseOffering> courses) {
+		final Semester firstSemester;
+		
 		if (courses.hasNext()) {
 			firstSemester = courses.next().getSemester();
 		} else {
@@ -53,24 +58,30 @@ public class Registrar {
 	 * Enrolls a student in the desired courses 
 	 * @param s student to add courses to
 	 * @param desiredCourses list of all courses a student wishes to enroll in
-	 * @param alternatives list of alternative courses to enroll in if desired is full
+	 * @param alternatives list of alternative courses to enroll in if desired 
+	 * 			is full
 	 * @return true if registered, false if not
 	 */
-	public boolean registerForCourses(Student s, List<CourseOffering> desiredCourses,
-			List<CourseOffering> alternatives, Date currentDate) {
-		ArrayList<CourseOffering> concatenated = new ArrayList<CourseOffering>(desiredCourses);
+	public boolean registerForCourses(final Student s, 
+			final List<CourseOffering> desiredCourses, 
+			final List<CourseOffering> alternatives, final Date currentDate) {
+		
+		final ArrayList<CourseOffering> concatenated = 
+				new ArrayList<CourseOffering>(desiredCourses);
 		concatenated.addAll(alternatives);
-		Iterator<CourseOffering> desiredAndAlternatives = concatenated.iterator();
+		final Iterator<CourseOffering> desiredAndAlternatives = 
+				concatenated.iterator();
 		
 		if (allCoursesInSameSemester(desiredAndAlternatives)) {
 			if (! s.hasRegistered()) {
 				// get first course's semester, because they are guaranteed to
 				// be identical at this point
-				if (beforeDropDate(currentDate, concatenated.get(0).getSemester())) {
-					// this will do desired courses first and alternatives next, because
-					// they were concatenated in that order.
+				if (beforeDropDate(currentDate, 
+						concatenated.get(0).getSemester())) {
+					// this will do desired courses first and alternatives
+					// next, because they were concatenated in that order.
 					while (desiredAndAlternatives.hasNext()) {
-						enrollStudentInCourse(s, desiredAndAlternatives.next(), currentDate);
+						enrollStudentInCourse(s, desiredAndAlternatives.next());
 					}
 					return true;
 				} else {
@@ -84,7 +95,7 @@ public class Registrar {
 		}
 	}
 	
-	public boolean beforeDropDate(Date currentDate, Semester sem) {
+	public boolean beforeDropDate(final Date currentDate, final Semester sem) {
 		if (currentDate.compareTo(sem.dropDate()) < 0) {
 			return true;
 		} else {
@@ -92,13 +103,17 @@ public class Registrar {
 		}
 	}
 	
-	public boolean addAfterRegistering(Student s, CourseOffering course, Date currentDate) {
+	/*
+	public boolean addAfterRegistering(final Student s, 
+			final CourseOffering course, final Date currentDate) {
+		
 		if (validDate(s, course.getSemester(), currentDate)) {
-			return enrollStudentInCourse(s, course, currentDate);
+			return enrollStudentInCourse(s, course);
 		} else {
 			return false;
 		}
 	}
+	*/
 	
 	/**
 	 * Add a course to a student and added student to course
@@ -106,16 +121,20 @@ public class Registrar {
 	 * @param course to add to student
 	 * @return true if added both, false if not
 	 */
-	private boolean enrollStudentInCourse(Student s, CourseOffering course, Date currentDate) {
-		boolean addedCourseToStudent = s.enrollInCourse(course);
+	public boolean enrollStudentInCourse(final Student s, 
+			final CourseOffering course) {
+		
+		final boolean addedCourseToStudent = 
+				StudentManager.getInstance().enrollInCourse(s, course);
 		
 		if (addedCourseToStudent) {
-			boolean addedStudentToCourse = course.addStudent(s);
+			final boolean addedStudentToCourse = 
+					CourseOfferingManager.getInstance().addStudent(s, course);
 			
 			if (addedStudentToCourse) {
 				return true;
 			} else {
-				s.dropCourse(course); // backtrack and drop the student
+				CourseOfferingManager.getInstance().dropStudent(s, course);
 				return false;
 			}
 		} else {
@@ -123,17 +142,24 @@ public class Registrar {
 		}
 	}
 	
-	public boolean dropStudentFromCourse(Student s, CourseOffering course, Date currentDate) {
-		if (validDate(s, course.getSemester(), currentDate)) {		
-			boolean droppedCourseFromStudent = s.dropCourse(course);
+	public boolean dropStudentFromCourse(final Student s, 
+			final CourseOffering course, final Date currentDate) {
+		
+		if (validDate(s, course.getSemester(), currentDate)) {	
+			
+			final boolean droppedCourseFromStudent = 
+					StudentManager.getInstance().dropCourse(s, course);
 			
 			if (droppedCourseFromStudent) {
-				boolean droppedStudentFromCourse = course.dropStudent(s);
+				
+				final boolean droppedStudentFromCourse = 
+						CourseOfferingManager.getInstance().dropStudent(s, 
+								course);
 				
 				if (droppedStudentFromCourse) {
 					return true;
 				} else {
-					s.enrollInCourse(course);
+					StudentManager.getInstance().enrollInCourse(s, course);
 					return false;
 				}
 			} else {

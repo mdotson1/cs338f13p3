@@ -10,7 +10,7 @@ public class Bursar {
 		StudentManager.getInstance().billStudents();
 	}
 	
-	public void payBalance(Student s, Payment p) {
+	public void payBalance(final Student s, final Payment p) {
 		StudentManager.getInstance().payBalance(s, p);
 	}
 }

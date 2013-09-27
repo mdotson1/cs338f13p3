@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import model.billing.Payment;
+import model.course.CourseOffering;
 import model.manager.PersonManager;
 import model.time.Date;
 
@@ -66,17 +67,52 @@ public class StudentManager implements PersonManager<Student> {
 		}
 		return returnStu;
 	}
-
-	public boolean add(Address homeAddr, Address workAddr, PhoneNumbers phones, String fName, 
-			String lName, Date dob, int id) {
-		
-		Student created = new Student(homeAddr, workAddr, phones, fName, lName, dob, id);
-		
-		if (contains(created)) {
+	
+	// true = added, false = not added
+	public boolean enrollInCourse(final Student stu,
+			final CourseOffering course) {
+		if (stu.getNumCourses() == 4) {
 			return false;
 		} else {
-			students.add(created);
+			if (studentIsTakingCourse(stu, course)) {
+				return false;
+			}
+			else
+			{
+				stu.addCourse(course);
+				return true;
+			}
+		}
+	}
+	
+	private boolean studentIsTakingCourse(final Student stu,
+			final CourseOffering course) {
+		return stu.getCourses().contains(course);
+	}
+	
+	// true = dropped, false = not dropped
+	public boolean dropCourse(final Student stu, final CourseOffering course) {
+		if (studentIsTakingCourse(stu, course)) {
+			stu.removeCourse(course);
 			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	public Student add(final Address homeAddr, final Address workAddr, 
+			final PhoneNumbers phones, final String fName, final String lName,
+			final Date dob, final int id) {
+		
+		final Student created = new Student(homeAddr, workAddr, phones, fName, lName, dob, id);
+		
+		if (contains(created)) {
+			return null;
+		} else {
+			students.add(created);
+			return created;
 		}
 	}
 
@@ -86,7 +122,7 @@ public class StudentManager implements PersonManager<Student> {
 	}
 
 	@Override
-	public boolean contains(Student s) {
+	public boolean contains(final Student s) {
 		if (get(s.getId()) == null) {
 			return false;
 		} else {

@@ -14,8 +14,9 @@ public class CourseOffering extends Course {
 	private short section;
 	private List<Student> students;
 	
-	public CourseOffering(String dept, short courseNum, List<Course> prereqs, int cost,
-			Semester sem, short section) {
+	public CourseOffering(final String dept, final short courseNum, 
+			final List<Course> prereqs, final int cost, final Semester sem,
+			final short section) {
 		
 		super(dept, courseNum, prereqs, cost);
 		this.section = section;
@@ -23,61 +24,35 @@ public class CourseOffering extends Course {
 		students = new ArrayList<Student>();
 	}
 	
-	public Semester getSemester() {
+	public final Semester getSemester() {
 		return semester;
 	}
 	
-	public Professor getProfessor() {
+	public final Professor getProfessor() {
 		return teacher;
 	}
 	
-	// true = removed prof, false = not removed
-	public boolean removeProfessor() {
-		if (teacher == null) {
-			return false;
-		} else {
-			teacher = null;
-			return true;
-		}
+	public final void setProfessor(final Professor p) {
+		teacher = p;
 	}
 	
-	// true = assigned prof, false = not assigned
-	public boolean assignProfessor(Professor prof) {
-		if (teacher == null) {
-			teacher = prof;
-			return true;
-		} else {
-			return false;
-		}
+	public final boolean addStudent(final Student s) {
+		return students.add(s);
 	}
 	
-	public short getSectionNumber() {
+	public final int getNumberOfStudents() {
+		return students.size();
+	}
+	
+	public final short getSectionNumber() {
 		return section;
 	}
 	
-	// true = added, false = not added
-	public boolean addStudent(Student s) {
-		if (students.size() == 10)
-		{
-			return false;
-		}
-		else
-		{
-			students.add(s);
-			return true;
-		}
+	public final boolean removeStudent(final Student s) {
+		return students.remove(s);
 	}
 	
-	public boolean dropStudent(Student student) {
-		if (students.size() == 3) {
-			return false;
-		} else {
-			students.remove(student);
-			return true;
-		}
-	}
-	
-	public List<Student> getRoster() {
+	public final List<Student> getRoster() {
 		return students;
 	}
 	

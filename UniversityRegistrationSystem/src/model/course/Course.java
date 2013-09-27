@@ -8,7 +8,8 @@ public class Course {
 	protected List<Course> prereqs;
 	protected int cost;
 	
-	public Course(String dept, short courseNum, List<Course> prereqs, int cost) {
+	public Course(final String dept, final short courseNum, 
+			final List<Course> prereqs, final int cost) {
 		
 		department = dept;
 		courseNumber = courseNum;
@@ -16,15 +17,15 @@ public class Course {
 		this.cost = cost;
 	}
 	
-	public String getDepartment() {
+	public final String getDepartment() {
 		return department;
 	}
 	
-	public short getCourseNumber() {
+	public final short getCourseNumber() {
 		return courseNumber;
 	}
 	
-	public int getCost() {
+	public final int getCost() {
 		return cost;
 	}
 }

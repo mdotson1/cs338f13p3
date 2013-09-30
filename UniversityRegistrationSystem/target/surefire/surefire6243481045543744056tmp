@@ -1,0 +1,26 @@
+#surefire
+#Mon Sep 30 10:46:59 CDT 2013
+testClassesDirectory=/home/mdotson1/Desktop/Server-side/git_repo/new_git_repo/UniversityRegistrationSystem/target/test-classes
+useManifestOnlyJar=true
+classPathUrl.1=/home/mdotson1/Desktop/Server-side/git_repo/new_git_repo/UniversityRegistrationSystem/target/classes
+reportsDirectory=/home/mdotson1/Desktop/Server-side/git_repo/new_git_repo/UniversityRegistrationSystem/target/surefire-reports
+classPathUrl.0=/home/mdotson1/Desktop/Server-side/git_repo/new_git_repo/UniversityRegistrationSystem/target/test-classes
+dirscanner.0=directoryScannerOptions
+providerConfiguration=org.apache.maven.surefire.junit.JUnit3Provider
+testSuiteDefinitionTestSourceDirectory=/home/mdotson1/Desktop/Server-side/git_repo/new_git_repo/UniversityRegistrationSystem/src/test/java
+surefireClassPathUrl.1=/home/mdotson1/.m2/repository/org/apache/maven/surefire/surefire-api/2.7.1/surefire-api-2.7.1.jar
+surefireClassPathUrl.0=/home/mdotson1/.m2/repository/org/apache/maven/surefire/surefire-junit3/2.7.1/surefire-junit3-2.7.1.jar
+report.2=org.apache.maven.surefire.report.XMLReporter
+useSystemClassLoader=true
+report.1=org.apache.maven.surefire.report.BriefFileReporter
+excludes0=**/*$*
+report.0=org.apache.maven.surefire.report.ForkingConsoleReporter
+isTrimStackTrace=true
+dirscanner.0.params=/home/mdotson1/Desktop/Server-side/git_repo/new_git_repo/UniversityRegistrationSystem/target/test-classes|[**/Test*.java, **/*Test.java, **/*TestCase.java]|[**/*$*]
+enableAssertions=true
+includes2=**/*TestCase.java
+failIfNoTests=false
+includes1=**/*Test.java
+dirscanner.0.types=java.io.File|java.util.ArrayList|java.util.ArrayList
+includes0=**/Test*.java
+childDelegation=false

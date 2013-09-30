@@ -1,4 +1,4 @@
-package main.java.com.cs388f13p1;
+package com.cs388f13p1;
 
 import java.util.Iterator;
 

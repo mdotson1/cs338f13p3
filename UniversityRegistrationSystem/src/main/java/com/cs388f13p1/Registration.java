@@ -1,6 +1,6 @@
-package main.java.com.cs388f13p1;
+package com.cs388f13p1;
 
-import main.java.com.cs388f13p1.Semester.Season;
+import com.cs388f13p1.Semester.Season;
 
 public class Registration {
 	
@@ -17,7 +17,7 @@ public class Registration {
 	}
 	
 	private static void REMOVE_PROF_TEST(final Registrar registrar, 
-			CourseOffering co) {
+			final CourseOffering co) {
 		
 		System.out.println("REMOVE_PROF_TEST");
 		

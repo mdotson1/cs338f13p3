@@ -16,7 +16,7 @@ public class ProfessorRepository implements MutableRepository<Professor> {
 	}
 
 	private ProfessorRepository() {
-		studentDAO = new ProfessorDAO();
+		professorDAO = new ProfessorDAO();
 	}
 	
 	public void add(final Professor obj) {
@@ -52,9 +52,9 @@ public class ProfessorRepository implements MutableRepository<Professor> {
 	    }
 	}
 
-	public boolean delete(final Professor obj) {
+	public boolean delete(final int id) {
 		try {
-			return professorDAO.deleteProfessor(obj);
+			return professorDAO.deleteProfessor(id);
 	    } catch (Exception se) {
 	      System.err.println("ProfessorRepository: Threw a Exception retrieving customer.");
 	      System.err.println(se.getMessage());

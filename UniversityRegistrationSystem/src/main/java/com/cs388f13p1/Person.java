@@ -1,23 +1,29 @@
 package com.cs388f13p1;
 
-public class Person extends ContactInformation {
+public class Person {
+
+	private ContactInformation contactInformation;
+	private String dateOfBirth;
 	
-	protected Date dateOfBirth;
-	
-	public Person(final Address homeAddr, final Address workAddr,
-			final PhoneNumbers phoneNums, final String fName,
-			final String lName, final Date dob) {
+	public Person(ContactInformation ci, String dob) {
 		
-		super(homeAddr, workAddr, phoneNums, fName, lName);
-		
+		contactInformation = ci;
 		dateOfBirth = dob;
 	}
 	
-	public Date getDateOfBirth() {
+	public String getDateOfBirth() {
 		return dateOfBirth;
 	}
 	
-	public void setDateOfBirth(Date dob) {
+	public void setDateOfBirth(String dob) {
 		dateOfBirth = dob;
+	}
+	
+	public ContactInformation getContactInformation() {
+		return contactInformation;
+	}
+	
+	public void setContactInformation(ContactInformation ci) {
+		contactInformation = ci;
 	}
 }

@@ -1,62 +1,54 @@
 package com.cs388f13p1;
 
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
+import com.cs388f13p1.CourseOffering.Season;
+
+// registrar should pass values to services which look up the values
 public class Registrar {
 	
-	public Registrar() {
+	private Registrar() { } // services cannot be instantiated
+	
+	public static Iterator<CourseOffering> getCourseCatalog(final Season s, final short year) {
 		
+		return CourseOfferingService.getCoursesInSemester(s, year);
 	}
 	
-	public List<CourseOffering> getCourseCatalog(final Semester sem) {
-		return CourseOfferingService.getInstance().getCoursesInSemester(sem);
-	}
-	
-	public List<Student> getRosterForCourse(final CourseOffering course) {
-		return CourseOfferingService.getInstance().getRoster(course);
-	}
-	
-	// modify courseoffering
-	public boolean assignProfessorToCourse(final CourseOffering course, 
-			final Professor prof) {
-		return CourseOfferingService.getInstance().assignProfessorForCourse(
-				course, prof);
-	}
-	
-	public boolean removeProfessorFromCourse(final CourseOffering course) {
-		return CourseOfferingService.getInstance().removeProfessor(course);
-	}
-	
-	private boolean allCoursesInSameSemester(
-			final Iterator<CourseOffering> courses) {
-		final Semester firstSemester;
+	public static Iterator<Student> getRosterForCourse(final int courseOfferingId) {
 		
-		if (courses.hasNext()) {
-			firstSemester = courses.next().getSemester();
+		return CourseOfferingService.getRoster(courseOfferingId);
+	}
+	
+	public static boolean assignProfessorToCourse(final int courseOfferingId, 
+			final int professorId) {
+		
+		boolean successful = ProfessorService.assignCourseForProfessor(professorId, courseOfferingId);
+		if (successful) {
+			successful = CourseOfferingService.assignProfessorForCourse(courseOfferingId, professorId);
 		} else {
 			return false;
 		}
-		while (courses.hasNext()) {
-			if (!(courses.next().getSemester().equals(firstSemester))) {
-				return false;
-			}
+		if (successful) {
+			return true;
+		} else {
+			// remove course from professor, since it didn't work.
+			return ProfessorService.dropCourseFromProfessor(professorId, courseOfferingId);
 		}
-		return true;
 	}
 	
-	/**
-	 * Enrolls a student in the desired courses 
-	 * @param s student to add courses to
-	 * @param desiredCourses list of all courses a student wishes to enroll in
-	 * @param alternatives list of alternative courses to enroll in if desired 
-	 * 			is full
-	 * @return true if registered, false if not
-	 */
-	public boolean registerForCourses(final Student s, 
-			final List<CourseOffering> desiredCourses, 
-			final List<CourseOffering> alternatives, final Date currentDate) {
+	public static boolean removeProfessorFromCourse(final int courseOfferingId) {
+		return CourseOfferingService.removeProfessor(courseOfferingId);
+	}
+	
+	private static boolean allCoursesInSameSemester(final Iterator<CourseOffering> coursesToCheck) {
+		
+		return CourseOfferingService.allCoursesInSameSemester(coursesToCheck);
+	}
+	
+	/*
+	public boolean registerForCourses(final int studentId, 
+			final Iterator<CourseOffering> desiredCourses, 
+			final Iterator<CourseOffering> alternatives) {
 		
 		final ArrayList<CourseOffering> concatenated = 
 				new ArrayList<CourseOffering>(desiredCourses);
@@ -86,91 +78,46 @@ public class Registrar {
 			return false;
 		}
 	}
-	
-	public boolean beforeDropDate(final Date currentDate, final Semester sem) {
-		if (currentDate.compareTo(sem.dropDate()) < 0) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-	
-	/*
-	public boolean addAfterRegistering(final Student s, 
-			final CourseOffering course, final Date currentDate) {
-		
-		if (validDate(s, course.getSemester(), currentDate)) {
-			return enrollStudentInCourse(s, course);
-		} else {
-			return false;
-		}
-	}
 	*/
 	
-	/**
-	 * Add a course to a student and added student to course
-	 * @param s student to add course to
-	 * @param course to add to student
-	 * @return true if added both, false if not
-	 */
-	public boolean enrollStudentInCourse(final Student s, 
-			final CourseOffering course) {
+	public static boolean enrollStudentInCourse(final int studentId, 
+			final int courseOfferingId) {
 		
 		final boolean addedCourseToStudent = 
-				StudentService.getInstance().enrollInCourse(s, course);
+				StudentService.enrollInCourse(studentId, courseOfferingId);
 		
 		if (addedCourseToStudent) {
 			final boolean addedStudentToCourse = 
-					CourseOfferingService.getInstance().addStudent(s, course);
+					CourseOfferingService.addStudent(studentId, courseOfferingId);
 			
 			if (addedStudentToCourse) {
 				return true;
 			} else {
-				CourseOfferingService.getInstance().dropStudent(s, course);
+				CourseOfferingService.dropStudent(studentId, courseOfferingId);
 				return false;
 			}
 		} else {
 			return false;
 		}
 	}
-	
-	public boolean dropStudentFromCourse(final Student s, 
-			final CourseOffering course, final Date currentDate) {
+
+	public static boolean dropStudentFromCourse(final int studentId, 
+			final int courseOfferingId) {
 		
-		if (validDate(s, course.getSemester(), currentDate)) {	
-			
-			final boolean droppedCourseFromStudent = 
-					StudentService.getInstance().dropCourse(s, course);
-			
-			if (droppedCourseFromStudent) {
-				
-				final boolean droppedStudentFromCourse = 
-						CourseOfferingService.getInstance().dropStudent(s, 
-								course);
-				
-				if (droppedStudentFromCourse) {
-					return true;
-				} else {
-					StudentService.getInstance().enrollInCourse(s, course);
-					return false;
-				}
+		final boolean droppedCourseFromStudent = 
+				StudentService.dropCourse(studentId, courseOfferingId);
+
+		if (droppedCourseFromStudent) {
+			final boolean droppedStudentFromCourse = 
+					CourseOfferingService.dropStudent(studentId, 
+							courseOfferingId);
+
+			if (droppedStudentFromCourse) {
+				return true;
 			} else {
+				StudentService.enrollInCourse(studentId, courseOfferingId);
 				return false;
 			}
-		} else {
-			return false;
-		}
-	}
-	
-	/**
-	 * Can only enroll or drop after registering and 1 week before classes
-	 * @param sem course's semester
-	 * @param currentDate
-	 * @return true if the date is valid for enrolling or dropping
-	 */
-	private boolean validDate(Student student, Semester sem, Date currentDate) {
-		if (student.hasRegistered()) {
-			return beforeDropDate(currentDate, sem);
 		} else {
 			return false;
 		}

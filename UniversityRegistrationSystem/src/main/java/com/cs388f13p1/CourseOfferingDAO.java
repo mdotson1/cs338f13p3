@@ -2,6 +2,8 @@ package com.cs388f13p1;
 
 import java.util.Iterator;
 
+import com.cs388f13p1.CourseOffering.Season;
+
 public class CourseOfferingDAO {
 
 	public void addCourseOffering(CourseOffering obj) {
@@ -27,6 +29,12 @@ public class CourseOfferingDAO {
 	public boolean deleteCourseOffering(int id) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	public Iterator<CourseOffering> findAllCoursesBySemester(Season season,
+			short year) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

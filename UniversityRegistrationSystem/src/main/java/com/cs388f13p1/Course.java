@@ -4,31 +4,21 @@ import java.util.List;
 
 public class Course {
 	
-	protected int courseId;
-	protected String department;
-	protected short courseNumber;
+	protected String department; // primary key
+	protected short courseNumber; // // primary key
 	protected List<Course> prereqs;
 	protected double cost;
 	protected String courseDescription;
 	
-	public Course(final int courseId, final String dept, final short courseNum, 
+	public Course(final String dept, final short courseNum, 
 			final List<Course> prereqs, final double cost,
 			final String cd) {
 		
-		this.courseId = courseId;
 		department = dept;
 		courseNumber = courseNum;
 		this.prereqs = prereqs;
 		this.cost = cost;
 		courseDescription = cd;
-	}
-	
-	public int getCourseId() {
-		return courseId;
-	}
-	
-	public void setCourseId(final int courseId) {
-		this.courseId = courseId;
 	}
 	
 	public String getDepartment() {

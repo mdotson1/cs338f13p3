@@ -1,7 +1,8 @@
 package com.cs388f13p1;
 
 import java.util.Iterator;
-import java.util.List;
+
+import com.cs388f13p1.CourseOffering.Season;
 
 public class CourseOfferingRepository implements MutableRepository<CourseOffering> {
 	
@@ -31,8 +32,7 @@ public class CourseOfferingRepository implements MutableRepository<CourseOfferin
 
 	public CourseOffering findById(final int id) {
 		try {
-			CourseOffering courseOffering = courseOfferingDAO.findCourseOfferingById(id);
-	    	return courseOffering;
+			return courseOfferingDAO.findCourseOfferingById(id);
 	    } catch (Exception se) {
 	      System.err.println("CourseOfferingRepository: Threw a Exception retrieving customer.");
 	      System.err.println(se.getMessage());
@@ -71,7 +71,14 @@ public class CourseOfferingRepository implements MutableRepository<CourseOfferin
 		}
 	}
 
-	public Iterator<CourseOffering> getAllCoursesInSemester() {
+	public Iterator<CourseOffering> findAllCoursesBySemester(Season season,
+			short year) {
+		try {
+			return courseOfferingDAO.findAllCoursesBySemester(season, year);
+	    } catch (Exception se) {
+	      System.err.println("CourseOfferingRepository: Threw a Exception retrieving customer.");
+	      System.err.println(se.getMessage());
+	    }
 		return null;
 	}
 

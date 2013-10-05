@@ -1,5 +1,6 @@
 package com.cs388f13p1;
 
+// place in database under person
 public class Address {
 
 	private int streetNumber;

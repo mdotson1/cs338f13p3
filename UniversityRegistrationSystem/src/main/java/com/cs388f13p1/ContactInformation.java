@@ -1,21 +1,26 @@
 package com.cs388f13p1;
 
+// place in database under person
 public class ContactInformation {
 	
-	protected Address homeAddress;
-	protected Address workAddress;
-	protected PhoneNumbers phones;
-	protected String firstName;
-	protected String lastName;
+	private Address homeAddress;
+	private Address workAddress;
+	private String firstName;
+	private String lastName;
+	private String workPhone;
+	private String homePhone;
+	private String cellPhone;
 	
 	public ContactInformation(final Address homeAddr, final Address workAddr, 
-			final PhoneNumbers phoneNums, final String fName,
-			final String lName) {
+			final String fName, final String lName, String workPhone, 
+			String homePhone, String cellPhone) {
 		homeAddress = homeAddr;
 		workAddress = workAddr;
-		phones = phoneNums;
 		firstName = fName;
 		lastName = lName;
+		this.workPhone = workPhone;
+		this.homePhone = homePhone;
+		this.cellPhone = cellPhone;
 	}
 	
 	public Address getHomeAddress() {
@@ -34,14 +39,6 @@ public class ContactInformation {
 		this.workAddress = workAddr;
 	}
 	
-	public PhoneNumbers getPhones() {
-		return phones;
-	}
-	
-	public void setPhones(PhoneNumbers phoneNums) {
-		phones = phoneNums;
-	}
-	
 	public String getFirstName() {
 		return firstName;
 	}
@@ -56,6 +53,30 @@ public class ContactInformation {
 	
 	public void setLastName(String lName) {
 		lastName = lName;
+	}
+
+	public String getWorkPhone() {
+		return workPhone;
+	}
+
+	public void setWorkPhone(String workPhone) {
+		this.workPhone = workPhone;
+	}
+
+	public String getHomePhone() {
+		return homePhone;
+	}
+
+	public void setHomePhone(String homePhone) {
+		this.homePhone = homePhone;
+	}
+
+	public String getCellPhone() {
+		return cellPhone;
+	}
+
+	public void setCellPhone(String cellPhone) {
+		this.cellPhone = cellPhone;
 	}
 
 }

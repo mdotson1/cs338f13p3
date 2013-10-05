@@ -12,12 +12,9 @@ public class Student extends UniversityPerson {
 	private List<Payment> paymentHistory;
 	private boolean hasRegistered;
 	
-	public Student(final Address homeAddr, final Address workAddr,
-			final PhoneNumbers phoneNums, final String fName, 
-			final String lName, final Date dob, final int id) {
+	public Student(final ContactInformation ci, final int id, final String dob) {
 		
-		super(homeAddr, workAddr, phoneNums, fName, lName,
-				dob, id);
+		super(ci, id, dob);
 		
 		courses = new ArrayList<CourseOffering>();
 		paymentHistory = new ArrayList<Payment>();

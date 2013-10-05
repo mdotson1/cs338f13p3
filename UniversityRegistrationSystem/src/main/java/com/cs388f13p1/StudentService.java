@@ -3,6 +3,8 @@ package com.cs388f13p1;
 import java.util.Iterator;
 
 public class StudentService {
+	
+	private StudentService() { } // impossible to instantiate a service
 
 	public static void billStudents() {
 
@@ -24,17 +26,25 @@ public class StudentService {
 		}
 	}
 
-	public static void payBalance(final Student student, final Payment payment) {
+	// true if paid, false if not (possibly doesn't accept checks, for example
+	public static boolean payBalance(final int studentId, Payment p) {
+		
+		Student student = StudentRepository.getInstance().findById(studentId);
 
-		student.getPaymentHistory().add(payment);
-		double currentBalance = student.getCurrentBalance() - payment.getPaymentAmount();
+		student.getPaymentHistory().add(p);
+		double currentBalance = student.getCurrentBalance() - p.getPaymentAmount();
 		student.setCurrentBalance(currentBalance);
 
 		StudentRepository.getInstance().update(student.getId(), student);
+		
+		return true;
 	}
 
-	public static boolean enrollInCourse(final Student student,
-			final CourseOffering course) {
+	public static boolean enrollInCourse(final int studentId,
+			final int courseOfferingId) {
+		
+		Student student = StudentRepository.getInstance().findById(studentId);
+		CourseOffering course = CourseOfferingRepository.getInstance().findById(courseOfferingId);
 
 		if (student.getNumCourses() == 4) {
 			return false;
@@ -50,8 +60,11 @@ public class StudentService {
 	}
 
 	// true = dropped, false = not dropped
-	public static boolean dropCourse(final Student student,
-			final CourseOffering course) {
+	public static boolean dropCourse(final int studentId,
+			final int courseOfferingId) {
+		
+		Student student = StudentRepository.getInstance().findById(studentId);
+		CourseOffering course = CourseOfferingRepository.getInstance().findById(courseOfferingId);
 		
 		if (studentIsTakingCourse(student, course)) {
 			student.removeCourse(course);
@@ -62,6 +75,7 @@ public class StudentService {
 		}
 	}
 
+	// private class, so can use objects instead of keys
 	private static boolean studentIsTakingCourse(final Student stu,
 			final CourseOffering course) {
 		

@@ -2,13 +2,12 @@ package com.cs388f13p1;
 
 public class UniversityPerson extends Person {
 	
-	protected int id;
+	private int id;
 
-	public UniversityPerson(final Address homeAddr, final Address workAddr,
-			final PhoneNumbers phoneNums, final String fName, 
-			final String lName, final Date dob, final int id) {
+	public UniversityPerson(final ContactInformation ci, final int id, 
+			final String dob) {
 		
-		super(homeAddr, workAddr, phoneNums, fName, lName, dob);
+		super(ci, dob);
 		this.id = id;
 	}
 	

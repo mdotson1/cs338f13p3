@@ -5,21 +5,27 @@ import java.util.Iterator;
 import java.util.List;
 
 public class CourseOffering extends Course {
+	
+	public enum Season {
+	    FALL, WINTER, SUMMER, SPRING
+	}
 
 	private int courseOfferingId;
-	private Semester semester;
+	private Season season;
+	private short year;
 	private Professor teacher;
 	private short section;
 	private List<Student> students;
 	
-	public CourseOffering(final int courseId, final String dept, final short courseNum, 
-			final List<Course> prereqs, final int cost, final int courseOfferingId, final Semester sem,
-			final short section, final String description) {
+	public CourseOffering(final String dept, final short courseNum, 
+			final List<Course> prereqs, final int cost, final int courseOfferingId, final Season season,
+			final short year, final short section, final String description) {
 		
-		super(courseId, dept, courseNum, prereqs, cost, description);
+		super(dept, courseNum, prereqs, cost, description);
 		this.courseOfferingId = courseOfferingId;
+		this.season = season;
+		this.year = year;
 		this.section = section;
-		semester = sem;
 		students = new ArrayList<Student>();
 	}
 	
@@ -31,12 +37,20 @@ public class CourseOffering extends Course {
 		this.courseOfferingId = courseOfferingId;
 	}
 	
-	public Semester getSemester() {
-		return semester;
+	public Season getSeason() {
+		return season;
 	}
 	
-	public void setSemester(Semester semester) {
-		this.semester = semester;
+	public void setSeason(Season season) {
+		this.season = season;
+	}
+	
+	public short getYear() {
+		return year;
+	}
+	
+	public void setYear(short year) {
+		this.year = year;
 	}
 	
 	public Professor getProfessor() {
@@ -76,7 +90,6 @@ public class CourseOffering extends Course {
 				+ "courseNumber: " + courseNumber + "\n"
 				+ "pre-reqs: " + prereqs + "\n"
 				+ "cost: " + cost + "\n"
-				+ "semester: " + semester + "\n"
 				+ "sectionNumber: " + section + "\n"
 				+ "professor: " + teacher + "\n"
 				+ "students: " + students + "\n";

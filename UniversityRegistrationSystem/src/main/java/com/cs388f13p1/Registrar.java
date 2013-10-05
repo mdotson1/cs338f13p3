@@ -11,22 +11,22 @@ public class Registrar {
 	}
 	
 	public List<CourseOffering> getCourseCatalog(final Semester sem) {
-		return CourseOfferingManager.getInstance().getCoursesInSemester(sem);
+		return CourseOfferingService.getInstance().getCoursesInSemester(sem);
 	}
 	
 	public List<Student> getRosterForCourse(final CourseOffering course) {
-		return CourseOfferingManager.getInstance().getRoster(course);
+		return CourseOfferingService.getInstance().getRoster(course);
 	}
 	
 	// modify courseoffering
 	public boolean assignProfessorToCourse(final CourseOffering course, 
 			final Professor prof) {
-		return CourseOfferingManager.getInstance().assignProfessorForCourse(
+		return CourseOfferingService.getInstance().assignProfessorForCourse(
 				course, prof);
 	}
 	
 	public boolean removeProfessorFromCourse(final CourseOffering course) {
-		return CourseOfferingManager.getInstance().removeProfessor(course);
+		return CourseOfferingService.getInstance().removeProfessor(course);
 	}
 	
 	private boolean allCoursesInSameSemester(
@@ -117,16 +117,16 @@ public class Registrar {
 			final CourseOffering course) {
 		
 		final boolean addedCourseToStudent = 
-				StudentManager.getInstance().enrollInCourse(s, course);
+				StudentService.getInstance().enrollInCourse(s, course);
 		
 		if (addedCourseToStudent) {
 			final boolean addedStudentToCourse = 
-					CourseOfferingManager.getInstance().addStudent(s, course);
+					CourseOfferingService.getInstance().addStudent(s, course);
 			
 			if (addedStudentToCourse) {
 				return true;
 			} else {
-				CourseOfferingManager.getInstance().dropStudent(s, course);
+				CourseOfferingService.getInstance().dropStudent(s, course);
 				return false;
 			}
 		} else {
@@ -140,18 +140,18 @@ public class Registrar {
 		if (validDate(s, course.getSemester(), currentDate)) {	
 			
 			final boolean droppedCourseFromStudent = 
-					StudentManager.getInstance().dropCourse(s, course);
+					StudentService.getInstance().dropCourse(s, course);
 			
 			if (droppedCourseFromStudent) {
 				
 				final boolean droppedStudentFromCourse = 
-						CourseOfferingManager.getInstance().dropStudent(s, 
+						CourseOfferingService.getInstance().dropStudent(s, 
 								course);
 				
 				if (droppedStudentFromCourse) {
 					return true;
 				} else {
-					StudentManager.getInstance().enrollInCourse(s, course);
+					StudentService.getInstance().enrollInCourse(s, course);
 					return false;
 				}
 			} else {

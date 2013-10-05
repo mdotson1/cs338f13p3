@@ -4,10 +4,14 @@ public class Bursar {
 	
 	// should be called only after drop date
 	public void billStudents() {
-		StudentManager.getInstance().billStudents();
+		StudentService.billStudents();
 	}
 	
-	public void payBalance(final Student s, final Payment p) {
-		StudentManager.getInstance().payBalance(s, p);
+	public void payBalance(final int studentId, final int paymentId) {
+		
+		Student s = StudentRepository.getInstance().findById(studentId);
+		Payment p = PaymentRepository.getInstance().findById(paymentId);
+		
+		StudentService.payBalance(s, p);
 	}
 }

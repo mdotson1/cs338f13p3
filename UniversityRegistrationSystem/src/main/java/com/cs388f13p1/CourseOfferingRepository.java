@@ -1,0 +1,78 @@
+package com.cs388f13p1;
+
+import java.util.Iterator;
+import java.util.List;
+
+public class CourseOfferingRepository implements MutableRepository<CourseOffering> {
+	
+	private CourseOfferingDAO courseOfferingDAO = new CourseOfferingDAO();
+
+	private static class SingletonHolder { 
+		public static final CourseOfferingRepository INSTANCE = new CourseOfferingRepository();
+	}
+
+	public static CourseOfferingRepository getInstance() {
+
+		return SingletonHolder.INSTANCE;
+	}
+
+	private CourseOfferingRepository() {
+		courseOfferingDAO = new CourseOfferingDAO();
+	}
+	
+	public void add(final CourseOffering obj) {
+		try {
+			courseOfferingDAO.addCourseOffering(obj);
+	    } catch (Exception se) {
+	      System.err.println("CourseOfferingRepository: Threw a Exception retrieving student.");
+	      System.err.println(se.getMessage());
+	    }
+	}
+
+	public CourseOffering findById(final int id) {
+		try {
+			CourseOffering courseOffering = courseOfferingDAO.findCourseOfferingById(id);
+	    	return courseOffering;
+	    } catch (Exception se) {
+	      System.err.println("CourseOfferingRepository: Threw a Exception retrieving customer.");
+	      System.err.println(se.getMessage());
+	    }
+		return null;
+	}
+	
+	public Iterator<CourseOffering> getAll() {
+		return courseOfferingDAO.getAllCourseOfferings();
+	}
+
+	public void update(final int id, final CourseOffering newObj) {
+		try {
+			courseOfferingDAO.updateCourseOffering(id, newObj);
+	    } catch (Exception se) {
+	      System.err.println("CourseOfferingRepository: Threw a Exception retrieving customer.");
+	      System.err.println(se.getMessage());
+	    }
+	}
+
+	public boolean delete(final int id) {
+		try {
+			return courseOfferingDAO.deleteCourseOffering(id);
+	    } catch (Exception se) {
+	      System.err.println("CourseOfferingRepository: Threw a Exception retrieving customer.");
+	      System.err.println(se.getMessage());
+	    }
+		return false;
+	}
+
+	public boolean contains(final int id) {
+		if (findById(id) == null) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+	public Iterator<CourseOffering> getAllCoursesInSemester() {
+		return null;
+	}
+
+}

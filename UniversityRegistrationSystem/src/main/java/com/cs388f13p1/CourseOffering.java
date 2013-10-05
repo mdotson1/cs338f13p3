@@ -1,55 +1,74 @@
 package com.cs388f13p1;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class CourseOffering extends Course {
 
+	private int courseOfferingId;
 	private Semester semester;
 	private Professor teacher;
 	private short section;
 	private List<Student> students;
 	
-	public CourseOffering(final String dept, final short courseNum, 
-			final List<Course> prereqs, final int cost, final Semester sem,
-			final short section) {
+	public CourseOffering(final int courseId, final String dept, final short courseNum, 
+			final List<Course> prereqs, final int cost, final int courseOfferingId, final Semester sem,
+			final short section, final String description) {
 		
-		super(dept, courseNum, prereqs, cost);
+		super(courseId, dept, courseNum, prereqs, cost, description);
+		this.courseOfferingId = courseOfferingId;
 		this.section = section;
 		semester = sem;
 		students = new ArrayList<Student>();
 	}
 	
-	public final Semester getSemester() {
+	public int getCourseOfferingId() {
+		return courseOfferingId;
+	}
+	
+	public void setCourseOfferingId(int courseOfferingId) {
+		this.courseOfferingId = courseOfferingId;
+	}
+	
+	public Semester getSemester() {
 		return semester;
 	}
 	
-	public final Professor getProfessor() {
+	public void setSemester(Semester semester) {
+		this.semester = semester;
+	}
+	
+	public Professor getProfessor() {
 		return teacher;
 	}
 	
-	public final void setProfessor(final Professor p) {
+	public void setProfessor(final Professor p) {
 		teacher = p;
 	}
 	
-	public final boolean addStudent(final Student s) {
+	public boolean addStudent(final Student s) {
 		return students.add(s);
 	}
 	
-	public final int getNumberOfStudents() {
+	public int getNumberOfStudents() {
 		return students.size();
 	}
 	
-	public final short getSectionNumber() {
+	public short getSectionNumber() {
 		return section;
 	}
 	
-	public final boolean removeStudent(final Student s) {
+	public void setSectionNumber(short section) {
+		this.section = section;
+	}
+	
+	public boolean removeStudent(final Student s) {
 		return students.remove(s);
 	}
 	
-	public final List<Student> getRoster() {
-		return students;
+	public Iterator<Student> getRoster() {
+		return students.iterator();
 	}
 	
 	public String toString() {

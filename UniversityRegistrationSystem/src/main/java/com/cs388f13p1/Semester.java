@@ -16,23 +16,39 @@ public class Semester {
 		period = p;
 	}
 	
-	public final short getYear() {
+	public short getYear() {
 		return year;
 	}
 	
-	public final Season getSeason() {
+	public void setYear(short year) {
+		this.year = year;
+	}
+	
+	public Season getSeason() {
 		return season;
 	}
 	
-	public final Date getStartDate() {
+	public void setSeason(Season s) {
+		season = s;
+	}
+	
+	public Period getPeriod() {
+		return period;
+	}
+	
+	public void setPeriod(Period p) {
+		period = p;
+	}
+	
+	public Date getStartDate() {
 		return period.getStartDate();
 	}
 	
-	public final Date dropDate() {
+	public Date dropDate() {
 		return period.getStartDate().oneWeekAfterStart();
 	}
 	
-	public final Date firstDayOfClasses() {
+	public Date firstDayOfClasses() {
 		return period.getStartDate();
 	}
 

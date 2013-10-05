@@ -12,4 +12,17 @@ public class Payment {
 	public int getPaymentAmount() {
 		return paymentAmount;
 	}
+	
+	public void setPaymentAmount(final int amount) {
+		paymentAmount = amount;
+	}
+	
+	public void setPaymentType(final String paymentType) {
+		this.paymentType = paymentType;
+	}
+
+	public String getPaymentType(){
+		return paymentType;
+	}
+
 }

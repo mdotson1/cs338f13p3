@@ -17,5 +17,45 @@ public class ContactInformation {
 		firstName = fName;
 		lastName = lName;
 	}
+	
+	public Address getHomeAddress() {
+		return homeAddress;
+	}
+	
+	public void setHomeAddress(final Address homeAddr) {
+		this.homeAddress = homeAddr;
+	}
+	
+	public Address getWorkAddress() {
+		return workAddress;
+	}
+	
+	public void setWorkAddress(final Address workAddr) {
+		this.workAddress = workAddr;
+	}
+	
+	public PhoneNumbers getPhones() {
+		return phones;
+	}
+	
+	public void setPhones(PhoneNumbers phoneNums) {
+		phones = phoneNums;
+	}
+	
+	public String getFirstName() {
+		return firstName;
+	}
+	
+	public void setFirstName(String fName) {
+		firstName = fName;
+	}
+	
+	public String getLastName() {
+		return lastName;
+	}
+	
+	public void setLastName(String lName) {
+		lastName = lName;
+	}
 
 }

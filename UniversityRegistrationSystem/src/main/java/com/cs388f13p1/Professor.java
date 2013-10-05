@@ -13,4 +13,12 @@ public class Professor extends UniversityPerson {
 				dob, id);
 		department = dept;
 	}
+	
+	public String getDepartment() {
+		return department;
+	}
+	
+	public void setDepartment(String dpt) {
+		department = dpt;
+	}
 }

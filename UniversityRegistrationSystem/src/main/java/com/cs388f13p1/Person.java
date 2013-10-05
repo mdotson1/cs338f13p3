@@ -12,4 +12,12 @@ public class Person extends ContactInformation {
 		
 		dateOfBirth = dob;
 	}
+	
+	public Date getDateOfBirth() {
+		return dateOfBirth;
+	}
+	
+	public void setDateOfBirth(Date dob) {
+		dateOfBirth = dob;
+	}
 }

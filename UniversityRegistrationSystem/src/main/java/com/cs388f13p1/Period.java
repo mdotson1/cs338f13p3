@@ -7,7 +7,7 @@ public class Period {
 	
 	public Period(final Date start, final Date end) {
 		startDate = start;
-		endDate = end;
+		setEndDate(end);
 	}
 	
 	/**
@@ -20,7 +20,19 @@ public class Period {
 		return startDate.getYear();
 	}
 	
-	public final Date getStartDate() {
+	public Date getStartDate() {
 		return startDate;
+	}
+
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
+	}
+
+	public Date getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
 	}
 }

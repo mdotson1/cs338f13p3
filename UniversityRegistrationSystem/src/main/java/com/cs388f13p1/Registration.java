@@ -54,7 +54,7 @@ public class Registration {
 		Date dob = new Date((byte) 5, (byte) 10, (short) 1990);
 		
 		// add student to database or not if already exists
-		Student s1 = StudentManager.getInstance().add(homeAddr, workAddr, phones, "Michael", "Dotson", dob, 987654);
+		Student s1 = StudentService.getInstance().add(homeAddr, workAddr, phones, "Michael", "Dotson", dob, 987654);
 		
 		// CourseOffering co1
 		Date start = new Date((byte) 8, (byte) 26, (short) 2013);
@@ -63,7 +63,7 @@ public class Registration {
 		Semester sem = new Semester(Season.FALL, length);
 		
 		// add CourseOffering to database
-		CourseOffering co1 = CourseOfferingManager.getInstance().add("CS", (short) 170, null, 4000, sem, (short) 1);
+		CourseOffering co1 = CourseOfferingService.getInstance().add("CS", (short) 170, null, 4000, sem, (short) 1, "Introduction to Object Oriented Programming");
 		
 		// Professor p1
 		Address homeAddr2 = new Address(1900, "N State St", 0, "Chicago", "IL", 60610);
@@ -72,7 +72,7 @@ public class Registration {
 		Date dob2 = new Date((byte) 10, (byte) 31, (short) 1965);
 		
 		// add professor to database
-		Professor p1 = ProfessorManager.getInstance().add(homeAddr2, workAddr2, phones2, "Konstantin", "Laufer", dob2, 888883, "CS");
+		Professor p1 = ProfessorService.getInstance().add(homeAddr2, workAddr2, phones2, "Konstantin", "Laufer", dob2, 888883, "CS");
 		
 		// Professor p1
 		Address homeAddr3 = new Address(1900, "N Clark St", 0, "Chicago", "IL", 60610);
@@ -81,7 +81,7 @@ public class Registration {
 		Date dob3 = new Date((byte) 6, (byte) 11, (short) 1975);
 		
 		// add professor to database
-		Professor p2 = ProfessorManager.getInstance().add(homeAddr3, workAddr3, phones3, "Mark", "Albert", dob3, 43543543, "CS");
+		Professor p2 = ProfessorService.getInstance().add(homeAddr3, workAddr3, phones3, "Mark", "Albert", dob3, 43543543, "CS");
 		
 		// ******************************* //
 		// *********** TESTING *********** //

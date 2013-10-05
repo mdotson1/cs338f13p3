@@ -1,13 +1,14 @@
 package com.cs388f13p1;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 
 public class Student extends UniversityPerson {
 	
 	private List<CourseOffering> courses;
-	private int currentBalance;
+	private double currentBalance;
 	private List<Payment> paymentHistory;
 	private boolean hasRegistered;
 	
@@ -23,27 +24,24 @@ public class Student extends UniversityPerson {
 		hasRegistered = false;
 	}
 	
-	public final boolean hasRegistered() {
+	public boolean hasRegistered() {
 		return hasRegistered;
 	}
 	
-	public final int getCurrentBalance() {
+	public void register() {
+		hasRegistered = true;
+	}
+	
+	public double getCurrentBalance() {
 		return currentBalance;
 	}
 	
-	public void bill() {
-		for (int i = 0; i < courses.size(); i++) {
-			currentBalance =+ courses.get(i).getCost();
-		}
+	public void setCurrentBalance(double balance) {
+		currentBalance = balance;
 	}
 	
 	public final List<Payment> getPaymentHistory() {
 		return paymentHistory;
-	}
-	
-	public void payBalance(final Payment payment) {
-		paymentHistory.add(payment);
-		currentBalance -= payment.getPaymentAmount();
 	}
 	
 	public void addCourse(final CourseOffering course) {
@@ -58,8 +56,12 @@ public class Student extends UniversityPerson {
 		courses.remove(course);
 	}
 	
-	public List<CourseOffering> getCourses() {
-		return courses;
+	public Iterator<CourseOffering> getCourses() {
+		return courses.iterator();
+	}
+	
+	public boolean equals(Student s) {
+		return this.getId() == s.getId();
 	}
 
 }

@@ -8,8 +8,32 @@ public class PhoneNumbers {
 	
 	public PhoneNumbers(final String work, final String home, 
 			final String cell) {
-		workPhone = work;
-		homePhone = home;
-		cellPhone = cell;
+		setWorkPhone(work);
+		setHomePhone(home);
+		setCellPhone(cell);
+	}
+
+	public String getWorkPhone() {
+		return workPhone;
+	}
+
+	public void setWorkPhone(String workPhone) {
+		this.workPhone = workPhone;
+	}
+
+	public String getHomePhone() {
+		return homePhone;
+	}
+
+	public void setHomePhone(String homePhone) {
+		this.homePhone = homePhone;
+	}
+
+	public String getCellPhone() {
+		return cellPhone;
+	}
+
+	public void setCellPhone(String cellPhone) {
+		this.cellPhone = cellPhone;
 	}
 }

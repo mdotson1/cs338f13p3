@@ -1,6 +1,8 @@
-package com.cs388f13p1;
+package com.cs388f13p1.database;
 
 import java.util.Iterator;
+
+import com.cs388f13p1.model.person.Student;
 
 public class StudentDAO {
 

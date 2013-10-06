@@ -1,8 +1,14 @@
-package com.cs388f13p1;
+package com.cs388f13p1.model.services;
 
 import java.util.Iterator;
 
-import com.cs388f13p1.CourseOffering.Season;
+import com.cs388f13p1.model.course.CourseOffering;
+import com.cs388f13p1.model.course.CourseOffering.Season;
+import com.cs388f13p1.model.person.Professor;
+import com.cs388f13p1.model.person.Student;
+import com.cs388f13p1.model.repositories.CourseOfferingRepository;
+import com.cs388f13p1.model.repositories.ProfessorRepository;
+import com.cs388f13p1.model.repositories.StudentRepository;
 
 public class CourseOfferingService {
 	

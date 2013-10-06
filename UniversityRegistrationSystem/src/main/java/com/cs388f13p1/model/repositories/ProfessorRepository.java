@@ -1,6 +1,9 @@
-package com.cs388f13p1;
+package com.cs388f13p1.model.repositories;
 
 import java.util.Iterator;
+
+import com.cs388f13p1.database.ProfessorDAO;
+import com.cs388f13p1.model.person.Professor;
 
 public class ProfessorRepository implements MutableRepository<Professor> {
 	

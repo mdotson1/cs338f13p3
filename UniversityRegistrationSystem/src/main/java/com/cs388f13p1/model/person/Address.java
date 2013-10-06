@@ -1,4 +1,4 @@
-package com.cs388f13p1;
+package com.cs388f13p1.model.person;
 
 // place in database under person
 public class Address {

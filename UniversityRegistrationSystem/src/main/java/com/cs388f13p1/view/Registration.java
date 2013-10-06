@@ -1,8 +1,19 @@
-package com.cs388f13p1;
+package com.cs388f13p1.view;
 
 import java.util.Iterator;
 
-import com.cs388f13p1.CourseOffering.Season;
+import com.cs388f13p1.model.course.CourseOffering;
+import com.cs388f13p1.model.course.CourseOffering.Season;
+import com.cs388f13p1.model.person.Address;
+import com.cs388f13p1.model.person.ContactInformation;
+import com.cs388f13p1.model.person.Payment;
+import com.cs388f13p1.model.person.Professor;
+import com.cs388f13p1.model.person.Student;
+import com.cs388f13p1.model.repositories.CourseOfferingRepository;
+import com.cs388f13p1.model.repositories.ProfessorRepository;
+import com.cs388f13p1.model.repositories.StudentRepository;
+import com.cs388f13p1.model.services.Bursar;
+import com.cs388f13p1.model.services.Registrar;
 
 public class Registration {
 	

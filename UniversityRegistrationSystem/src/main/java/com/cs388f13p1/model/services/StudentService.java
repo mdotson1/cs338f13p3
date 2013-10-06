@@ -1,6 +1,12 @@
-package com.cs388f13p1;
+package com.cs388f13p1.model.services;
 
 import java.util.Iterator;
+
+import com.cs388f13p1.model.course.CourseOffering;
+import com.cs388f13p1.model.person.Payment;
+import com.cs388f13p1.model.person.Student;
+import com.cs388f13p1.model.repositories.CourseOfferingRepository;
+import com.cs388f13p1.model.repositories.StudentRepository;
 
 public class StudentService {
 	

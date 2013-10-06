@@ -1,4 +1,4 @@
-package com.cs388f13p1;
+package com.cs388f13p1.model.repositories;
 
 import java.util.Iterator;
 

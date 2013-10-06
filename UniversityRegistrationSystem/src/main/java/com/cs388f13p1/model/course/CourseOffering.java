@@ -1,8 +1,11 @@
-package com.cs388f13p1;
+package com.cs388f13p1.model.course;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+import com.cs388f13p1.model.person.Professor;
+import com.cs388f13p1.model.person.Student;
 
 public class CourseOffering extends Course {
 	

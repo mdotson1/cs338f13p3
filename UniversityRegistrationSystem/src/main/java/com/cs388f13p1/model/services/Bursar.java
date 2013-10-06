@@ -1,4 +1,6 @@
-package com.cs388f13p1;
+package com.cs388f13p1.model.services;
+
+import com.cs388f13p1.model.person.Payment;
 
 public class Bursar {
 	

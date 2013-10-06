@@ -1,8 +1,10 @@
-package com.cs388f13p1;
+package com.cs388f13p1.model.repositories;
 
 import java.util.Iterator;
 
-import com.cs388f13p1.CourseOffering.Season;
+import com.cs388f13p1.database.CourseOfferingDAO;
+import com.cs388f13p1.model.course.CourseOffering;
+import com.cs388f13p1.model.course.CourseOffering.Season;
 
 public class CourseOfferingRepository implements MutableRepository<CourseOffering> {
 	

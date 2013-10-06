@@ -1,4 +1,5 @@
-package com.cs388f13p1;
+package com.cs388f13p1.model.repositories;
+
 
 public interface MutableRepository<E> extends Repository<E> {
 

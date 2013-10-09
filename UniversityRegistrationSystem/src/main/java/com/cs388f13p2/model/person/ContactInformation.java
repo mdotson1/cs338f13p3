@@ -4,15 +4,15 @@ package com.cs388f13p2.model.person;
 // place in database under person
 public class ContactInformation {
 	
-	private Address homeAddress;
-	private Address workAddress;
+	private String homeAddress;
+	private String workAddress;
 	private String firstName;
 	private String lastName;
 	private String workPhone;
 	private String homePhone;
 	private String cellPhone;
 	
-	public ContactInformation(final Address homeAddr, final Address workAddr, 
+	public ContactInformation(final String homeAddr, final String workAddr, 
 			final String fName, final String lName, String workPhone, 
 			String homePhone, String cellPhone) {
 		homeAddress = homeAddr;
@@ -24,19 +24,19 @@ public class ContactInformation {
 		this.cellPhone = cellPhone;
 	}
 	
-	public Address getHomeAddress() {
+	public String getHomeAddress() {
 		return homeAddress;
 	}
 	
-	public void setHomeAddress(final Address homeAddr) {
+	public void setHomeAddress(final String homeAddr) {
 		this.homeAddress = homeAddr;
 	}
 	
-	public Address getWorkAddress() {
+	public String getWorkAddress() {
 		return workAddress;
 	}
 	
-	public void setWorkAddress(final Address workAddr) {
+	public void setWorkAddress(final String workAddr) {
 		this.workAddress = workAddr;
 	}
 	

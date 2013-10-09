@@ -1,6 +1,5 @@
 package com.cs388f13p2.model.person;
 
-
 public class UniversityPerson extends Person {
 	
 	private int id;

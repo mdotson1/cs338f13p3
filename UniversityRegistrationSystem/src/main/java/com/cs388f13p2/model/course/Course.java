@@ -5,7 +5,7 @@ import java.util.List;
 public class Course {
 	
 	protected String department; // primary key
-	protected short courseNumber; // // primary key
+	protected short courseNumber; // primary key
 	protected List<Course> prereqs;
 	protected double cost;
 	protected String courseDescription;

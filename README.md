@@ -7,10 +7,10 @@ Prerequisites:
 
 
 Steps to run project tests:
-1. git clone https://github.com/mdotson1/cs338f13p1.git
+1. git clone https://github.com/mdotson1/cs338f13p2.git
 2. navigate to cs388f13p1/UniversityRegistrationSystem/
 3. mvn package
-4. java -cp target/com.cs388f13p1-0.0.1-SNAPSHOT.jar com.cs388f13p1.Registration
+4. java -cp target/com.cs388f13p2-0.0.1-SNAPSHOT.jar com.cs388f13p2.view.Registration
 
 Output will be some tests for the functionality of the application based on the
 Project Case Study (SSD_Course__Project_Case_Study.pdf). 
@@ -19,4 +19,4 @@ Previous version history can be found at:
 https://bitbucket.org/mdotson1/cs338f13p1
 
 Project converted from mercurial to git on 9/30/2013 and now hosted on github at 
-https://github.com/mdotson1/cs338f13p1
+https://github.com/mdotson1/cs338f13p2

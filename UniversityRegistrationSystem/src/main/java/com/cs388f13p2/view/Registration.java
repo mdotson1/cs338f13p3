@@ -80,21 +80,21 @@ public class Registration {
 		
 		// add CourseOffering to database
 		CourseOffering co1 = new CourseOffering("CS", (short) 170, null, 4000, 23423, Season.FALL, (short) 2013, (short) 1, "Introduction to Object Oriented Programming");
-		CourseOfferingRepository.getInstance().add(co1);
+		//CourseOfferingRepository.getInstance().add(co1);
 		
 		// Professor p1
 		ContactInformation ci2 = new ContactInformation("dont care", "dont care", "Konstantin", "Laufer", null, null, "666-777-8888");
 		
 		// add professor to database
 		Professor p1 = new Professor(ci2, 888883, "04/15/1970", "CS");
-		ProfessorRepository.getInstance().add(p1);
+		//ProfessorRepository.getInstance().add(p1);
 		
 		// Professor p1
 		ContactInformation ci3 = new ContactInformation("dont care", "dont care", "Mark", "Albert", null, null, "555-666-7777");
 		
 		// add professor to database
 		Professor p2 = new Professor(ci3, 43543543, "08/19/1980", "CS");
-		ProfessorRepository.getInstance().add(p2);
+		//ProfessorRepository.getInstance().add(p2);
 		
 		// ******************************* //
 		// *********** TESTING *********** //

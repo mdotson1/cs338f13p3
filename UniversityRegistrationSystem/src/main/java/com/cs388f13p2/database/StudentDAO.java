@@ -2,6 +2,7 @@ package com.cs388f13p2.database;
 
 import java.util.Iterator;
 import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -33,16 +34,40 @@ public class StudentDAO {
 	
 	public void addStudent(Student obj) throws SQLException {
 		
-		Statement st = DBHelper.getConnection().createStatement();
+		Connection c = DBHelper.getConnection();
+		Statement st = c.createStatement();
+		
+		DatabaseMetaData dbm = c.getMetaData();
+		
+		ResultSet tables = dbm.getTables(null, null, "Student", null);
+		if (!tables.next()) {
+			// Table does not exist
+			String createTableStatement = "CREATE TABLE Student(" +
+					"id INT NOT NULL," +
+					"dateOfBirth VARCHAR(10)," +
+					"homeAddress VARCHAR(200)," +
+					"workAddress VARCHAR(200)," + 
+					"lastName VARCHAR(30)," +
+					"firstName VARCHAR(20)," +
+					"workPhone CHAR(13)," +
+					"homePhone CHAR(13)," +
+					"cellPhone CHAR(13)," +
+					"currentBalance VARCHAR(20)," +
+					"PRIMARY KEY ( id ) " +
+					");";
+			st.execute(createTableStatement);
+		}
 		
 		ContactInformation ci = obj.getContactInformation();
-		String insertStudentQuery = "INSERT INTO Student(id, dateOfBirth, homeAddress, workAddress, " +
-				"firstName, lastName, workPhone, homePhone, cellPhone) VALUES(" + obj.getId() +  ", " + 
-				obj.getDateOfBirth() + ", " + ci.getHomeAddress() + ", " + ci.getWorkAddress() + ", " +
-				ci.getFirstName() + ", " + ci.getLastName() + ", " + ci.getWorkPhone() + ", " + 
-				ci.getHomePhone() + ", " + ci.getCellPhone() + ")";
 		
-		st.executeQuery(insertStudentQuery);
+		String insertStudentStatement = "INSERT INTO Student(id, dateOfBirth, homeAddress, workAddress, " +
+				"lastName, firstName, workPhone, homePhone, cellPhone, currentBalance) VALUES(" + (obj.getId()+5) +  ", '" + 
+				obj.getDateOfBirth() + "', '" + ci.getHomeAddress() + "', '" + ci.getWorkAddress() + "', '" +
+				ci.getFirstName() + "', '" + ci.getLastName() + "', '" + ci.getWorkPhone() + "', " + 
+				ci.getHomePhone() + ", '" + ci.getCellPhone() + "', " + obj.getCurrentBalance() + ");";
+		
+		System.out.println(insertStudentStatement);
+		st.execute(insertStudentStatement);
 		
 		st.close();
 	}

@@ -10,27 +10,27 @@ public class DBHelper {
 	
 	public static Connection getConnection() {
 		 
-		System.out.println("DBHelper: -------- PostgreSQL " + "JDBC Connection  ------------");
+		System.out.println("DBHelper: -------- mySQL " + "JDBC Connection  ------------");
  
 		try {
  
-			Class.forName("org.postgresql.Driver");
+			Class.forName("com.mysql.jdbc.Driver");
  
 		} catch (ClassNotFoundException e) {
  
-			System.out.println("DBHelper: Check Where  your PostgreSQL JDBC Driver exist and " + "Include in your library path!");
+			System.out.println("DBHelper: Check Where  your mySQL JDBC Driver exist and " + "Include in your library path!");
 			e.printStackTrace();
 			return null;
  
 		}
  
-		System.out.println("DBHelper: PostgreSQL JDBC Driver Registered!");
+		System.out.println("DBHelper: mySQL JDBC Driver Registered!");
  
 		Connection connection = null;
  
 		try {
  
-			connection = DriverManager.getConnection("jdbc:postgresql://127.0.0.1:5432", "student", "Comp442");
+			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db", "root", "secret");
 				Statement st = connection.createStatement();
 				ResultSet rs = st.executeQuery("SELECT VERSION()");
 

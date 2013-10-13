@@ -4,7 +4,12 @@ Prerequisites:
 1. Maven build tool installed.
 2. Java JDK 1.6 or higher installed.
 3. git version control installed.
-
+4. mysql installed locally. At least version 6.0. Could possibly work on lesser
+	versions, but has not been tested.
+5. mysql administration account that can create databases and tables. If your
+	administration account is not username "root" and password "secret",
+	you will need to change the global variable USERNAME and PASSWORD in the
+	file com/cs388/f13p2/database/DBHelper.java.
 
 Steps to run project tests:
 1. git clone https://github.com/mdotson1/cs338f13p2.git

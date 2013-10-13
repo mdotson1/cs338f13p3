@@ -1,5 +1,6 @@
 package com.cs388f13p2.model.services;
 
+import java.sql.SQLException;
 import java.util.Iterator;
 
 import com.cs388f13p2.model.course.CourseOffering;
@@ -11,18 +12,18 @@ public class Registrar {
 	
 	private Registrar() { } // services cannot be instantiated
 	
-	public static Iterator<CourseOffering> getCourseCatalog(final Season s, final short year) {
+	public static Iterator<CourseOffering> getCourseCatalog(final Season s, final short year) throws SQLException {
 		
 		return CourseOfferingService.getCoursesInSemester(s, year);
 	}
 	
-	public static Iterator<Student> getRosterForCourse(final int courseOfferingId) {
+	public static Iterator<Student> getRosterForCourse(final int courseOfferingId) throws SQLException {
 		
 		return CourseOfferingService.getRoster(courseOfferingId);
 	}
 	
 	public static boolean assignProfessorToCourse(final int courseOfferingId, 
-			final int professorId) {
+			final int professorId) throws SQLException {
 		
 		boolean successful = ProfessorService.assignCourseForProfessor(professorId, courseOfferingId);
 		if (successful) {
@@ -38,13 +39,13 @@ public class Registrar {
 		}
 	}
 	
-	public static boolean removeProfessorFromCourse(final int courseOfferingId) {
+	public static boolean removeProfessorFromCourse(final int courseOfferingId) throws SQLException {
 		return CourseOfferingService.removeProfessor(courseOfferingId);
 	}
 	
-	private static boolean allCoursesInSameSemester(final Iterator<CourseOffering> coursesToCheck) {
+	private static boolean allCoursesInSameSemester(final int[] courseIdsToCheck) throws SQLException {
 		
-		return CourseOfferingService.allCoursesInSameSemester(coursesToCheck);
+		return CourseOfferingService.allCoursesInSameSemester(courseIdsToCheck);
 	}
 	
 	/*
@@ -83,7 +84,7 @@ public class Registrar {
 	*/
 	
 	public static boolean enrollStudentInCourse(final int studentId, 
-			final int courseOfferingId) {
+			final int courseOfferingId) throws SQLException {
 		
 		final boolean addedCourseToStudent = 
 				StudentService.enrollInCourse(studentId, courseOfferingId);
@@ -104,7 +105,7 @@ public class Registrar {
 	}
 
 	public static boolean dropStudentFromCourse(final int studentId, 
-			final int courseOfferingId) {
+			final int courseOfferingId) throws SQLException {
 		
 		final boolean droppedCourseFromStudent = 
 				StudentService.dropCourse(studentId, courseOfferingId);

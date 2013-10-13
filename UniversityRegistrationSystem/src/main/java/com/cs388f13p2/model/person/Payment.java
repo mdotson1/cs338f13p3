@@ -1,12 +1,22 @@
 package com.cs388f13p2.model.person;
 
 public class Payment {
+	private int paymentId;
 	private String paymentType;
 	private int paymentAmount;
 	
-	public Payment(final String type, final int amount) {
+	public Payment(final int id, final String type, final int amount) {
+		paymentId = id;
 		paymentType = type;
 		paymentAmount = amount;
+	}
+	
+	public int getPaymentId() {
+		return paymentId;
+	}
+	
+	public void setPaymentId(final int id) {
+		paymentId = id;
 	}
 	
 	public int getPaymentAmount() {

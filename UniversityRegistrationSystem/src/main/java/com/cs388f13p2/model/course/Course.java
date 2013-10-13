@@ -1,22 +1,17 @@
 package com.cs388f13p2.model.course;
 
-import java.util.List;
-
 public class Course {
 	
 	protected String department; // primary key
 	protected short courseNumber; // primary key
-	protected List<Course> prereqs;
 	protected double cost;
 	protected String courseDescription;
 	
 	public Course(final String dept, final short courseNum, 
-			final List<Course> prereqs, final double cost,
-			final String cd) {
+			final double cost, final String cd) {
 		
 		department = dept;
 		courseNumber = courseNum;
-		this.prereqs = prereqs;
 		this.cost = cost;
 		courseDescription = cd;
 	}

@@ -1,21 +1,22 @@
 package com.cs388f13p2.view;
 
+import java.sql.SQLException;
 import java.util.Iterator;
 
+import com.cs388f13p2.database.dao.concrete.CourseOfferingRepository;
+import com.cs388f13p2.database.dao.concrete.CourseRepository;
+import com.cs388f13p2.database.dao.concrete.ProfessorRepository;
+import com.cs388f13p2.database.dao.concrete.StudentRepository;
+import com.cs388f13p2.model.course.Course;
 import com.cs388f13p2.model.course.CourseOffering;
 import com.cs388f13p2.model.course.CourseOffering.Season;
 import com.cs388f13p2.model.person.ContactInformation;
-import com.cs388f13p2.model.person.Payment;
 import com.cs388f13p2.model.person.Professor;
 import com.cs388f13p2.model.person.Student;
-import com.cs388f13p2.model.repositories.CourseOfferingRepository;
-import com.cs388f13p2.model.repositories.ProfessorRepository;
-import com.cs388f13p2.model.repositories.StudentRepository;
-import com.cs388f13p2.model.services.Bursar;
-import com.cs388f13p2.model.services.Registrar;
 
 public class Registration {
 	
+	/*
 	private static void ASSIGN_PROF_TEST(
 			final int professorId, final int courseOfferingId) {
 		
@@ -54,19 +55,32 @@ public class Registration {
 		
 		System.out.println("ENROLL_STUDENT_TEST");
 		
-		Iterator<CourseOffering> courses = StudentRepository.getInstance().findById(studentId).getCourses();
-		Iterator<Student> students = CourseOfferingRepository.getInstance().findById(courseOfferingId).getRoster();
+		Iterator<CourseOffering> courses = null;
+		Iterator<Student> students = null;
+		try {
+			courses = StudentRepository.getInstance().findById(studentId).getCourses();
+			students = CourseOfferingRepository.getInstance().findById(courseOfferingId).getRoster();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
 		
 		System.out.println("before-adding-student: " + courses);
 		System.out.println("before-adding-course: " + students);
 		Registrar.enrollStudentInCourse(studentId, courseOfferingId);
 		
-		courses = StudentRepository.getInstance().findById(studentId).getCourses();
-		students = CourseOfferingRepository.getInstance().findById(courseOfferingId).getRoster();
+		try {
+			courses = StudentRepository.getInstance().findById(studentId).getCourses();
+			students = CourseOfferingRepository.getInstance().findById(courseOfferingId).getRoster();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
 		
 		System.out.println("added-course-to-student: " + courses);
 		System.out.println("added-student-to-course: " + students);
 	}
+	*/
 	
 	public static void main(String[] args) {
 		
@@ -75,26 +89,43 @@ public class Registration {
 				"110 E Pearson St. #520 Chicago, IL 60610", "Michael", "Dotson", null, null, "920-284-6892");
 		
 		// add student to database
-		Student s1 = new Student(ci1, 435435345, "05/10/1990");
-		StudentRepository.getInstance().add(s1);
+		Student s1 = new Student(ci1, 435435345, "05/10/1990", 0);
+		try {
+			StudentRepository.getInstance().add(s1);
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
 		
 		// add CourseOffering to database
-		CourseOffering co1 = new CourseOffering("CS", (short) 170, null, 4000, 23423, Season.FALL, (short) 2013, (short) 1, "Introduction to Object Oriented Programming");
-		//CourseOfferingRepository.getInstance().add(co1);
+		Course c1 = new Course("CS", (short) 170, 4000, "");
+		CourseOffering co1 = new CourseOffering(c1, 23423, Season.FALL, (short) 2013, (short) 1,
+				"Introduction to Object Oriented Programming");
+		try {
+			CourseRepository.getInstance().add(c1);
+			CourseOfferingRepository.getInstance().add(co1);
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
 		
 		// Professor p1
 		ContactInformation ci2 = new ContactInformation("dont care", "dont care", "Konstantin", "Laufer", null, null, "666-777-8888");
-		
 		// add professor to database
 		Professor p1 = new Professor(ci2, 888883, "04/15/1970", "CS");
-		//ProfessorRepository.getInstance().add(p1);
+		try {
+			ProfessorRepository.getInstance().add(p1);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		
 		// Professor p1
 		ContactInformation ci3 = new ContactInformation("dont care", "dont care", "Mark", "Albert", null, null, "555-666-7777");
-		
 		// add professor to database
 		Professor p2 = new Professor(ci3, 43543543, "08/19/1980", "CS");
-		//ProfessorRepository.getInstance().add(p2);
+		try {
+			ProfessorRepository.getInstance().add(p2);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		
 		// ******************************* //
 		// *********** TESTING *********** //

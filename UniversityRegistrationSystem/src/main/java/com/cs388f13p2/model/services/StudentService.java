@@ -1,65 +1,71 @@
 package com.cs388f13p2.model.services;
 
+import java.sql.SQLException;
 import java.util.Iterator;
 
+import com.cs388f13p2.database.dao.concrete.CourseOfferingRepository;
+import com.cs388f13p2.database.dao.concrete.CourseRepository;
+import com.cs388f13p2.database.dao.concrete.PaymentRepository;
+import com.cs388f13p2.database.dao.concrete.StudentRepository;
+import com.cs388f13p2.database.dao.relationships.CoursesTakingRepository;
+import com.cs388f13p2.database.dao.relationships.PaymentHistoryRepository;
+import com.cs388f13p2.model.course.Course;
 import com.cs388f13p2.model.course.CourseOffering;
 import com.cs388f13p2.model.person.Payment;
 import com.cs388f13p2.model.person.Student;
-import com.cs388f13p2.model.repositories.CourseOfferingRepository;
-import com.cs388f13p2.model.repositories.StudentRepository;
 
 public class StudentService {
 	
 	private StudentService() { } // impossible to instantiate a service
 
-	public static void billStudents() {
+	public static void billStudents() throws SQLException {
 
-		Iterator<Student> it = StudentRepository.getInstance().getAll();
-
-		while (it.hasNext()) {
-			Student student = it.next();
-			Iterator<CourseOffering> coursesTaking = student.getCourses();
-
+		Iterator<Student> students = StudentRepository.getInstance().getAllStudents();
+		
+		while (students.hasNext()) {
+			
+			Student student = students.next();
+			int studentId = student.getId();
+			
+			Iterator<CourseOffering> courses = CoursesTakingRepository.getInstance().getCoursesTakingByStudent(studentId);
+			
 			double currentBalance = student.getCurrentBalance();
-
-			while (coursesTaking.hasNext()) {
-				currentBalance =+ coursesTaking.next().getCost();
+			while (courses.hasNext()) {
+				
+				Course course = courses.next().getCourse();
+				currentBalance =- CourseRepository.getInstance().findById(course.getDepartment(),
+						course.getCourseNumber()).getCost();
 			}
-
-			student.setCurrentBalance(currentBalance);
-
-			StudentRepository.getInstance().update(student.getId(), student);
+			
+			StudentRepository.getInstance().updateBalance(studentId, currentBalance);
 		}
 	}
 
 	// true if paid, false if not (possibly doesn't accept checks, for example
-	public static boolean payBalance(final int studentId, Payment p) {
+	public static boolean payBalance(final int studentId, final int paymentId)
+			throws SQLException {
 		
-		Student student = StudentRepository.getInstance().findById(studentId);
-
-		student.getPaymentHistory().add(p);
-		double currentBalance = student.getCurrentBalance() - p.getPaymentAmount();
-		student.setCurrentBalance(currentBalance);
-
-		StudentRepository.getInstance().update(student.getId(), student);
+		Payment p = PaymentRepository.getInstance().findById(paymentId);
+		
+		StudentRepository.getInstance().updateBalance(studentId, p.getPaymentAmount());
+		
+		PaymentHistoryRepository.getInstance().add(studentId, paymentId);
 		
 		return true;
 	}
 
+	// true = enrolled in, false = not enrolled in
 	public static boolean enrollInCourse(final int studentId,
-			final int courseOfferingId) {
+			final int courseOfferingId) throws SQLException {
 		
-		Student student = StudentRepository.getInstance().findById(studentId);
-		CourseOffering course = CourseOfferingRepository.getInstance().findById(courseOfferingId);
-
-		if (student.getNumCourses() == 4) {
+		if (CoursesTakingRepository.getInstance().
+				findNumberOfCoursesTakenByStudent(studentId) == 4) {
 			return false;
 		} else {
-			if (studentIsTakingCourse(student, course)) {
+			if (studentIsTakingCourse(studentId, courseOfferingId)) {
 				return false;
 			} else {
-				student.addCourse(course);
-				StudentRepository.getInstance().update(student.getId(), student);
+				CoursesTakingRepository.getInstance().add(studentId, courseOfferingId);
 				return true;
 			}
 		}
@@ -67,14 +73,10 @@ public class StudentService {
 
 	// true = dropped, false = not dropped
 	public static boolean dropCourse(final int studentId,
-			final int courseOfferingId) {
+			final int courseOfferingId) throws SQLException {
 		
-		Student student = StudentRepository.getInstance().findById(studentId);
-		CourseOffering course = CourseOfferingRepository.getInstance().findById(courseOfferingId);
-		
-		if (studentIsTakingCourse(student, course)) {
-			student.removeCourse(course);
-			StudentRepository.getInstance().update(student.getId(), student);
+		if (studentIsTakingCourse(studentId, courseOfferingId)) {
+			CoursesTakingRepository.getInstance().delete(studentId, courseOfferingId);
 			return true;
 		} else {
 			return false;
@@ -82,16 +84,9 @@ public class StudentService {
 	}
 
 	// private class, so can use objects instead of keys
-	private static boolean studentIsTakingCourse(final Student stu,
-			final CourseOffering course) {
+	private static boolean studentIsTakingCourse(final int studentId,
+			final int courseOfferingId) throws SQLException {
 		
-		Iterator<CourseOffering> it = stu.getCourses();
-
-		while (it.hasNext()) {
-			if (it.next().equals(course)) {
-				return true;
-			}
-		}
-		return false;
+		return CoursesTakingRepository.getInstance().contains(studentId, courseOfferingId);
 	}
 }

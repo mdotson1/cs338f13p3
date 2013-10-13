@@ -1,17 +1,17 @@
 package com.cs388f13p2.model.services;
 
-import com.cs388f13p2.model.person.Payment;
+import java.sql.SQLException;
 
 public class Bursar {
 	
 	private Bursar() { } // cannot instantiate services
 	
-	public static void billStudents() {
+	public static void billStudents() throws SQLException {
 		StudentService.billStudents();
 	}
 	
-	public static void payBalance(final int studentId, Payment p) {
-		
-		StudentService.payBalance(studentId, p);
+	public static void payBalance(final int studentId, final int paymentId) 
+			throws SQLException {
+		StudentService.payBalance(studentId, paymentId);
 	}
 }

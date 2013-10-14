@@ -31,16 +31,16 @@ public class StudentRepository implements ConcreteIntKeyRepository<Student> {
 	
 	private void createStudentTable(final Statement st) throws SQLException {
 		final String createTableStatement = "CREATE TABLE Student(" +
-				"id INT NOT NULL," +
-				"dateOfBirth VARCHAR(10) NOT NULL," +
-				"homeAddress VARCHAR(200) NOT NULL," +
-				"workAddress VARCHAR(200)," + 
-				"lastName VARCHAR(30) NOT NULL," +
-				"firstName VARCHAR(20) NOT NULL," +
-				"workPhone CHAR(13)," +
-				"homePhone CHAR(13)," +
-				"cellPhone CHAR(13)," +
-				"currentBalance DOUBLE NOT NULL," +
+				"id INT NOT NULL AUTO_INCREMENT, " +
+				"dateOfBirth VARCHAR(10) NOT NULL, " +
+				"homeAddress VARCHAR(200) NOT NULL, " +
+				"workAddress VARCHAR(200), " + 
+				"lastName VARCHAR(30) NOT NULL, " +
+				"firstName VARCHAR(20) NOT NULL, " +
+				"workPhone CHAR(13), " +
+				"homePhone CHAR(13), " +
+				"cellPhone CHAR(13), " +
+				"currentBalance DOUBLE NOT NULL, " +
 				"PRIMARY KEY ( id ) " +
 				") Engine=InnoDB;";
 		st.execute(createTableStatement);
@@ -55,7 +55,9 @@ public class StudentRepository implements ConcreteIntKeyRepository<Student> {
 		}
 	}
 
-	public void add(final Student obj) throws SQLException {
+	@Override
+	// returns the id added
+	public int add(final Student obj) throws SQLException {
 		final Connection c = DBHelper.getConnection();
 		final Statement st = c.createStatement();
 		
@@ -63,15 +65,22 @@ public class StudentRepository implements ConcreteIntKeyRepository<Student> {
 
 		final ContactInformation ci = obj.getContactInformation();
 
-		final String insertStudentStatement = "INSERT INTO Student(id, dateOfBirth, homeAddress, workAddress, " +
-				"lastName, firstName, workPhone, homePhone, cellPhone, currentBalance) VALUES(" + obj.getId() +  ", '" + 
+		final String insertStudentStatement = "INSERT INTO Student(dateOfBirth, homeAddress, workAddress, " +
+				"lastName, firstName, workPhone, homePhone, cellPhone, currentBalance) VALUES('" + 
 				obj.getDateOfBirth() + "', '" + ci.getHomeAddress() + "', '" + ci.getWorkAddress() + "', '" +
-				ci.getFirstName() + "', '" + ci.getLastName() + "', '" + ci.getWorkPhone() + "', " + 
-				ci.getHomePhone() + ", '" + ci.getCellPhone() + "', " + obj.getCurrentBalance() + ");";
+				ci.getFirstName() + "', '" + ci.getLastName() + "', '" + ci.getWorkPhone() + "', '" + 
+				ci.getHomePhone() + "', '" + ci.getCellPhone() + "', " + obj.getCurrentBalance() + ");";
 
-		st.execute(insertStudentStatement);
+		st.executeUpdate(insertStudentStatement, Statement.RETURN_GENERATED_KEYS);
+		ResultSet rs = st.getGeneratedKeys();
+		if (rs.next()) {
+			return rs.getInt(1);
+        } else {
+            throw new SQLException("Creating Student failed, no generated key obtained.");
+        }
 	}
 
+	@Override
 	public Student findById(final int id) throws SQLException {
 		final Connection c = DBHelper.getConnection();
 		final Statement st = c.createStatement();
@@ -107,12 +116,13 @@ public class StudentRepository implements ConcreteIntKeyRepository<Student> {
 		
 
 		final String updateBalanceStatement = "UPDATE Student SET currentBalance=" + newBalance
-				+ " WHERE studentId=" + studentId + ";";
+				+ " WHERE id=" + studentId + ";";
 
 		st.execute(updateBalanceStatement);
 	}
 
-	public Iterator<Student> getAllStudents() throws SQLException {
+	@Override
+	public Iterator<Student> getAll() throws SQLException {
 		final Connection c = DBHelper.getConnection();
 		final Statement st = c.createStatement();
 		
@@ -134,7 +144,7 @@ public class StudentRepository implements ConcreteIntKeyRepository<Student> {
 					studentRS.getString("firstName"), studentRS.getString("workPhone"),
 					studentRS.getString("homePhone"), studentRS.getString("cellPhone"));
 			
-			student = new Student(contactInformation, studentRS.getInt("studentId"), 
+			student = new Student(contactInformation, studentRS.getInt("id"), 
 					studentRS.getString("dateOfBirth"), studentRS.getDouble("currentBalance"));
 			
 			studentList.add(student);
@@ -142,6 +152,7 @@ public class StudentRepository implements ConcreteIntKeyRepository<Student> {
 		return studentList.iterator();
 	}
 
+	@Override
 	public boolean delete(final int id) throws SQLException {
 		final Connection c = DBHelper.getConnection();
 		final Statement st = c.createStatement();
@@ -153,6 +164,7 @@ public class StudentRepository implements ConcreteIntKeyRepository<Student> {
 		return st.execute(deleteStudentQuery);
 	}
 
+	@Override
 	public boolean contains(final int id) throws SQLException {
 		if (findById(id) == null) {
 			return false;

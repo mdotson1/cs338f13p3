@@ -35,7 +35,7 @@ public class PaymentHistoryRepository implements TwoIntKeyRelationshipRepository
 				"studentId INT NOT NULL, " +
 				"paymentId INT NOT NULL, " +
 				"PRIMARY KEY (paymentId, studentId), " + 
-				"FOREIGN KEY (studentId) references Student(studentId), " +
+				"FOREIGN KEY (studentId) references Student(Id), " +
 				"FOREIGN KEY (paymentId) references Payment(paymentId) " +
 				") Engine=InnoDB;";
 		st.execute(createTableStatement);

@@ -29,7 +29,7 @@ public class CourseOfferingRepository implements ConcreteIntKeyRepository<Course
 	
 	private void createCourseOfferingTable(final Statement st) throws SQLException {
 		final String createTableStatement = "CREATE TABLE CourseOffering(" +
-				"courseOfferingId INT NOT NULL, " +
+				"courseOfferingId INT NOT NULL AUTO_INCREMENT, " +
 				"department VARCHAR(20) NOT NULL, " +
 				"courseNumber smallint NOT NULL, " +
 				"sectionNumber SMALLINT NOT NULL," +
@@ -51,18 +51,24 @@ public class CourseOfferingRepository implements ConcreteIntKeyRepository<Course
 	}
 	
 	@Override
-	public void add(final CourseOffering obj) throws SQLException {
+	public int add(final CourseOffering obj) throws SQLException {
 		final Connection c = DBHelper.getConnection();
 		final Statement st = c.createStatement();
 
 		databaseCreationCheck(c.getMetaData(), st);
 
-		final String insertCourseOfferingStatement = "INSERT INTO CourseOffering(courseOfferingId, department," +
-				" courseNumber, sectionNumber, season, year) VALUES(" + obj.getCourseOfferingId() + 
-				", '" + obj.getCourse().getDepartment() + "', " + obj.getCourse().getCourseNumber() + 
+		final String insertCourseOfferingStatement = "INSERT INTO CourseOffering(department," +
+				" courseNumber, sectionNumber, season, year) VALUES('" + 
+				obj.getCourse().getDepartment() + "', " + obj.getCourse().getCourseNumber() + 
 				", " + obj.getSectionNumber() + ", '" + obj.getSeason() + "', " + obj.getYear() + ");";
 
-		st.execute(insertCourseOfferingStatement);
+		st.executeUpdate(insertCourseOfferingStatement, Statement.RETURN_GENERATED_KEYS);
+		ResultSet rs = st.getGeneratedKeys();
+		if (rs.next()) {
+			return rs.getInt(1);
+        } else {
+            throw new SQLException("Creating Payment failed, no generated key obtained.");
+        }
 	}
 
 	@Override
@@ -100,6 +106,18 @@ public class CourseOfferingRepository implements ConcreteIntKeyRepository<Course
 
 	public Iterator<CourseOffering> findAllCoursesBySemester(Season season,
 			short year) throws SQLException {
+		
+		final Connection c = DBHelper.getConnection();
+		final Statement st = c.createStatement();
+
+		databaseCreationCheck(c.getMetaData(), st);
+		
+		// TODO marcellin
+		return null;
+	}
+
+	@Override
+	public Iterator<CourseOffering> getAll() throws SQLException {
 		
 		final Connection c = DBHelper.getConnection();
 		final Statement st = c.createStatement();

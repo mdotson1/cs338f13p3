@@ -1,14 +1,17 @@
 package com.cs388f13p2.database.repository;
 
 import java.sql.SQLException;
+import java.util.Iterator;
 
 public interface ConcreteIntKeyRepository<E> {
 
 	// C
-	public void add(final E obj) throws SQLException;
+	public int add(final E obj) throws SQLException;
 
 	// R
 	public E findById(final int id) throws SQLException;
+	
+	public Iterator<E> getAll() throws SQLException;
 	
 	// ### Update is defined in each specific repository, as it depends
 	// on what needs updating.

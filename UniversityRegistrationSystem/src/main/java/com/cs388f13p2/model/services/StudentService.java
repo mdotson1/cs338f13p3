@@ -3,7 +3,6 @@ package com.cs388f13p2.model.services;
 import java.sql.SQLException;
 import java.util.Iterator;
 
-import com.cs388f13p2.database.dao.concrete.CourseOfferingRepository;
 import com.cs388f13p2.database.dao.concrete.CourseRepository;
 import com.cs388f13p2.database.dao.concrete.PaymentRepository;
 import com.cs388f13p2.database.dao.concrete.StudentRepository;
@@ -20,7 +19,7 @@ public class StudentService {
 
 	public static void billStudents() throws SQLException {
 
-		Iterator<Student> students = StudentRepository.getInstance().getAllStudents();
+		Iterator<Student> students = StudentRepository.getInstance().getAll();
 		
 		while (students.hasNext()) {
 			

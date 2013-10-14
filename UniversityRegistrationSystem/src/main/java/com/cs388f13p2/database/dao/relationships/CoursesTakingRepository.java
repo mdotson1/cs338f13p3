@@ -5,9 +5,11 @@ import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Iterator;
 
 import com.cs388f13p2.database.connection.DBHelper;
+import com.cs388f13p2.database.repository.Pair;
 import com.cs388f13p2.database.repository.TwoIntKeyRelationshipRepository;
 import com.cs388f13p2.model.course.CourseOffering;
 import com.cs388f13p2.model.person.Student;
@@ -31,7 +33,7 @@ public class CoursesTakingRepository implements TwoIntKeyRelationshipRepository<
 				"studentId INT NOT NULL, " +
 				"courseOfferingId INT NOT NULL, " +
 				"PRIMARY KEY (studentId, courseOfferingId), " + 
-				"FOREIGN KEY (studentId) references Student(studentId), " +
+				"FOREIGN KEY (studentId) references Student(id), " +
 				"FOREIGN KEY (courseOfferingId) references CourseOffering(courseOfferingId) " +
 				") Engine=InnoDB;";
 		st.execute(createTableStatement);
@@ -100,7 +102,7 @@ public class CoursesTakingRepository implements TwoIntKeyRelationshipRepository<
 		databaseCreationCheck(c.getMetaData(), st);
 		
 		// TODO marcellin
-		return null;
+		return new ArrayList<Student>().iterator();
 	}
 	
 	// return all courses taken by a particular student
@@ -112,10 +114,21 @@ public class CoursesTakingRepository implements TwoIntKeyRelationshipRepository<
 		databaseCreationCheck(c.getMetaData(), st);
 		
 		// TODO marcellin
-		return null;
+		return new ArrayList<CourseOffering>().iterator();
 	}
 
 
+	public Pair<Student,CourseOffering> findById(final int studentId, 
+			final int courseOfferingId) throws SQLException {
+		final Connection c = DBHelper.getConnection();
+		final Statement st = c.createStatement();
+		
+		databaseCreationCheck(c.getMetaData(), st);
+		
+		// TODO marcellin
+		return new Pair<Student,CourseOffering>(null, null);
+	}
+	
 	@Override
 	// return true if an entry was deleted or false if no entry deleted
 	public boolean delete(final int studentId, final int courseOfferingId) throws SQLException {

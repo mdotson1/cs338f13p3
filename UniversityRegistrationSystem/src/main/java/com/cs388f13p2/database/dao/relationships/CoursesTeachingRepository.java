@@ -32,8 +32,8 @@ public class CoursesTeachingRepository implements TwoIntKeyRelationshipRepositor
 				"professorId INT NOT NULL, " +
 				"courseOfferingId INT NOT NULL, " +
 				"PRIMARY KEY (professorId, courseOfferingId), " + 
-				"FOREIGN KEY (professorId) references Professor(professorId), " +
-				"FOREIGN KEY (courseOfferingId) references CourseOffering(courseOfferingId) " +
+				"FOREIGN KEY (professorId) references Professor(id), " +
+				"FOREIGN KEY (courseOfferingId) references CourseOffering(courseOfferingId) " + 
 				") Engine=InnoDB;";
 		st.execute(createTableStatement);
 	}

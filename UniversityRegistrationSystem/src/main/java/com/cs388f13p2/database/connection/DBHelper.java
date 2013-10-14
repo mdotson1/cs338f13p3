@@ -33,8 +33,6 @@ public class DBHelper {
 	
 	public static Connection getConnection() {
 
-		System.out.println("DBHelper: -------- mySQL " + "JDBC Connection  ------------");
-
 		try {
 
 			Class.forName("com.mysql.jdbc.Driver");
@@ -46,8 +44,6 @@ public class DBHelper {
 			return null;
 
 		}
-
-		System.out.println("DBHelper: mySQL JDBC Driver Registered!");
 
 		Connection connection = null;
 
@@ -66,8 +62,6 @@ public class DBHelper {
 				return null;
 			}
 		}
-
-		System.out.println("DBHelper: You have a database connection!");
 
 		return connection;
 	}

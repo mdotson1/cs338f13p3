@@ -4,10 +4,20 @@ public class Student extends UniversityPerson {
 	
 	private double currentBalance;
 	
+	// when retrieving from database, has id
 	public Student(final ContactInformation ci, final int id, final String dob,
 			final double currentBalance) {
 		
 		super(ci, id, dob);
+		
+		this.currentBalance = currentBalance;
+	}
+	
+	// when creating before adding to database
+	public Student(final ContactInformation ci, final String dob,
+			final double currentBalance) {
+		
+		super(ci, -1, dob);
 		
 		this.currentBalance = currentBalance;
 	}

@@ -31,9 +31,9 @@ public class CoursesTakenRepository {
 				"department VARCHAR(20) NOT NULL," +
 				"courseNumber SMALLINT NOT NULL," +
 				"PRIMARY KEY (studentId, department, courseNumber), " + 
-				"FOREIGN KEY (studentId) references Student(studentId), " +
+				"FOREIGN KEY (studentId) references Student(id), " +
 				"FOREIGN KEY (department) references Course(department), " + 
-				"FOREIGN KEY (courseNumber) references Course(courseNumber)" + 
+				"FOREIGN KEY (courseNumber) references Course(courseNumber) " +
 				") Engine=InnoDB;";
 		st.execute(createTableStatement);
 	}

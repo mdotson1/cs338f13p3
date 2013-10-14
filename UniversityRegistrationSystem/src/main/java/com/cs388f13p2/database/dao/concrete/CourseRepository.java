@@ -30,7 +30,7 @@ public class CourseRepository {
 				"courseNumber smallint NOT NULL, " +
 				"cost DOUBLE NOT NULL, " +
 				"courseDescription VARCHAR(100) NOT NULL, " +
-				"PRIMARY KEY (department, courseNumber)," +
+				"PRIMARY KEY (department, courseNumber), " +
 				"KEY (courseNumber)" +
 				") Engine=InnoDB;";
 		st.execute(createTableStatement);

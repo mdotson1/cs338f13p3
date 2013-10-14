@@ -34,7 +34,7 @@ public class CoursePrereqsRepository {
 				"FOREIGN KEY (department) references Course(department), " +
 				"FOREIGN KEY (courseNumber) references Course(courseNumber), " + 
 				"FOREIGN KEY (prereqDepartment) references Course(department), " +
-				"FOREIGN KEY (prereqCourseNumber) references Course(courseNumber)" + 
+				"FOREIGN KEY (prereqCourseNumber) references Course(courseNumber) " +
 				") Engine=InnoDB;";
 		st.execute(createTableStatement);
 	}

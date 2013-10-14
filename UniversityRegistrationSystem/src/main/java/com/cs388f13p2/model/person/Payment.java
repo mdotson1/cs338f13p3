@@ -3,10 +3,18 @@ package com.cs388f13p2.model.person;
 public class Payment {
 	private int paymentId;
 	private String paymentType;
-	private int paymentAmount;
+	private double paymentAmount;
 	
-	public Payment(final int id, final String type, final int amount) {
+	// when retrieving from database, has id
+	public Payment(final int id, final String type, final double amount) {
 		paymentId = id;
+		paymentType = type;
+		paymentAmount = amount;
+	}
+	
+	// when creating before adding to database
+	public Payment(final String type, final double amount) {
+		paymentId = -1;
 		paymentType = type;
 		paymentAmount = amount;
 	}
@@ -19,11 +27,11 @@ public class Payment {
 		paymentId = id;
 	}
 	
-	public int getPaymentAmount() {
+	public double getPaymentAmount() {
 		return paymentAmount;
 	}
 	
-	public void setPaymentAmount(final int amount) {
+	public void setPaymentAmount(final double amount) {
 		paymentAmount = amount;
 	}
 	

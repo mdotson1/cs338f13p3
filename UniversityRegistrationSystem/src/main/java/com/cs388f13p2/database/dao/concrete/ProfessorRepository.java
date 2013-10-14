@@ -27,9 +27,10 @@ public class ProfessorRepository implements ConcreteIntKeyRepository<Professor> 
 		
 	}
 	
+	
 	private void createProfessorTable(final Statement st) throws SQLException {
 		String createTableStatement = "CREATE TABLE Professor(" +
-				"id INT NOT NULL," +
+				"id INT NOT NULL AUTO_INCREMENT," +
 				"dateOfBirth VARCHAR(10) NOT NULL," +
 				"homeAddress VARCHAR(200) NOT NULL," +
 				"workAddress VARCHAR(200)," + 
@@ -53,7 +54,8 @@ public class ProfessorRepository implements ConcreteIntKeyRepository<Professor> 
 		}
 	}
 	
-	public void add(final Professor obj) throws SQLException {
+	@Override
+	public int add(final Professor obj) throws SQLException {
 		
 		final Connection c = DBHelper.getConnection();
 		final Statement st = c.createStatement();
@@ -62,15 +64,22 @@ public class ProfessorRepository implements ConcreteIntKeyRepository<Professor> 
 
 		final ContactInformation ci = obj.getContactInformation();
 
-		final String insertProfessorStatement = "INSERT INTO Professor(id, dateOfBirth, homeAddress, workAddress, " +
-				"lastName, firstName, workPhone, homePhone, cellPhone, department) VALUES(" + obj.getId() +  ", '" + 
+		final String insertProfessorStatement = "INSERT INTO Professor(dateOfBirth, homeAddress, workAddress, " +
+				"lastName, firstName, workPhone, homePhone, cellPhone, department) VALUES('" +
 				obj.getDateOfBirth() + "', '" + ci.getHomeAddress() + "', '" + ci.getWorkAddress() + "', '" +
-				ci.getLastName() + "', '" + ci.getFirstName() + "', '" + ci.getWorkPhone() + "', " + 
-				ci.getHomePhone() + ", '" + ci.getCellPhone() + "', '" + obj.getDepartment() + "');";
+				ci.getLastName() + "', '" + ci.getFirstName() + "', '" + ci.getWorkPhone() + "', '" + 
+				ci.getHomePhone() + "', '" + ci.getCellPhone() + "', '" + obj.getDepartment() + "');";
 
-		st.execute(insertProfessorStatement);
+		st.executeUpdate(insertProfessorStatement, Statement.RETURN_GENERATED_KEYS);
+		ResultSet rs = st.getGeneratedKeys();
+		if (rs.next()) {
+			return rs.getInt(1);
+        } else {
+            throw new SQLException("Creating Professor failed, no generated key obtained.");
+        }
 	}
 
+	@Override
 	public Professor findById(final int id) throws SQLException {
 		
 		final Connection c = DBHelper.getConnection();
@@ -99,6 +108,7 @@ public class ProfessorRepository implements ConcreteIntKeyRepository<Professor> 
 		return professor;
 	}
 
+	@Override
 	public Iterator<Professor> getAll() throws SQLException {
 		
 		final Connection c = DBHelper.getConnection();
@@ -110,6 +120,7 @@ public class ProfessorRepository implements ConcreteIntKeyRepository<Professor> 
 		return null;
 	}
 
+	@Override
 	public boolean delete(final int id) throws SQLException {
 		
 		final Connection c = DBHelper.getConnection();
@@ -121,6 +132,7 @@ public class ProfessorRepository implements ConcreteIntKeyRepository<Professor> 
 		return false;
 	}
 
+	@Override
 	public boolean contains(final int id) throws SQLException {
 		if (findById(id) == null) {
 			return false;

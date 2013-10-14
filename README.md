@@ -1,7 +1,7 @@
 cs388f13p1 by Michael Dotson and Marcellin fom Tchassem
 
-Prerequisites:
-1. Maven build tool installed.
+Prerequisites:  
+1. Maven build tool installed.  
 2. Java JDK 1.6 or higher installed.
 3. git version control installed.
 4. mysql installed locally. At least version 6.0. Could possibly work on lesser

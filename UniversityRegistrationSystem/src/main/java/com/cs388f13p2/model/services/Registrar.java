@@ -25,7 +25,8 @@ public class Registrar {
 	public static boolean assignProfessorToCourse(final int courseOfferingId, 
 			final int professorId) throws SQLException {
 		
-		boolean successful = ProfessorService.assignCourseForProfessor(professorId, courseOfferingId);
+		System.out.println("p1c: " + courseOfferingId);
+		boolean successful = ProfessorService.assignCourseForProfessor(courseOfferingId, professorId);
 		if (successful) {
 			successful = CourseOfferingService.assignProfessorForCourse(courseOfferingId, professorId);
 		} else {

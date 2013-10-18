@@ -34,6 +34,7 @@ public class Registration {
 			Professor p = CoursesTeachingRepository.getInstance().findProfessorForCourse(courseOfferingId);
 			System.out.println("before-adding-professor: " + p);
 
+			System.out.println("p1b: " + courseOfferingId);
 			Registrar.assignProfessorToCourse(courseOfferingId, professorId);
 
 			p = CoursesTeachingRepository.getInstance().findProfessorForCourse(courseOfferingId);
@@ -248,10 +249,12 @@ public class Registration {
 		// *********** TESTING *********** //
 		// ******************************* //
 
+		System.out.println("p1a: " + co1.getCourseOfferingId());
 		// assign first professor to course
 		ASSIGN_PROF_TEST(p1.getId(), co1.getCourseOfferingId());
 
 		// test assigning another professor to same course
+		System.out.println("p2: " + co1.getCourseOfferingId());
 		ASSIGN_PROF_TEST(p2.getId(), co1.getCourseOfferingId());
 
 		// test removing professor from that course

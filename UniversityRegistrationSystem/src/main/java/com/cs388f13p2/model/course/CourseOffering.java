@@ -74,4 +74,9 @@ public class CourseOffering {
 	public void setSectionNumber(short section) {
 		this.section = section;
 	}
+	
+	@Override
+	public String toString() {
+		return "id: " + courseOfferingId;
+	}
 }

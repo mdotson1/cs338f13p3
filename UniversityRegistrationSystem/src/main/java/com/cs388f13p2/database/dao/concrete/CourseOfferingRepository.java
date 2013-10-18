@@ -82,9 +82,9 @@ public class CourseOfferingRepository implements ConcreteIntKeyRepository<Course
 
 		databaseCreationCheck(c.getMetaData(), st);
 		
-		final String SelectCourseOffQuery = "SELECT courseOfferingID, department, courseNumber, sectionNumber,"+
-											"sectionNumber, sectionNumber, season, year FROM CourseOffering"+
-											"WHERE courseOfferingID = '"+ id + "';";
+		final String SelectCourseOffQuery = "SELECT courseOfferingId, department, courseNumber, sectionNumber,"+
+											"sectionNumber, sectionNumber, season, year FROM CourseOffering "+
+											"WHERE courseOfferingId = '" + id + "';";
 		
 		
 		final ResultSet CourseOffRes = st.executeQuery(SelectCourseOffQuery);
@@ -161,7 +161,7 @@ public class CourseOfferingRepository implements ConcreteIntKeyRepository<Course
 		CourseOffering courseOffering = null;
 
 		while(CourseOffRes.next()){
-			final short courseNum = CourseOffRes.getShort("courseNum");
+			final short courseNum = CourseOffRes.getShort("courseNumber");
 			final String department = CourseOffRes.getString("department");
 
 			final String SelectCourseQuery = "SELECT department, courseNumber, cost, courseDescription" +
@@ -208,10 +208,10 @@ public class CourseOfferingRepository implements ConcreteIntKeyRepository<Course
 		CourseOffering courseOffering = null;
 
 		while(CourseOffRes.next()){
-			final short courseNum = CourseOffRes.getShort("courseNum");
+			final short courseNum = CourseOffRes.getShort("courseNumber");
 			final String department = CourseOffRes.getString("department");
 
-			final String SelectCourseQuery = "SELECT department, courseNumber, cost, courseDescription" +
+			final String SelectCourseQuery = "SELECT department, courseNumber, cost, courseDescription " +
 				 "FROM Course WHERE courseNumber = '"+ courseNum + 
 				 "' AND department = '"+ department + "';";
 

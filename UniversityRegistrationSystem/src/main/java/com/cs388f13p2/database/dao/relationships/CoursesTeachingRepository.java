@@ -58,14 +58,18 @@ public class CoursesTeachingRepository implements TwoIntKeyRelationshipRepositor
 		
 		databaseCreationCheck(c.getMetaData(), st);
 		
-		String insertCourseTeachingQuery = "INSERT INTO CoursesTeaching(professorId, "+
-											"courseOfferingId) VALUES ('"+ professorId +"', " + 
-											courseOfferingId + "');";
+		String insertCourseTeachingQuery = "INSERT INTO CoursesTeaching(professorId, " +
+											"courseOfferingId) VALUES ("+ professorId + ", " + 
+											courseOfferingId + ");";
+		
+		Iterator<CourseOffering> it = CourseOfferingRepository.getInstance().getAll();
+		while (it.hasNext()) {
+			System.out.println(it);
+		}
+		System.out.println(CourseOfferingRepository.getInstance().findById(courseOfferingId));
 
+		System.out.println("p1e: " + courseOfferingId);
 		st.executeUpdate(insertCourseTeachingQuery, Statement.RETURN_GENERATED_KEYS);
-		
-		
-		// TODO marcellin
 	}
 
 	// return all courses taught by professor
@@ -101,8 +105,8 @@ public class CoursesTeachingRepository implements TwoIntKeyRelationshipRepositor
 		
 		databaseCreationCheck(c.getMetaData(), st);
 		
-		final String SelectCourseTeachingQuery = "SELECT  professorId"+ 
-												"FROM CoursesTeaching"+
+		final String SelectCourseTeachingQuery = "SELECT professorId "+ 
+												"FROM CoursesTeaching "+
 												"WHERE courseOfferingId = '"+ courseOfferingId + "';";
 
 

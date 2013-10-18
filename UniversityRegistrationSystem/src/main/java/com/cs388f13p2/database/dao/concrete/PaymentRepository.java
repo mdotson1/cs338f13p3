@@ -5,7 +5,9 @@ import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import com.cs388f13p2.database.connection.DBHelper;
 import com.cs388f13p2.database.repository.ConcreteIntKeyRepository;
@@ -74,8 +76,22 @@ public class PaymentRepository implements ConcreteIntKeyRepository<Payment> {
 
 		databaseCreationCheck(c.getMetaData(), st);
 		
+		final String SelectCourseQuery = "SELECT paymentId, paymentType, paymentAmount " +
+										"FROM Payment WHERE paymentId = '"+ id + "'";
+				
+
+		final ResultSet PaymentRes = st.executeQuery(SelectCourseQuery);
+
+		Payment payment = null;
+
+		while(PaymentRes.next()){
+			payment = new Payment(PaymentRes.getInt("paymentId"), PaymentRes.getString("paymentType"),
+							PaymentRes.getDouble("paymentAmount"));
+
+		}
+		
 		// TODO marcellin
-		return new Payment(id, null, 0);
+		return payment;
 	}
 
 	@Override
@@ -86,8 +102,11 @@ public class PaymentRepository implements ConcreteIntKeyRepository<Payment> {
 
 		databaseCreationCheck(c.getMetaData(), st);
 		
+		final String deletePaymentQuery = "DELETE FROM Payment WHERE paymentId = '" + id + "';";
+
+		return st.execute(deletePaymentQuery);
 		// TODO marcellin
-		return false;
+		
 	}
 
 	@Override
@@ -107,8 +126,27 @@ public class PaymentRepository implements ConcreteIntKeyRepository<Payment> {
 
 		databaseCreationCheck(c.getMetaData(), st);
 		
+		final String SelectCourseQuery = "SELECT paymentId, paymentType, paymentAmount " +
+											"FROM Payment;";
+
+
+		final ResultSet PaymentRes = st.executeQuery(SelectCourseQuery);
+
+		Payment payment = null;
+		
+		final List<Payment> paymentList = new ArrayList<Payment>();
+
+		while(PaymentRes.next()){
+			payment = new Payment(PaymentRes.getInt("paymentId"), PaymentRes.getString("paymentType"),
+								PaymentRes.getDouble("paymentAmount"));
+			paymentList.add(payment);
+
+		}
+		
+		return paymentList.iterator();
+		
 		// TODO marcellin
-		return null;
+		
 	}
 
 }

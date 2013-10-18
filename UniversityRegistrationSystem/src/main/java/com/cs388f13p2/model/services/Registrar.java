@@ -12,7 +12,7 @@ public class Registrar {
 	
 	private Registrar() { } // services cannot be instantiated
 	
-	public static Iterator<CourseOffering> getCourseCatalog(final Season s, final short year) throws SQLException {
+	public static Iterator<CourseOffering> getCourseCatalog(final String s, final short year) throws SQLException {
 		
 		return CourseOfferingService.getCoursesInSemester(s, year);
 	}

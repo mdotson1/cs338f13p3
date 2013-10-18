@@ -68,8 +68,22 @@ public class CourseRepository {
 
 		databaseCreationCheck(c.getMetaData(), st);
 		
+		final String SelectCourseQuery = "SELECT department, courseNumber, cost, courseDescription" +
+										"FROM Course WHERE courseNumber = '"+ courseNumber + 
+										"' AND department = '"+ department + "'";
+
+		final ResultSet CourseRes = st.executeQuery(SelectCourseQuery);
+
+		Course course = null;
+
+		while(CourseRes.next()){
+			course = new Course(CourseRes.getString("department"), CourseRes.getShort("courseNumber"),
+					CourseRes.getDouble("cost"), CourseRes.getString("courseDescription"));
+			
+		}
+		
 		// TODO marcellin
-		return null;
+		return course;
 	}
 
 	public boolean delete(final String department, final short courseNumber)
@@ -80,7 +94,11 @@ public class CourseRepository {
 
 		databaseCreationCheck(c.getMetaData(), st);
 		
+		final String deleteCourseQuery = "DELETE FROM Course WHERE courseNumber = '"+ courseNumber + 
+										"' AND department = '"+ department + "'";
+
+		return st.execute(deleteCourseQuery);
+		
 		// TODO marcellin
-		return false;
 	}
 }

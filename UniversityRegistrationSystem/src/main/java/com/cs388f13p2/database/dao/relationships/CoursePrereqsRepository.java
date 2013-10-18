@@ -5,7 +5,9 @@ import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import com.cs388f13p2.database.connection.DBHelper;
 import com.cs388f13p2.model.course.Course;
@@ -47,7 +49,7 @@ public class CoursePrereqsRepository {
 		}
 	}
 
-	public void add(final String department, final short courseNumber,
+	public int add(final String department, final short courseNumber,
 			final String prereqDepartment, final short prereqCourseNumber)
 					throws SQLException {
 		
@@ -55,6 +57,20 @@ public class CoursePrereqsRepository {
 		final Statement st = c.createStatement();
 		
 		databaseCreationCheck(c.getMetaData(), st);
+		
+		String insertCoursePrereqQuery = "INSERT INTO CoursePrereqs(department, courseNumber, "+
+										"prereqDepartment, prereqCourseNumber) VALUES ('"+
+										department + "', '" + courseNumber +"', '"+ prereqDepartment +
+										"', '" + prereqCourseNumber + "');";
+		
+		st.executeUpdate(insertCoursePrereqQuery, Statement.RETURN_GENERATED_KEYS);
+		ResultSet rs = st.getGeneratedKeys();
+		if (rs.next()) {
+			return rs.getInt(1);
+        } else {
+            throw new SQLException("Creating Course prerequisite failed, no generated key obtained.");
+        }
+						
 		
 		// TODO marcellin
 	}
@@ -68,8 +84,45 @@ public class CoursePrereqsRepository {
 		
 		databaseCreationCheck(c.getMetaData(), st);
 		
+
+		
+		final String SelectCoursePrereqQuery = "SELECT  prereqDepartment,"+
+											"prereqCourseNumber FROM CoursePrereqs"+
+											"WHERE department = '"+ department + "AND courseNumber = '"+ 
+											courseNumber +"'";
+
+
+		final ResultSet CoursePrereqRes = st.executeQuery(SelectCoursePrereqQuery);
+		
+		final List<Course> courseList = new ArrayList<Course>();
+
+		Course course = null;
+
+		while(CoursePrereqRes.next()){
+			final short courseNum = CoursePrereqRes.getShort("prereqCourseNumber");
+			final String dep = CoursePrereqRes.getString("prereqDepartment");
+
+			final String SelectCourseQuery = "SELECT department, courseNumber, cost, courseDescription" +
+				 "FROM Course WHERE courseNumber = '"+ courseNum + 
+				 "' AND department = '"+ dep + "'";
+
+			final ResultSet CourseRes = st.executeQuery(SelectCourseQuery);
+
+			
+
+			while(CourseRes.next()){
+				course = new Course(CourseRes.getString("department"), CourseRes.getShort("courseNumber"),
+						CourseRes.getDouble("cost"), CourseRes.getString("courseDescription"));
+				
+				courseList.add(course);
+
+			}
+		}
+		
 		// TODO marcellin
-		return null;
+		return courseList.iterator();
+		
+		
 	}
 
 	// return true if an entry was deleted or false if no entry deleted
@@ -82,7 +135,14 @@ public class CoursePrereqsRepository {
 		
 		databaseCreationCheck(c.getMetaData(), st);
 		
+		final String deletePrereqQuery = "DELETE FROM CoursePrereqs WHERE department = '"+ 
+											department + "' AND courseNumber = '"+ courseNumber +"' AND"+
+											"prereqDepartment = '" + prereqDepartment + "' AND"+
+											"prereqCourseNumber = '" + prereqCourseNumber + "';";
+
+		return st.execute(deletePrereqQuery);
+		
 		// TODO marcellin
-		return false;
+		
 	}
 }

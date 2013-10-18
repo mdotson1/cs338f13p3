@@ -89,7 +89,7 @@ public class StudentRepository implements ConcreteIntKeyRepository<Student> {
 
 		final String selectStudentQuery = "SELECT id, dateOfBirth, homeAddress, workAddress, " +
 				"lastName, firstName, workPhone, homePhone, cellPhone, currentBalance" +
-				" FROM Student WHERE id = '" + id + "'";
+				" FROM Student WHERE id = '" + id + "';";
 		
 		final ResultSet studentRS = st.executeQuery(selectStudentQuery);   
 

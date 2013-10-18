@@ -213,8 +213,7 @@ public class Registration {
 
 		// add CourseOffering to database
 		Course c1 = new Course("CS", (short) 170, 4000, "");
-		CourseOffering co1 = new CourseOffering(c1, Season.FALL, (short) 2013, (short) 1,
-				"Introduction to Object Oriented Programming");
+		CourseOffering co1 = new CourseOffering(433, c1, Season.FALL, (short) 2013, (short) 1);
 		try {
 			CourseRepository.getInstance().add(c1);
 			int id = CourseOfferingRepository.getInstance().add(co1);

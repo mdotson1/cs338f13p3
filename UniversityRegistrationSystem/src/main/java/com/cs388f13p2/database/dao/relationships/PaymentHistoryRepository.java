@@ -62,6 +62,8 @@ public class PaymentHistoryRepository implements TwoIntKeyRelationshipRepository
 
 		st.execute(insertStudentStatement);
 		
+		
+		
 	}
 
 	public Iterator<Payment> findAllPaymentsByStudent(final int studentId) throws SQLException {

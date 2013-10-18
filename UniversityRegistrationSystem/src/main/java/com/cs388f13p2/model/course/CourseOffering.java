@@ -14,8 +14,7 @@ public class CourseOffering {
 
 	// when retrieving from database, has id
 	public CourseOffering(final int courseOfferingId, final Course course,
-			final Season season, final short year, final short section,
-			final String description) {
+			final Season season, final short year, final short section) {
 
 		this.courseOfferingId = courseOfferingId;
 		this.course = course;
@@ -23,10 +22,10 @@ public class CourseOffering {
 		this.year = year;
 		this.section = section;
 	}
-
+//TODO add department in the constructor	
 	// when creating before adding to database
 	public CourseOffering(final Course course, final Season season,
-			final short year, final short section, final String description) {
+			final short year, final short section) {
 
 		courseOfferingId = -1;
 		this.course = course;

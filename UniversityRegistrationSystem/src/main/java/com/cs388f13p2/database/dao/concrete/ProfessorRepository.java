@@ -5,7 +5,9 @@ import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import com.cs388f13p2.database.connection.DBHelper;
 import com.cs388f13p2.database.repository.ConcreteIntKeyRepository;
@@ -117,8 +119,32 @@ public class ProfessorRepository implements ConcreteIntKeyRepository<Professor> 
 		databaseCreationCheck(c.getMetaData(), st);
 		
 		// TODO marcellin
-		return null;
+		
+		
+
+		final ResultSet professorRS = st.executeQuery("SELECT id, dateOfBirth, homeAddress, workAddress, " +
+				"lastName, firstName, workPhone, homePhone, cellPhone, department FROM Professor;");   
+
+		final List<Professor> profList = new ArrayList<Professor>();
+
+		Professor professor = null;
+		ContactInformation contactInformation = null;
+		
+		while ( professorRS.next() ) {
+			contactInformation = new ContactInformation(professorRS.getString("homeAddress"),
+					professorRS.getString("workAddress"), professorRS.getString("lastName"),
+					professorRS.getString("firstName"), professorRS.getString("workPhone"),
+					professorRS.getString("homePhone"), professorRS.getString("cellPhone"));
+			
+			professor = new Professor(contactInformation, professorRS.getInt("id"), 
+					professorRS.getString("dateOfBirth"), professorRS.getString("department"));
+			
+			profList.add(professor);
+		}
+		return profList.iterator();
+		
 	}
+	
 
 	@Override
 	public boolean delete(final int id) throws SQLException {
@@ -129,7 +155,11 @@ public class ProfessorRepository implements ConcreteIntKeyRepository<Professor> 
 		databaseCreationCheck(c.getMetaData(), st);
 		
 		// TODO marcellin
-		return false;
+		
+		
+
+		return st.execute("DELETE FROM Professor WHERE id = '" + id + "';");
+		
 	}
 
 	@Override

@@ -5,9 +5,13 @@ import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import com.cs388f13p2.database.connection.DBHelper;
+import com.cs388f13p2.database.dao.concrete.CourseOfferingRepository;
+import com.cs388f13p2.database.dao.concrete.ProfessorRepository;
 import com.cs388f13p2.database.repository.TwoIntKeyRelationshipRepository;
 import com.cs388f13p2.model.course.CourseOffering;
 import com.cs388f13p2.model.person.Professor;
@@ -54,6 +58,13 @@ public class CoursesTeachingRepository implements TwoIntKeyRelationshipRepositor
 		
 		databaseCreationCheck(c.getMetaData(), st);
 		
+		String insertCourseTeachingQuery = "INSERT INTO CoursesTeaching(professorId, "+
+											"courseOfferingId) VALUES ('"+ professorId +"', " + 
+											courseOfferingId + "');";
+
+		st.executeUpdate(insertCourseTeachingQuery, Statement.RETURN_GENERATED_KEYS);
+		
+		
 		// TODO marcellin
 	}
 
@@ -65,8 +76,21 @@ public class CoursesTeachingRepository implements TwoIntKeyRelationshipRepositor
 		
 		databaseCreationCheck(c.getMetaData(), st);
 		
+		final String SelectCourseTeachingQuery = "SELECT  courseOfferingId"+ 
+												"FROM CoursesTeaching"+
+												"WHERE studentId = '"+ professorId + "';";
+
+		final ResultSet CourseTeachingRes = st.executeQuery(SelectCourseTeachingQuery);
+
+		final List<CourseOffering> courseOfferingList = new ArrayList<CourseOffering>();
+
+		while(CourseTeachingRes.next()){
+			courseOfferingList.add(CourseOfferingRepository.
+					getInstance().findById(CourseTeachingRes.getInt("courseOfferingId")));
+		}
+
 		// TODO marcellin
-		return null;
+		return courseOfferingList.iterator();
 	}
 	
 	// return the professor for the course
@@ -77,21 +101,41 @@ public class CoursesTeachingRepository implements TwoIntKeyRelationshipRepositor
 		
 		databaseCreationCheck(c.getMetaData(), st);
 		
+		final String SelectCourseTeachingQuery = "SELECT  professorId"+ 
+												"FROM CoursesTeaching"+
+												"WHERE courseOfferingId = '"+ courseOfferingId + "';";
+
+
+		final ResultSet CourseTeachingRes = st.executeQuery(SelectCourseTeachingQuery);
+
+		Professor professor = null;
+
+		while(CourseTeachingRes.next()){
+			professor = ProfessorRepository.getInstance().findById(CourseTeachingRes.getInt("professorId"));
+		}
+		
 		// TODO marcellin
-		return null;
+		return professor;
 	}
 
+	
 	@Override
 	// returns true if something was deleted
-	public boolean delete(int firstId, int secondId) throws SQLException {
+	public boolean delete(int professorId, int courseOfferingId) throws SQLException {
 		
 		final Connection c = DBHelper.getConnection();
 		final Statement st = c.createStatement();
 		
 		databaseCreationCheck(c.getMetaData(), st);
 		
+		final String deleteCourseTeachingQuery = "DELETE FROM CoursesTeaching"+
+												"WHERE professorId = '"+ professorId + 
+												"' AND courseOfferingId = '"+ courseOfferingId + "';";
+
+		return st.execute(deleteCourseTeachingQuery);
+		
 		// TODO marcellin
-		return false;
+		
 	}
 
 }

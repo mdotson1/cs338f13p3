@@ -7,8 +7,11 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import com.cs388f13p2.database.connection.DBHelper;
+import com.cs388f13p2.database.dao.concrete.CourseOfferingRepository;
+import com.cs388f13p2.database.dao.concrete.StudentRepository;
 import com.cs388f13p2.database.repository.Pair;
 import com.cs388f13p2.database.repository.TwoIntKeyRelationshipRepository;
 import com.cs388f13p2.model.course.CourseOffering;
@@ -55,6 +58,13 @@ public class CoursesTakingRepository implements TwoIntKeyRelationshipRepository<
 		
 		databaseCreationCheck(c.getMetaData(), st);
 		
+		String insertCourseTakingQuery = "INSERT INTO CoursesTaking(studentId, "+
+										"courseOfferingId) VALUES ('"+ studentId +"', " + 
+										courseId + "');";
+
+		st.executeUpdate(insertCourseTakingQuery, Statement.RETURN_GENERATED_KEYS);
+		
+		
 		// TODO marcellin
 	}
 
@@ -66,8 +76,20 @@ public class CoursesTakingRepository implements TwoIntKeyRelationshipRepository<
 		
 		databaseCreationCheck(c.getMetaData(), st);
 		
+		final String SelectCourseTakingQuery = "SELECT  courseOfferingId"+ 
+												"FROM CoursesTaking"+
+												"WHERE studentId = '"+ studentId + "';";
+
+
+		final ResultSet CourseTakingRes = st.executeQuery(SelectCourseTakingQuery);
+
+		int courseNum = 0;
+
+		while(CourseTakingRes.next())
+			courseNum++;
+		
 		// TODO marcellin
-		return -1;
+		return courseNum;
 	}
 	
 	// return the number of students taking a course
@@ -78,19 +100,30 @@ public class CoursesTakingRepository implements TwoIntKeyRelationshipRepository<
 		
 		databaseCreationCheck(c.getMetaData(), st);
 		
-		// TODO marcellin
-		return -1;
+		final String SelectCourseTakingQuery = "SELECT  studentId"+ 
+												"FROM CoursesTaking"+
+												"WHERE courseOfferingId = '"+ courseOfferingId + "';";
+
+
+		final ResultSet CourseTakingRes = st.executeQuery(SelectCourseTakingQuery);
+
+		int studentNum = 0;
+
+		while(CourseTakingRes.next())
+			studentNum++;
+
+// TODO marcellin
+		return studentNum;
+		
+		
 	}
 	
 	// returns true if exists in database
 	public boolean contains(final int studentId, final int courseOfferingId) throws SQLException {
-		final Connection c = DBHelper.getConnection();
-		final Statement st = c.createStatement();
 		
-		databaseCreationCheck(c.getMetaData(), st);
+		return (!findById(studentId, courseOfferingId).compare(null, null));
 		
 		// TODO marcellin
-		return false;
 	}
 	
 	// return all students taking a particular course
@@ -101,8 +134,21 @@ public class CoursesTakingRepository implements TwoIntKeyRelationshipRepository<
 		
 		databaseCreationCheck(c.getMetaData(), st);
 		
+		final String SelectCourseTakingQuery = "SELECT  studentId"+ 
+												"FROM CoursesTaking"+
+												"WHERE courseOfferingId = '"+ courseOfferingId + "';";
+
+
+		final ResultSet CourseTakingRes = st.executeQuery(SelectCourseTakingQuery);
+		
+		final List<Student> studentList = new ArrayList<Student>();
+		
+		//while(CourseTakingRes.next()){
+			studentList.add(StudentRepository.getInstance().findById(CourseTakingRes.getInt("studentId")));
+		//}
+		
 		// TODO marcellin
-		return new ArrayList<Student>().iterator();
+		return studentList.iterator();
 	}
 	
 	// return all courses taken by a particular student
@@ -113,8 +159,21 @@ public class CoursesTakingRepository implements TwoIntKeyRelationshipRepository<
 		
 		databaseCreationCheck(c.getMetaData(), st);
 		
+		final String SelectCourseTakingQuery = "SELECT  courseOfferingId"+ 
+												"FROM CoursesTaking"+
+												"WHERE studentId = '"+ studentId + "';";
+
+		final ResultSet CourseTakingRes = st.executeQuery(SelectCourseTakingQuery);
+		
+		final List<CourseOffering> courseOfferingList = new ArrayList<CourseOffering>();
+		
+		while(CourseTakingRes.next()){
+			courseOfferingList.add(CourseOfferingRepository.
+					getInstance().findById(CourseTakingRes.getInt("courseOfferingId")));
+		}
+		
 		// TODO marcellin
-		return new ArrayList<CourseOffering>().iterator();
+		return courseOfferingList.iterator();
 	}
 
 
@@ -125,8 +184,23 @@ public class CoursesTakingRepository implements TwoIntKeyRelationshipRepository<
 		
 		databaseCreationCheck(c.getMetaData(), st);
 		
+		final String SelectCourseTakingQuery = "SELECT  studentId, courseOfferingId"+ 
+												"FROM CoursesTaking"+
+												"WHERE studentId = '"+ studentId + "' AND courseOfferingId = '"+
+												courseOfferingId + "';";
+
+		final ResultSet CourseTakingRes = st.executeQuery(SelectCourseTakingQuery);
+
+		final Pair<Student,CourseOffering> pair = new Pair<Student, CourseOffering>(null, null);
+
+		while(CourseTakingRes.next()){
+			pair.setFirst(StudentRepository.getInstance().findById(CourseTakingRes.getInt("studentId")));
+			pair.setSecond(CourseOfferingRepository.
+					getInstance().findById(CourseTakingRes.getInt("courseOfferingId")));
+		}
+		
 		// TODO marcellin
-		return new Pair<Student,CourseOffering>(null, null);
+		return pair;
 	}
 	
 	@Override
@@ -138,7 +212,13 @@ public class CoursesTakingRepository implements TwoIntKeyRelationshipRepository<
 		
 		databaseCreationCheck(c.getMetaData(), st);
 		
+		final String deleteCourseTakingQuery = "DELETE FROM CoursesTaking"+
+												"WHERE studentId = '"+ studentId + "' AND courseOfferingId = '"+
+												courseOfferingId + "';";
+		
+		return st.execute(deleteCourseTakingQuery);
+		
 		// TODO marcellin
-		return false;
+		
 	}
 }

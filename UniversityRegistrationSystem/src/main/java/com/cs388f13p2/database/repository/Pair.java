@@ -17,4 +17,16 @@ public class Pair<E,F> {
 	public F second() {
 		return second;
 	}
+	
+	public void setFirst(final E first){
+		this.first = first;
+	}
+	
+	public void setSecond(final F second){
+		this.second = second;
+	}
+	
+	public boolean compare(final E first, final F second){
+		return (this.first == first) && (this.second == second);
+	}
 }

@@ -5,10 +5,13 @@ import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import com.cs388f13p2.database.connection.DBHelper;
 import com.cs388f13p2.database.repository.ConcreteIntKeyRepository;
+import com.cs388f13p2.model.course.Course;
 import com.cs388f13p2.model.course.CourseOffering;
 import com.cs388f13p2.model.course.CourseOffering.Season;
 
@@ -79,10 +82,41 @@ public class CourseOfferingRepository implements ConcreteIntKeyRepository<Course
 
 		databaseCreationCheck(c.getMetaData(), st);
 		
+		final String SelectCourseOffQuery = "SELECT courseOfferingID, department, courseNumber, sectionNumber,"+
+											"sectionNumber, sectionNumber, season, year FROM CourseOffering"+
+											"WHERE courseOfferingID = '"+ id + "';";
+		
+		
+		final ResultSet CourseOffRes = st.executeQuery(SelectCourseOffQuery);
+		
+		CourseOffering courseOffering = null;
+	
+		while(CourseOffRes.next()){
+			final short courseNum = CourseOffRes.getShort("courseNum");
+			final String department = CourseOffRes.getString("department");
+			
+			final String SelectCourseQuery = "SELECT department, courseNumber, cost, courseDescription" +
+											 "FROM Course WHERE courseNumber = '"+ courseNum + 
+											 "' AND department = '"+ department + "'";
+			
+			final ResultSet CourseRes = st.executeQuery(SelectCourseQuery);
+			
+			Course course = null;
+			
+			while(CourseRes.next()){
+				course = new Course(CourseRes.getString("department"), CourseRes.getShort("courseNumber"),
+									CourseRes.getDouble("cost"), CourseRes.getString("courseDescription"));
+				
+			}
+			courseOffering = new CourseOffering(CourseOffRes.getShort("courseOfferingID"),
+											course, Season.valueOf(CourseOffRes.getString("season")), 
+											CourseOffRes.getShort("year"), CourseOffRes.getShort("section"));
+		}
 		// TODO marcellin
-		return null;
+		return courseOffering;
 	}
 
+	
 	@Override
 	public boolean delete(final int id) throws SQLException {
 		
@@ -91,8 +125,11 @@ public class CourseOfferingRepository implements ConcreteIntKeyRepository<Course
 
 		databaseCreationCheck(c.getMetaData(), st);
 		
+		final String deleteCourseOfferingQuery = "DELETE FROM CourseOffering WHERE courseOfferingId ='" + id +"'";
+		
+		return st.execute(deleteCourseOfferingQuery);
 		// TODO marcellin
-		return false;
+		
 	}
 
 	@Override
@@ -104,7 +141,7 @@ public class CourseOfferingRepository implements ConcreteIntKeyRepository<Course
 		}
 	}
 
-	public Iterator<CourseOffering> findAllCoursesBySemester(Season season,
+	public Iterator<CourseOffering> findAllCoursesBySemester(String season,
 			short year) throws SQLException {
 		
 		final Connection c = DBHelper.getConnection();
@@ -112,10 +149,46 @@ public class CourseOfferingRepository implements ConcreteIntKeyRepository<Course
 
 		databaseCreationCheck(c.getMetaData(), st);
 		
+		final String SelectCourseOffQuery = "SELECT courseOfferingID, department, courseNumber, sectionNumber,"+
+											"sectionNumber, sectionNumber, season, year FROM CourseOffering"+
+											"WHERE season = '"+ season + "AND year = '"+ year +"';";
+
+
+		final ResultSet CourseOffRes = st.executeQuery(SelectCourseOffQuery);
+		
+		final List<CourseOffering> courseOfferingList = new ArrayList<CourseOffering>();
+
+		CourseOffering courseOffering = null;
+
+		while(CourseOffRes.next()){
+			final short courseNum = CourseOffRes.getShort("courseNum");
+			final String department = CourseOffRes.getString("department");
+
+			final String SelectCourseQuery = "SELECT department, courseNumber, cost, courseDescription" +
+				 "FROM Course WHERE courseNumber = '"+ courseNum + 
+				 "' AND department = '"+ department + "';";
+
+			final ResultSet CourseRes = st.executeQuery(SelectCourseQuery);
+
+			Course course = null;
+
+			while(CourseRes.next()){
+				course = new Course(CourseRes.getString("department"), CourseRes.getShort("courseNumber"),
+						CourseRes.getDouble("cost"), CourseRes.getString("courseDescription"));
+
+			}
+			courseOffering = new CourseOffering(CourseOffRes.getShort("courseOfferingID"),
+				course, Season.valueOf(CourseOffRes.getString("season")), 
+				CourseOffRes.getShort("year"), CourseOffRes.getShort("section"));
+			
+			courseOfferingList.add(courseOffering);
+		}
+		
 		// TODO marcellin
-		return null;
+		return courseOfferingList.iterator();
 	}
 
+	
 	@Override
 	public Iterator<CourseOffering> getAll() throws SQLException {
 		
@@ -124,8 +197,41 @@ public class CourseOfferingRepository implements ConcreteIntKeyRepository<Course
 
 		databaseCreationCheck(c.getMetaData(), st);
 		
+		final String SelectCourseOffQuery = "SELECT courseOfferingID, department, courseNumber, sectionNumber,"+
+				"sectionNumber, sectionNumber, season, year FROM CourseOffering";
+
+
+		final ResultSet CourseOffRes = st.executeQuery(SelectCourseOffQuery);
+		
+		final List<CourseOffering> courseOfferingList = new ArrayList<CourseOffering>();
+
+		CourseOffering courseOffering = null;
+
+		while(CourseOffRes.next()){
+			final short courseNum = CourseOffRes.getShort("courseNum");
+			final String department = CourseOffRes.getString("department");
+
+			final String SelectCourseQuery = "SELECT department, courseNumber, cost, courseDescription" +
+				 "FROM Course WHERE courseNumber = '"+ courseNum + 
+				 "' AND department = '"+ department + "';";
+
+			final ResultSet CourseRes = st.executeQuery(SelectCourseQuery);
+
+			Course course = null;
+
+			while(CourseRes.next()){
+				course = new Course(CourseRes.getString("department"), CourseRes.getShort("courseNumber"),
+						CourseRes.getDouble("cost"), CourseRes.getString("courseDescription"));
+			}
+			courseOffering = new CourseOffering(CourseOffRes.getShort("courseOfferingID"),
+				course, Season.valueOf(CourseOffRes.getString("season")), 
+				CourseOffRes.getShort("year"), CourseOffRes.getShort("section"));
+			
+			courseOfferingList.add(courseOffering);
+		}
+		
 		// TODO marcellin
-		return null;
+		return courseOfferingList.iterator();
 	}
 
 }

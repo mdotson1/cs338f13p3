@@ -7,10 +7,12 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
 import com.cs388f13p2.database.connection.DBHelper;
 import com.cs388f13p2.database.repository.ConcreteIntKeyRepository;
+import com.cs388f13p2.model.course.CourseOffering;
 import com.cs388f13p2.model.person.Payment;
 
 public class PaymentRepository implements ConcreteIntKeyRepository<Payment> {
@@ -77,7 +79,7 @@ public class PaymentRepository implements ConcreteIntKeyRepository<Payment> {
 		databaseCreationCheck(c.getMetaData(), st);
 		
 		final String SelectCourseQuery = "SELECT paymentId, paymentType, paymentAmount " +
-										"FROM Payment WHERE paymentId = '"+ id + "'";
+										"FROM Payment WHERE paymentId = "+ id + ";";
 				
 
 		final ResultSet PaymentRes = st.executeQuery(SelectCourseQuery);
@@ -102,7 +104,7 @@ public class PaymentRepository implements ConcreteIntKeyRepository<Payment> {
 
 		databaseCreationCheck(c.getMetaData(), st);
 		
-		final String deletePaymentQuery = "DELETE FROM Payment WHERE paymentId = '" + id + "';";
+		final String deletePaymentQuery = "DELETE FROM Payment WHERE paymentId = " + id + ";";
 
 		return st.execute(deletePaymentQuery);
 		// TODO marcellin
@@ -148,5 +150,7 @@ public class PaymentRepository implements ConcreteIntKeyRepository<Payment> {
 		// TODO marcellin
 		
 	}
+
+	
 
 }

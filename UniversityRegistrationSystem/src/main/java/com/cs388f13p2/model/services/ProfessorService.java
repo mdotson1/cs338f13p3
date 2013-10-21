@@ -12,16 +12,18 @@ public class ProfessorService {
 	public static boolean assignCourseForProfessor(int courseOfferingId,
 			int professorId) throws SQLException {
 		
-		System.out.println("p1d1: " + courseOfferingId);
+		
 		Professor p = CoursesTeachingRepository.getInstance().findProfessorForCourse(courseOfferingId);
 		
 		if (p == null) {
-			System.out.println("p1d2: " + courseOfferingId);
+			
 			CoursesTeachingRepository.getInstance().add(professorId, courseOfferingId);
 			return true;
-		} else {
+			} else {
 			return false;
 		}
+		
+		
 	}
 	
 	public static boolean dropCourseFromProfessor(int professorId,

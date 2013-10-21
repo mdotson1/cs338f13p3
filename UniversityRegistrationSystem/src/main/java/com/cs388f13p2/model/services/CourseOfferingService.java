@@ -47,7 +47,6 @@ public class CourseOfferingService {
 			final int professorId) throws SQLException {
 
 		if (CoursesTeachingRepository.getInstance().findProfessorForCourse(courseOfferingId) == null) {
-
 			CoursesTeachingRepository.getInstance().add(professorId, courseOfferingId);
 			return true;
 		} else {

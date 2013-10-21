@@ -24,16 +24,19 @@ public class StudentService {
 		while (students.hasNext()) {
 			
 			Student student = students.next();
-			int studentId = student.getId();
 			
+			int studentId = student.getId();
+			System.out.println(studentId);
 			Iterator<CourseOffering> courses = CoursesTakingRepository.getInstance().getCoursesTakingByStudent(studentId);
 			
 			double currentBalance = student.getCurrentBalance();
 			while (courses.hasNext()) {
 				
 				Course course = courses.next().getCourse();
+				System.out.println(course.getDepartment());
 				currentBalance =- CourseRepository.getInstance().findById(course.getDepartment(),
 						course.getCourseNumber()).getCost();
+				System.out.println(student);
 			}
 			
 			StudentRepository.getInstance().updateBalance(studentId, currentBalance);

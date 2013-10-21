@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
 import com.cs388f13p2.database.connection.DBHelper;
@@ -89,7 +90,7 @@ public class StudentRepository implements ConcreteIntKeyRepository<Student> {
 
 		final String selectStudentQuery = "SELECT id, dateOfBirth, homeAddress, workAddress, " +
 				"lastName, firstName, workPhone, homePhone, cellPhone, currentBalance" +
-				" FROM Student WHERE id = '" + id + "';";
+				" FROM Student WHERE id = " + id + ";";
 		
 		final ResultSet studentRS = st.executeQuery(selectStudentQuery);   
 
@@ -159,7 +160,7 @@ public class StudentRepository implements ConcreteIntKeyRepository<Student> {
 		
 		databaseCreationCheck(c.getMetaData(), st);
 		
-		final String deleteStudentQuery = "DELETE FROM Student WHERE id = '" + id + "';";
+		final String deleteStudentQuery = "DELETE FROM Student WHERE id = " + id + ";";
 
 		return st.execute(deleteStudentQuery);
 	}
@@ -172,5 +173,7 @@ public class StudentRepository implements ConcreteIntKeyRepository<Student> {
 			return true;
 		}
 	}
+
+	
 
 }

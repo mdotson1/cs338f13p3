@@ -10,13 +10,13 @@ public class DBHelper {
 
 	public static final String DATABASE_NAME = "dotson_tchassem_v0_0_1";
 	private static final String USERNAME = "root";
-	private static final String PASSWORD = "secret";
+	private static final String PASSWORD = "";
 
 	// creates the database, since it does not exist yet
 	private static Connection createDatabase(Connection c) {
 		
 		try {
-			c = DriverManager.getConnection("jdbc:mysql://localhost:3306", USERNAME, PASSWORD);
+			c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306", USERNAME, PASSWORD);
 			
 			Statement st = c.createStatement();
 			
@@ -49,7 +49,7 @@ public class DBHelper {
 
 		try {
 
-			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + DATABASE_NAME, USERNAME, PASSWORD);
+			connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/" + DATABASE_NAME, USERNAME, PASSWORD);
 			
 		} catch (SQLException e) {
 			// happens when databse doesn't exist yet.
@@ -65,4 +65,6 @@ public class DBHelper {
 
 		return connection;
 	}
+	
+	
 }

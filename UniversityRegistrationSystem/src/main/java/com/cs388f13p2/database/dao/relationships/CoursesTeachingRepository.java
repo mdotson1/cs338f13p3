@@ -7,7 +7,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.ListIterator;
 
 import com.cs388f13p2.database.connection.DBHelper;
 import com.cs388f13p2.database.dao.concrete.CourseOfferingRepository;
@@ -35,11 +37,12 @@ public class CoursesTeachingRepository implements TwoIntKeyRelationshipRepositor
 		final String createTableStatement = "CREATE TABLE CoursesTeaching(" +
 				"professorId INT NOT NULL, " +
 				"courseOfferingId INT NOT NULL, " +
-				"PRIMARY KEY (professorId, courseOfferingId), " + 
+				"PRIMARY KEY (professorId, courseOfferingId), "  + 
 				"FOREIGN KEY (professorId) references Professor(id), " +
 				"FOREIGN KEY (courseOfferingId) references CourseOffering(courseOfferingId) " + 
 				") Engine=InnoDB;";
 		st.execute(createTableStatement);
+		
 	}
 	
 	private void databaseCreationCheck(DatabaseMetaData dbm, Statement st) throws SQLException {
@@ -61,15 +64,9 @@ public class CoursesTeachingRepository implements TwoIntKeyRelationshipRepositor
 		String insertCourseTeachingQuery = "INSERT INTO CoursesTeaching(professorId, " +
 											"courseOfferingId) VALUES ("+ professorId + ", " + 
 											courseOfferingId + ");";
-		
-		Iterator<CourseOffering> it = CourseOfferingRepository.getInstance().getAll();
-		while (it.hasNext()) {
-			System.out.println(it);
-		}
-		System.out.println(CourseOfferingRepository.getInstance().findById(courseOfferingId));
 
-		System.out.println("p1e: " + courseOfferingId);
 		st.executeUpdate(insertCourseTeachingQuery, Statement.RETURN_GENERATED_KEYS);
+		
 	}
 
 	// return all courses taught by professor
@@ -80,9 +77,9 @@ public class CoursesTeachingRepository implements TwoIntKeyRelationshipRepositor
 		
 		databaseCreationCheck(c.getMetaData(), st);
 		
-		final String SelectCourseTeachingQuery = "SELECT  courseOfferingId"+ 
-												"FROM CoursesTeaching"+
-												"WHERE studentId = '"+ professorId + "';";
+		final String SelectCourseTeachingQuery = "SELECT  courseOfferingId "+ 
+												"FROM CoursesTeaching "+
+												"WHERE studentId = "+ professorId + ";";
 
 		final ResultSet CourseTeachingRes = st.executeQuery(SelectCourseTeachingQuery);
 
@@ -99,7 +96,7 @@ public class CoursesTeachingRepository implements TwoIntKeyRelationshipRepositor
 	
 	// return the professor for the course
 	public Professor findProfessorForCourse(final int courseOfferingId) throws SQLException {
-		
+		Professor professor = null;
 		final Connection c = DBHelper.getConnection();
 		final Statement st = c.createStatement();
 		
@@ -107,18 +104,18 @@ public class CoursesTeachingRepository implements TwoIntKeyRelationshipRepositor
 		
 		final String SelectCourseTeachingQuery = "SELECT professorId "+ 
 												"FROM CoursesTeaching "+
-												"WHERE courseOfferingId = '"+ courseOfferingId + "';";
+												"WHERE courseOfferingId = "+ courseOfferingId + ";";
 
 
 		final ResultSet CourseTeachingRes = st.executeQuery(SelectCourseTeachingQuery);
 
-		Professor professor = null;
+	
 
 		while(CourseTeachingRes.next()){
 			professor = ProfessorRepository.getInstance().findById(CourseTeachingRes.getInt("professorId"));
 		}
 		
-		// TODO marcellin
+		// TODO marcellin*/
 		return professor;
 	}
 
@@ -132,9 +129,9 @@ public class CoursesTeachingRepository implements TwoIntKeyRelationshipRepositor
 		
 		databaseCreationCheck(c.getMetaData(), st);
 		
-		final String deleteCourseTeachingQuery = "DELETE FROM CoursesTeaching"+
-												"WHERE professorId = '"+ professorId + 
-												"' AND courseOfferingId = '"+ courseOfferingId + "';";
+		final String deleteCourseTeachingQuery = "DELETE FROM CoursesTeaching "+
+												"WHERE professorId = "+ professorId + 
+												" AND courseOfferingId = "+ courseOfferingId + ";";
 
 		return st.execute(deleteCourseTeachingQuery);
 		

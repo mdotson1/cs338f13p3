@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
 import com.cs388f13p2.database.connection.DBHelper;
@@ -91,7 +92,7 @@ public class ProfessorRepository implements ConcreteIntKeyRepository<Professor> 
 
 		final String selectProfessorQuery = "SELECT id, dateOfBirth, homeAddress, workAddress, " +
 				"lastName, firstName, workPhone, homePhone, cellPhone, department" +
-				" FROM Professor WHERE id = '" + id + "'";
+				" FROM Professor WHERE id = " + id + ";";
 
 		final ResultSet professorRS = st.executeQuery(selectProfessorQuery);   
 
@@ -158,7 +159,7 @@ public class ProfessorRepository implements ConcreteIntKeyRepository<Professor> 
 		
 		
 
-		return st.execute("DELETE FROM Professor WHERE id = '" + id + "';");
+		return st.execute("DELETE FROM Professor WHERE id = " + id + ";");
 		
 	}
 
@@ -170,5 +171,7 @@ public class ProfessorRepository implements ConcreteIntKeyRepository<Professor> 
 			return true;
 		}
 	}
+
+	
 
 }

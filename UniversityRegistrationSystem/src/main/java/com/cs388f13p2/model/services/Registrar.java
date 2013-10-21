@@ -25,10 +25,12 @@ public class Registrar {
 	public static boolean assignProfessorToCourse(final int courseOfferingId, 
 			final int professorId) throws SQLException {
 		
-		System.out.println("p1c: " + courseOfferingId);
+		
 		boolean successful = ProfessorService.assignCourseForProfessor(courseOfferingId, professorId);
+		
 		if (successful) {
 			successful = CourseOfferingService.assignProfessorForCourse(courseOfferingId, professorId);
+			
 		} else {
 			return false;
 		}
@@ -38,6 +40,7 @@ public class Registrar {
 			// remove course from professor, since it didn't work.
 			return ProfessorService.dropCourseFromProfessor(professorId, courseOfferingId);
 		}
+		
 	}
 	
 	public static boolean removeProfessorFromCourse(final int courseOfferingId) throws SQLException {

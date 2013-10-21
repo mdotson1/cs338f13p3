@@ -56,9 +56,15 @@ public class CoursesTakenRepository {
 		
 		databaseCreationCheck(c.getMetaData(), st);
 		
+		final ResultSet CourseRes = st.executeQuery("SELECT department, courseNumber FROM course WHERE "
+				+ "department =	'"+department+ "' AND courseNumber = "
+						+ courseNumber+ ";");
+		
+		if(!CourseRes.next()){
+		
 		String insertCourseTakenQuery = "INSERT INTO CoursesTaken(studentId, department, "+
-										"courseNumber) VALUES ('"+ studentId +"', "+department + "', '" + 
-										courseNumber + "');";
+										"courseNumber) VALUES ("+ studentId +", '"+department + "', " + 
+										courseNumber + ");";
 
 		st.executeUpdate(insertCourseTakenQuery, Statement.RETURN_GENERATED_KEYS);
 		ResultSet rs = st.getGeneratedKeys();
@@ -66,7 +72,8 @@ public class CoursesTakenRepository {
 			return rs.getInt(1);
 		} else {
 			throw new SQLException("Creating Course taken failed, no generated key obtained.");
-		}
+		}}
+		else return -1;
 
 		// TODO marcellin
 	}
@@ -81,7 +88,7 @@ public class CoursesTakenRepository {
 		
 		final String SelectCourseTakenQuery = "SELECT  department,"+
 												"courseNumber FROM CourseTaken"+
-												"WHERE studentId = '"+ studentId + "';";
+												"WHERE studentId = "+ studentId + ";";
 
 
 		final ResultSet CourseTakenRes = st.executeQuery(SelectCourseTakenQuery);
@@ -94,9 +101,9 @@ public class CoursesTakenRepository {
 			final short courseNum = CourseTakenRes.getShort("courseNumber");
 			final String department = CourseTakenRes.getString("department");
 
-			final String SelectCourseQuery = "SELECT department, courseNumber, cost, courseDescription" +
-											"FROM Course WHERE courseNumber = '"+ courseNum + 
-											"' AND department = '"+ department + "'";
+			final String SelectCourseQuery = "SELECT department, courseNumber, cost, courseDescription " +
+											"FROM Course WHERE courseNumber = "+ courseNum + 
+											" AND department = '"+ department + "';";
 
 			final ResultSet CourseRes = st.executeQuery(SelectCourseQuery);
 
@@ -126,9 +133,9 @@ public class CoursesTakenRepository {
 		
 		databaseCreationCheck(c.getMetaData(), st);
 		
-		final String deleteCourseTakenQuery = "DELETE FROM CourseTaken WHERE studentId = '"+ studentId +
-											"' AND department = '"+ department + "' AND courseNumber = '"+ 
-												courseNumber + "';";
+		final String deleteCourseTakenQuery = "DELETE FROM CourseTaken WHERE studentId = "+ studentId +
+											" AND department = '"+ department + "' AND courseNumber = "+ 
+												courseNumber + ";";
 
 		return st.execute(deleteCourseTakenQuery);
 		// TODO marcellin

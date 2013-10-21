@@ -57,10 +57,17 @@ public class PaymentHistoryRepository implements TwoIntKeyRelationshipRepository
 		
 		databaseCreationCheck(c.getMetaData(), st);
 		
+		final ResultSet CourseRes = st.executeQuery("SELECT studentId, paymentId FROM PaymentHistory WHERE "
+				+ "studentId =	"+studentId+ " AND paymentId = "
+						+ paymentId+ ";");
+		
+		if(!CourseRes.next()){
+		
 		final String insertStudentStatement = "INSERT INTO PaymentHistory(studentId, paymentId) VALUES(" +
 				studentId +  ", " + paymentId + ");";
 
 		st.execute(insertStudentStatement);
+		}
 		
 		
 		
@@ -74,7 +81,7 @@ public class PaymentHistoryRepository implements TwoIntKeyRelationshipRepository
 		databaseCreationCheck(c.getMetaData(), st);
 		
 		final String selectPaymentHistoryQuery = "SELECT paymentId" +
-				" FROM PaymentHistory WHERE studentId = '" + studentId + "';";
+				" FROM PaymentHistory WHERE studentId = " + studentId + ";";
 		
 		final ResultSet paymentHistoryRS = st.executeQuery(selectPaymentHistoryQuery);   
 
@@ -94,8 +101,8 @@ public class PaymentHistoryRepository implements TwoIntKeyRelationshipRepository
 		
 		databaseCreationCheck(c.getMetaData(), st);
 		
-		final String deleteStudentQuery = "DELETE FROM PaymentHistory WHERE studentId = '" + oneId +
-				" AND paymentId = '" + manyId + "';";
+		final String deleteStudentQuery = "DELETE FROM PaymentHistory WHERE studentId = " + oneId +
+				" AND paymentId = " + manyId + ";";
 
 		return st.execute(deleteStudentQuery);
 	}

@@ -58,10 +58,16 @@ public class CoursePrereqsRepository {
 		
 		databaseCreationCheck(c.getMetaData(), st);
 		
+		final ResultSet CourseRes = st.executeQuery("SELECT department, courseNumber FROM course WHERE "
+				+ "department =	'"+department+ "' AND courseNumber = "
+						+ courseNumber+ ";");
+		
+		if(!CourseRes.next()){
+		
 		String insertCoursePrereqQuery = "INSERT INTO CoursePrereqs(department, courseNumber, "+
 										"prereqDepartment, prereqCourseNumber) VALUES ('"+
-										department + "', '" + courseNumber +"', '"+ prereqDepartment +
-										"', '" + prereqCourseNumber + "');";
+										department + "', " + courseNumber +", '"+ prereqDepartment +
+										"', " + prereqCourseNumber + ");";
 		
 		st.executeUpdate(insertCoursePrereqQuery, Statement.RETURN_GENERATED_KEYS);
 		ResultSet rs = st.getGeneratedKeys();
@@ -70,6 +76,9 @@ public class CoursePrereqsRepository {
         } else {
             throw new SQLException("Creating Course prerequisite failed, no generated key obtained.");
         }
+		}
+		else 
+			return -1;
 						
 		
 		// TODO marcellin
@@ -86,10 +95,10 @@ public class CoursePrereqsRepository {
 		
 
 		
-		final String SelectCoursePrereqQuery = "SELECT  prereqDepartment,"+
+		final String SelectCoursePrereqQuery = "SELECT  prereqDepartment, "+
 											"prereqCourseNumber FROM CoursePrereqs"+
-											"WHERE department = '"+ department + "AND courseNumber = '"+ 
-											courseNumber +"'";
+											"WHERE department = '"+ department + " AND courseNumber = "+ 
+											courseNumber +";";
 
 
 		final ResultSet CoursePrereqRes = st.executeQuery(SelectCoursePrereqQuery);
@@ -103,8 +112,8 @@ public class CoursePrereqsRepository {
 			final String dep = CoursePrereqRes.getString("prereqDepartment");
 
 			final String SelectCourseQuery = "SELECT department, courseNumber, cost, courseDescription" +
-				 "FROM Course WHERE courseNumber = '"+ courseNum + 
-				 "' AND department = '"+ dep + "'";
+				 "FROM Course WHERE courseNumber = "+ courseNum + 
+				 " AND department = '"+ dep + "';";
 
 			final ResultSet CourseRes = st.executeQuery(SelectCourseQuery);
 
@@ -136,9 +145,9 @@ public class CoursePrereqsRepository {
 		databaseCreationCheck(c.getMetaData(), st);
 		
 		final String deletePrereqQuery = "DELETE FROM CoursePrereqs WHERE department = '"+ 
-											department + "' AND courseNumber = '"+ courseNumber +"' AND"+
-											"prereqDepartment = '" + prereqDepartment + "' AND"+
-											"prereqCourseNumber = '" + prereqCourseNumber + "';";
+											department + "' AND courseNumber = "+ courseNumber +" AND "+
+											"prereqDepartment = '" + prereqDepartment + "' AND "+
+											"prereqCourseNumber = " + prereqCourseNumber + ";";
 
 		return st.execute(deletePrereqQuery);
 		

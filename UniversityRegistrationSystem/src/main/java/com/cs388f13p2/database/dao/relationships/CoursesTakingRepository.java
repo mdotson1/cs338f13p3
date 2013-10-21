@@ -58,12 +58,18 @@ public class CoursesTakingRepository implements TwoIntKeyRelationshipRepository<
 		
 		databaseCreationCheck(c.getMetaData(), st);
 		
+		final ResultSet CourseRes = st.executeQuery("SELECT studentId, courseOfferingId FROM coursesTaking WHERE "
+				+ "studentId =	"+studentId+ " AND courseOfferingId = "
+						+ courseId+ ";");
+		
+		if(!CourseRes.next()){
+		
 		String insertCourseTakingQuery = "INSERT INTO CoursesTaking(studentId, "+
 										"courseOfferingId) VALUES ("+ studentId +", " + 
 										courseId + ");";
 
 		st.executeUpdate(insertCourseTakingQuery, Statement.RETURN_GENERATED_KEYS);
-		
+		}
 		
 		// TODO marcellin
 	}
@@ -99,9 +105,9 @@ public class CoursesTakingRepository implements TwoIntKeyRelationshipRepository<
 		
 		databaseCreationCheck(c.getMetaData(), st);
 		
-		final String SelectCourseTakingQuery = "SELECT  studentId"+ 
-												"FROM CoursesTaking"+
-												"WHERE courseOfferingId = '"+ courseOfferingId + "';";
+		final String SelectCourseTakingQuery = "SELECT  studentId "+ 
+												"FROM CoursesTaking "+
+												"WHERE courseOfferingId = "+ courseOfferingId + ";";
 
 
 		final ResultSet CourseTakingRes = st.executeQuery(SelectCourseTakingQuery);
@@ -142,6 +148,7 @@ public class CoursesTakingRepository implements TwoIntKeyRelationshipRepository<
 		
 		final List<Student> studentList = new ArrayList<Student>();
 		
+		while(CourseTakingRes.next())
 		studentList.add(StudentRepository.getInstance().findById(CourseTakingRes.getInt("studentId")));
 
 		return studentList.iterator();
@@ -164,6 +171,7 @@ public class CoursesTakingRepository implements TwoIntKeyRelationshipRepository<
 		final List<CourseOffering> courseOfferingList = new ArrayList<CourseOffering>();
 		
 		while(CourseTakingRes.next()){
+			System.out.println(CourseTakingRes.getInt("courseOfferingId"));
 			courseOfferingList.add(CourseOfferingRepository.
 					getInstance().findById(CourseTakingRes.getInt("courseOfferingId")));
 		}
@@ -206,9 +214,9 @@ public class CoursesTakingRepository implements TwoIntKeyRelationshipRepository<
 		
 		databaseCreationCheck(c.getMetaData(), st);
 		
-		final String deleteCourseTakingQuery = "DELETE FROM CoursesTaking"+
-												"WHERE studentId = '"+ studentId + "' AND courseOfferingId = '"+
-												courseOfferingId + "';";
+		final String deleteCourseTakingQuery = "DELETE FROM CoursesTaking "+
+												"WHERE studentId = "+ studentId + " AND courseOfferingId = "+
+												courseOfferingId + ";";
 		
 		return st.execute(deleteCourseTakingQuery);
 		

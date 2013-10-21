@@ -51,14 +51,26 @@ public class CourseRepository {
 		final Statement st = c.createStatement();
 
 		databaseCreationCheck(c.getMetaData(), st);
+		
+		final String dept = obj.getDepartment();
+		final int courseNum = obj.getCourseNumber();
+		
+		final ResultSet CourseRes = st.executeQuery("SELECT department, courseNumber FROM course WHERE "
+													+ "department =	'"+dept+ "' AND courseNumber = "
+															+ courseNum+";");
+		if(!CourseRes.next()){
 
 		final String insertStudentStatement = "INSERT INTO Course(department, courseNumber, " +
 				"cost, courseDescription)" + " VALUES('" + obj.getDepartment() + "', " + 
 				obj.getCourseNumber() + ", " + obj.getCost() + ", '" + 
 				obj.getCourseDescription() + "');";
-
+		
 		st.execute(insertStudentStatement);
+		}
+		else
+			System.out.println("Duplicate primary key");
 	}
+	
 
 	public Course findById(final String department, final short courseNumber)
 			throws SQLException {
@@ -68,9 +80,9 @@ public class CourseRepository {
 
 		databaseCreationCheck(c.getMetaData(), st);
 		
-		final String SelectCourseQuery = "SELECT department, courseNumber, cost, courseDescription" +
-										"FROM Course WHERE courseNumber = '"+ courseNumber + 
-										"' AND department = '"+ department + "'";
+		final String SelectCourseQuery = "SELECT department, courseNumber, cost, courseDescription " +
+										"FROM Course WHERE courseNumber = "+ courseNumber + 
+										" AND department = '"+ department + "';";
 
 		final ResultSet CourseRes = st.executeQuery(SelectCourseQuery);
 
@@ -81,8 +93,6 @@ public class CourseRepository {
 					CourseRes.getDouble("cost"), CourseRes.getString("courseDescription"));
 			
 		}
-		
-		// TODO marcellin
 		return course;
 	}
 
@@ -94,11 +104,10 @@ public class CourseRepository {
 
 		databaseCreationCheck(c.getMetaData(), st);
 		
-		final String deleteCourseQuery = "DELETE FROM Course WHERE courseNumber = '"+ courseNumber + 
-										"' AND department = '"+ department + "'";
+		final String deleteCourseQuery = "DELETE FROM Course WHERE courseNumber = "+ courseNumber + 
+										" AND department = '"+ department + "';";
 
 		return st.execute(deleteCourseQuery);
 		
-		// TODO marcellin
 	}
 }

@@ -26,7 +26,7 @@ public class Registration {
 
 	private static void ASSIGN_PROF_TEST(
 			final int professorId, final int courseOfferingId) {
-
+		
 		System.out.println("ASSIGN_PROF_TEST");
 
 		try {
@@ -189,8 +189,8 @@ public class Registration {
 			Registrar.dropStudentFromCourse(studentId, courseOfferingId);
 			
 			pair = CoursesTakingRepository.getInstance().findById(studentId, courseOfferingId);
-			System.out.println("before-dropping-student: " + pair.first());
-			System.out.println("before-dropping-course: " + pair.second());
+			System.out.println("after-dropping-student: " + pair.first());
+			System.out.println("after-dropping-course: " + pair.second());
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -222,7 +222,8 @@ public class Registration {
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 		}
-
+		System.out.println("p1b: " + co1.getCourseOfferingId());
+		System.out.println();
 		// Professor p1
 		ContactInformation ci2 = new ContactInformation("dont care", "dont care", "Konstantin", "Laufer", null, null, "666-777-8888");
 		// add professor to database
@@ -249,22 +250,22 @@ public class Registration {
 		// *********** TESTING *********** //
 		// ******************************* //
 
-		System.out.println("p1a: " + co1.getCourseOfferingId());
+		//System.out.println("p1a: " + co1.getCourseOfferingId());
 		// assign first professor to course
 		ASSIGN_PROF_TEST(p1.getId(), co1.getCourseOfferingId());
 
 		// test assigning another professor to same course
-		System.out.println("p2: " + co1.getCourseOfferingId());
-		ASSIGN_PROF_TEST(p2.getId(), co1.getCourseOfferingId());
+		
+			ASSIGN_PROF_TEST(p2.getId(), co1.getCourseOfferingId());
 
 		// test removing professor from that course
-		REMOVE_PROF_TEST(co1.getCourseOfferingId());
+			REMOVE_PROF_TEST(17);
 
 		// test enrolling a student in a course
-		ENROLL_STUDENT_TEST(s1.getId(), co1.getCourseOfferingId());
+			ENROLL_STUDENT_TEST(s1.getId(), co1.getCourseOfferingId());
 
 		// test getting roster
-		GET_ROSTER_TEST(co1.getCourseOfferingId());
+			GET_ROSTER_TEST(co1.getCourseOfferingId());
 		
 		// test billing students for courses
 		BILL_STUDENTS_FOR_COURSES_TEST();

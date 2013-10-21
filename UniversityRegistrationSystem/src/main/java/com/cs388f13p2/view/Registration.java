@@ -21,7 +21,6 @@ import com.cs388f13p2.model.person.Professor;
 import com.cs388f13p2.model.person.Student;
 import com.cs388f13p2.model.services.Bursar;
 import com.cs388f13p2.model.services.Registrar;
-import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 
 public class Registration {
 
@@ -217,10 +216,9 @@ public class Registration {
 		try {
 			CourseRepository.getInstance().add(c1);
 		} catch (SQLException e1) {
-			//if (e1.getErrorCode() == 1022 || e1.getErrorCode() == 1062) {
-			//	System.out.println("Duplicate key: " + c1.getDepartment() + " " + c1.getCourseNumber());
-			//}
-			e1.printStackTrace();
+			if (e1.getErrorCode() == 1022 || e1.getErrorCode() == 1062) {
+				System.out.println("Duplicate key: " + c1.getDepartment() + " " + c1.getCourseNumber());
+			}
 		}
 		try {
 			int id = CourseOfferingRepository.getInstance().add(co1);

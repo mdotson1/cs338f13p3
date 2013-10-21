@@ -25,22 +25,9 @@ public class Registrar {
 	public static boolean assignProfessorToCourse(final int courseOfferingId, 
 			final int professorId) throws SQLException {
 		
+		boolean successful = ProfessorCourseService.assignProfessorForCourse(courseOfferingId, professorId);
 		
-		boolean successful = ProfessorService.assignCourseForProfessor(courseOfferingId, professorId);
-		
-		if (successful) {
-			successful = CourseOfferingService.assignProfessorForCourse(courseOfferingId, professorId);
-			
-		} else {
-			return false;
-		}
-		if (successful) {
-			return true;
-		} else {
-			// remove course from professor, since it didn't work.
-			return ProfessorService.dropCourseFromProfessor(professorId, courseOfferingId);
-		}
-		
+		return successful;
 	}
 	
 	public static boolean removeProfessorFromCourse(final int courseOfferingId) throws SQLException {
@@ -91,7 +78,7 @@ public class Registrar {
 			final int courseOfferingId) throws SQLException {
 		
 		final boolean addedCourseToStudent = 
-				StudentService.enrollInCourse(studentId, courseOfferingId);
+				StudentCourseService.enrollInCourse(studentId, courseOfferingId);
 		
 		if (addedCourseToStudent) {
 			final boolean addedStudentToCourse = 
@@ -112,21 +99,8 @@ public class Registrar {
 			final int courseOfferingId) throws SQLException {
 		
 		final boolean droppedCourseFromStudent = 
-				StudentService.dropCourse(studentId, courseOfferingId);
+				StudentCourseService.dropCourse(studentId, courseOfferingId);
 
-		if (droppedCourseFromStudent) {
-			final boolean droppedStudentFromCourse = 
-					CourseOfferingService.dropStudent(studentId, 
-							courseOfferingId);
-
-			if (droppedStudentFromCourse) {
-				return true;
-			} else {
-				StudentService.enrollInCourse(studentId, courseOfferingId);
-				return false;
-			}
-		} else {
-			return false;
-		}
+		return droppedCourseFromStudent;
 	}
 }

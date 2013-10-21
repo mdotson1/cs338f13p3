@@ -33,5 +33,10 @@ public class Student extends UniversityPerson {
 	public boolean equals(Student s) {
 		return this.getId() == s.getId();
 	}
+	
+	@Override
+	public String toString() {
+		return id + ": " + contactInformation.getFirstName() + " " + contactInformation.getLastName();
+	}
 
 }

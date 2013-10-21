@@ -66,7 +66,6 @@ public class CoursesTeachingRepository implements TwoIntKeyRelationshipRepositor
 											courseOfferingId + ");";
 
 		st.executeUpdate(insertCourseTeachingQuery, Statement.RETURN_GENERATED_KEYS);
-		
 	}
 
 	// return all courses taught by professor
@@ -90,7 +89,6 @@ public class CoursesTeachingRepository implements TwoIntKeyRelationshipRepositor
 					getInstance().findById(CourseTeachingRes.getInt("courseOfferingId")));
 		}
 
-		// TODO marcellin
 		return courseOfferingList.iterator();
 	}
 	
@@ -115,7 +113,6 @@ public class CoursesTeachingRepository implements TwoIntKeyRelationshipRepositor
 			professor = ProfessorRepository.getInstance().findById(CourseTeachingRes.getInt("professorId"));
 		}
 		
-		// TODO marcellin*/
 		return professor;
 	}
 

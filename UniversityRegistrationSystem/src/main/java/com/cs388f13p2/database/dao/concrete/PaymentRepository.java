@@ -89,10 +89,8 @@ public class PaymentRepository implements ConcreteIntKeyRepository<Payment> {
 		while(PaymentRes.next()){
 			payment = new Payment(PaymentRes.getInt("paymentId"), PaymentRes.getString("paymentType"),
 							PaymentRes.getDouble("paymentAmount"));
-
 		}
 		
-		// TODO marcellin
 		return payment;
 	}
 
@@ -107,8 +105,6 @@ public class PaymentRepository implements ConcreteIntKeyRepository<Payment> {
 		final String deletePaymentQuery = "DELETE FROM Payment WHERE paymentId = " + id + ";";
 
 		return st.execute(deletePaymentQuery);
-		// TODO marcellin
-		
 	}
 
 	@Override
@@ -131,7 +127,6 @@ public class PaymentRepository implements ConcreteIntKeyRepository<Payment> {
 		final String SelectCourseQuery = "SELECT paymentId, paymentType, paymentAmount " +
 											"FROM Payment;";
 
-
 		final ResultSet PaymentRes = st.executeQuery(SelectCourseQuery);
 
 		Payment payment = null;
@@ -142,15 +137,8 @@ public class PaymentRepository implements ConcreteIntKeyRepository<Payment> {
 			payment = new Payment(PaymentRes.getInt("paymentId"), PaymentRes.getString("paymentType"),
 								PaymentRes.getDouble("paymentAmount"));
 			paymentList.add(payment);
-
 		}
 		
 		return paymentList.iterator();
-		
-		// TODO marcellin
-		
 	}
-
-	
-
 }

@@ -21,20 +21,19 @@ import com.cs388f13p2.model.person.Professor;
 import com.cs388f13p2.model.person.Student;
 import com.cs388f13p2.model.services.Bursar;
 import com.cs388f13p2.model.services.Registrar;
+import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 
 public class Registration {
 
 	private static void ASSIGN_PROF_TEST(
 			final int professorId, final int courseOfferingId) {
-		
+
 		System.out.println("ASSIGN_PROF_TEST");
 
 		try {
-
 			Professor p = CoursesTeachingRepository.getInstance().findProfessorForCourse(courseOfferingId);
 			System.out.println("before-adding-professor: " + p);
 
-			System.out.println("p1b: " + courseOfferingId);
 			Registrar.assignProfessorToCourse(courseOfferingId, professorId);
 
 			p = CoursesTeachingRepository.getInstance().findProfessorForCourse(courseOfferingId);
@@ -81,13 +80,13 @@ public class Registration {
 			pair = CoursesTakingRepository.getInstance().findById(studentId, courseOfferingId);
 			System.out.println("after-enrolling-student: " + pair.first());
 			System.out.println("after-enrolling-course: " + pair.second());
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		System.out.println("");
 	}
-	
+
 	private static void GET_ROSTER_TEST(final int courseOfferingId) {
 
 		System.out.println("GET_ROSTER_TEST");
@@ -101,56 +100,56 @@ public class Registration {
 				System.out.println("student-" + index + ": " + it.next());
 				index++;
 			}
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		System.out.println("");
 	}
-	
+
 	private static void BILL_STUDENTS_FOR_COURSES_TEST() {
-		
+
 		System.out.println("BILL_STUDENTS_FOR_COURSES_TEST");
-		
+
 		try {
 
 			Iterator<Student> it = StudentRepository.getInstance().getAll();
-			
+
 			while (it.hasNext()) {
 				Student that = it.next();
 				System.out.println("before-billing-student" + that.getId() + ": " + that.getCurrentBalance());
 			}
-			
+
 			Bursar.billStudents();
-			
+
 			it = StudentRepository.getInstance().getAll();
-			
+
 			while (it.hasNext()) {
 				Student that = it.next();
 				System.out.println("after-billing-student" + that.getId() + ": " + that.getCurrentBalance());
 			}
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		System.out.println("");
 	}
-	
+
 	private static void PAY_FOR_COURSES_TEST(final int studentId) {
-		
+
 		System.out.println("PAY_FOR_COURSES_TEST");
-		
+
 		try {
 			Student s1 = StudentRepository.getInstance().findById(studentId);
 			System.out.println("before-paying: " + s1.getCurrentBalance());
-			
+
 			Payment p = new Payment("check", 2000);
 			int id = PaymentRepository.getInstance().add(p);
 			p.setPaymentId(id);
-			
+
 			p = PaymentRepository.getInstance().findById(p.getPaymentId());
 			Bursar.payBalance(s1.getId(), p.getPaymentId());
-			
+
 			s1 = StudentRepository.getInstance().findById(studentId);
 			System.out.println("after-paying: " + s1.getCurrentBalance());
 		} catch (SQLException e) {
@@ -158,14 +157,14 @@ public class Registration {
 		}
 		System.out.println("");
 	}
-	
+
 	private static void GET_PAYMENT_HISTORY_TEST(final int studentId) {
-		
+
 		System.out.println("GET_PAYMENT_HISTORY_TEST");
-		
+
 		try {
 			Iterator<Payment> it = PaymentHistoryRepository.getInstance().findAllPaymentsByStudent(studentId);
-			
+
 			int index = 0;
 			while (it.hasNext()) {
 				System.out.println("payment-" + index + ": " + it.next());
@@ -176,18 +175,18 @@ public class Registration {
 		}
 		System.out.println("");
 	}
-	
+
 	private static void DROP_STUDENT_FROM_COURSE_TEST(final int studentId, final int courseOfferingId) {
-		
+
 		System.out.println("DROP_STUDENT_FROM_COURSE_TEST");
-		
+
 		try {
 			Pair<Student,CourseOffering> pair = CoursesTakingRepository.getInstance().findById(studentId, courseOfferingId);
 			System.out.println("before-dropping-student: " + pair.first());
 			System.out.println("before-dropping-course: " + pair.second());
-			
+
 			Registrar.dropStudentFromCourse(studentId, courseOfferingId);
-			
+
 			pair = CoursesTakingRepository.getInstance().findById(studentId, courseOfferingId);
 			System.out.println("after-dropping-student: " + pair.first());
 			System.out.println("after-dropping-course: " + pair.second());
@@ -217,13 +216,18 @@ public class Registration {
 		CourseOffering co1 = new CourseOffering(433, c1, Season.FALL, (short) 2013, (short) 1);
 		try {
 			CourseRepository.getInstance().add(c1);
+		} catch (SQLException e1) {
+			//if (e1.getErrorCode() == 1022 || e1.getErrorCode() == 1062) {
+			//	System.out.println("Duplicate key: " + c1.getDepartment() + " " + c1.getCourseNumber());
+			//}
+			e1.printStackTrace();
+		}
+		try {
 			int id = CourseOfferingRepository.getInstance().add(co1);
 			co1.setCourseOfferingId(id);
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 		}
-		System.out.println("p1b: " + co1.getCourseOfferingId());
-		System.out.println();
 		// Professor p1
 		ContactInformation ci2 = new ContactInformation("dont care", "dont care", "Konstantin", "Laufer", null, null, "666-777-8888");
 		// add professor to database
@@ -250,38 +254,36 @@ public class Registration {
 		// *********** TESTING *********** //
 		// ******************************* //
 
-		//System.out.println("p1a: " + co1.getCourseOfferingId());
 		// assign first professor to course
 		ASSIGN_PROF_TEST(p1.getId(), co1.getCourseOfferingId());
 
 		// test assigning another professor to same course
-		
-			ASSIGN_PROF_TEST(p2.getId(), co1.getCourseOfferingId());
+		ASSIGN_PROF_TEST(p2.getId(), co1.getCourseOfferingId());
 
 		// test removing professor from that course
-			REMOVE_PROF_TEST(17);
+		REMOVE_PROF_TEST(co1.getCourseOfferingId());
 
 		// test enrolling a student in a course
-			ENROLL_STUDENT_TEST(s1.getId(), co1.getCourseOfferingId());
+		ENROLL_STUDENT_TEST(s1.getId(), co1.getCourseOfferingId());
 
 		// test getting roster
-			GET_ROSTER_TEST(co1.getCourseOfferingId());
-		
+		GET_ROSTER_TEST(co1.getCourseOfferingId());
+
 		// test billing students for courses
 		BILL_STUDENTS_FOR_COURSES_TEST();
-		
+
 		// test paying for courses
 		PAY_FOR_COURSES_TEST(s1.getId());
-		
+
 		// payment history test
 		GET_PAYMENT_HISTORY_TEST(s1.getId());
-		
+
 		// test paying again for courses
 		PAY_FOR_COURSES_TEST(s1.getId());
-		
+
 		// payment history test
 		GET_PAYMENT_HISTORY_TEST(s1.getId());
-		
+
 		// test dropping student from course
 		DROP_STUDENT_FROM_COURSE_TEST(s1.getId(), co1.getCourseOfferingId());
 	}

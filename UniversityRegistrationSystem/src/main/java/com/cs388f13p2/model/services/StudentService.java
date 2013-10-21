@@ -26,17 +26,14 @@ public class StudentService {
 			Student student = students.next();
 			
 			int studentId = student.getId();
-			System.out.println(studentId);
 			Iterator<CourseOffering> courses = CoursesTakingRepository.getInstance().getCoursesTakingByStudent(studentId);
 			
 			double currentBalance = student.getCurrentBalance();
 			while (courses.hasNext()) {
 				
 				Course course = courses.next().getCourse();
-				System.out.println(course.getDepartment());
 				currentBalance =- CourseRepository.getInstance().findById(course.getDepartment(),
 						course.getCourseNumber()).getCost();
-				System.out.println(student);
 			}
 			
 			StudentRepository.getInstance().updateBalance(studentId, currentBalance);
@@ -49,46 +46,13 @@ public class StudentService {
 		
 		Payment p = PaymentRepository.getInstance().findById(paymentId);
 		
-		StudentRepository.getInstance().updateBalance(studentId, p.getPaymentAmount());
+		Student s = StudentRepository.getInstance().findById(studentId);
+		
+		double newBalance = s.getCurrentBalance() + p.getPaymentAmount();
+		StudentRepository.getInstance().updateBalance(studentId, newBalance);
 		
 		PaymentHistoryRepository.getInstance().add(studentId, paymentId);
 		
 		return true;
-	}
-
-	// true = enrolled in, false = not enrolled in
-	public static boolean enrollInCourse(final int studentId,
-			final int courseOfferingId) throws SQLException {
-		
-		if (CoursesTakingRepository.getInstance().
-				findNumberOfCoursesTakenByStudent(studentId) == 4) {
-			return false;
-		} else {
-			if (studentIsTakingCourse(studentId, courseOfferingId)) {
-				return false;
-			} else {
-				CoursesTakingRepository.getInstance().add(studentId, courseOfferingId);
-				return true;
-			}
-		}
-	}
-
-	// true = dropped, false = not dropped
-	public static boolean dropCourse(final int studentId,
-			final int courseOfferingId) throws SQLException {
-		
-		if (studentIsTakingCourse(studentId, courseOfferingId)) {
-			CoursesTakingRepository.getInstance().delete(studentId, courseOfferingId);
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	// private class, so can use objects instead of keys
-	private static boolean studentIsTakingCourse(final int studentId,
-			final int courseOfferingId) throws SQLException {
-		
-		return CoursesTakingRepository.getInstance().contains(studentId, courseOfferingId);
 	}
 }

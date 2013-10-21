@@ -42,5 +42,10 @@ public class Payment {
 	public String getPaymentType(){
 		return paymentType;
 	}
+	
+	@Override
+	public String toString() {
+		return paymentId + ": " + paymentAmount;
+	}
 
 }

@@ -10,7 +10,7 @@ public class DBHelper {
 
 	public static final String DATABASE_NAME = "dotson_tchassem_v0_0_1";
 	private static final String USERNAME = "root";
-	private static final String PASSWORD = "";
+	private static final String PASSWORD = "secret";
 
 	// creates the database, since it does not exist yet
 	private static Connection createDatabase(Connection c) {

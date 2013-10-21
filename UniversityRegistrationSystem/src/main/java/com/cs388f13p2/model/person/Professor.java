@@ -28,4 +28,9 @@ public class Professor extends UniversityPerson {
 	public void setDepartment(String dpt) {
 		department = dpt;
 	}
+	
+	@Override
+	public String toString() {
+		return "id: " + id;
+	}
 }

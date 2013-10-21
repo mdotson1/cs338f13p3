@@ -10,7 +10,7 @@ import com.cs388f13p2.database.connection.DBHelper;
 import com.cs388f13p2.model.course.Course;
 
 public class CourseRepository {
-	
+
 	private static class SingletonHolder { 
 		public static final CourseRepository INSTANCE = new CourseRepository();
 	}
@@ -19,11 +19,11 @@ public class CourseRepository {
 
 		return SingletonHolder.INSTANCE;
 	}
-	
+
 	private CourseRepository() {
-		
+
 	}
-	
+
 	private void createCourseTable(final Statement st) throws SQLException {
 		final String createTableStatement = "CREATE TABLE Course(" +
 				"department VARCHAR(20) NOT NULL, " +
@@ -31,11 +31,11 @@ public class CourseRepository {
 				"cost DOUBLE NOT NULL, " +
 				"courseDescription VARCHAR(100) NOT NULL, " +
 				"PRIMARY KEY (department, courseNumber), " +
-				"KEY (courseNumber)" +
+				"INDEX (courseNumber)" +
 				") Engine=InnoDB;";
 		st.execute(createTableStatement);
 	}
-	
+
 	private void databaseCreationCheck(final DatabaseMetaData dbm, 
 			final Statement st) throws SQLException {
 		final ResultSet tables = dbm.getTables(null, null, "Course", null);
@@ -46,43 +46,32 @@ public class CourseRepository {
 	}
 
 	public void add(final Course obj) throws SQLException {
-		
+
 		final Connection c = DBHelper.getConnection();
 		final Statement st = c.createStatement();
 
 		databaseCreationCheck(c.getMetaData(), st);
-		
-		final String dept = obj.getDepartment();
-		final int courseNum = obj.getCourseNumber();
-		
-		final ResultSet CourseRes = st.executeQuery("SELECT department, courseNumber FROM course WHERE "
-													+ "department =	'"+dept+ "' AND courseNumber = "
-															+ courseNum+";");
-		if(!CourseRes.next()){
 
 		final String insertStudentStatement = "INSERT INTO Course(department, courseNumber, " +
 				"cost, courseDescription)" + " VALUES('" + obj.getDepartment() + "', " + 
 				obj.getCourseNumber() + ", " + obj.getCost() + ", '" + 
 				obj.getCourseDescription() + "');";
-		
+
 		st.execute(insertStudentStatement);
-		}
-		else
-			System.out.println("Duplicate primary key");
 	}
-	
+
 
 	public Course findById(final String department, final short courseNumber)
 			throws SQLException {
-		
+
 		final Connection c = DBHelper.getConnection();
 		final Statement st = c.createStatement();
 
 		databaseCreationCheck(c.getMetaData(), st);
-		
+
 		final String SelectCourseQuery = "SELECT department, courseNumber, cost, courseDescription " +
-										"FROM Course WHERE courseNumber = "+ courseNumber + 
-										" AND department = '"+ department + "';";
+				"FROM Course WHERE courseNumber = "+ courseNumber + 
+				" AND department = '"+ department + "';";
 
 		final ResultSet CourseRes = st.executeQuery(SelectCourseQuery);
 
@@ -91,23 +80,22 @@ public class CourseRepository {
 		while(CourseRes.next()){
 			course = new Course(CourseRes.getString("department"), CourseRes.getShort("courseNumber"),
 					CourseRes.getDouble("cost"), CourseRes.getString("courseDescription"));
-			
 		}
 		return course;
 	}
 
 	public boolean delete(final String department, final short courseNumber)
 			throws SQLException {
-		
+
 		final Connection c = DBHelper.getConnection();
 		final Statement st = c.createStatement();
 
 		databaseCreationCheck(c.getMetaData(), st);
-		
+
 		final String deleteCourseQuery = "DELETE FROM Course WHERE courseNumber = "+ courseNumber + 
-										" AND department = '"+ department + "';";
+				" AND department = '"+ department + "';";
 
 		return st.execute(deleteCourseQuery);
-		
+
 	}
 }

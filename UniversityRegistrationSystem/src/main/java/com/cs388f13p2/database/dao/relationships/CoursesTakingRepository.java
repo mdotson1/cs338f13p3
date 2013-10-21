@@ -58,7 +58,7 @@ public class CoursesTakingRepository implements TwoIntKeyRelationshipRepository<
 		
 		databaseCreationCheck(c.getMetaData(), st);
 		
-		final ResultSet CourseRes = st.executeQuery("SELECT studentId, courseOfferingId FROM coursesTaking WHERE "
+		final ResultSet CourseRes = st.executeQuery("SELECT studentId, courseOfferingId FROM CoursesTaking WHERE "
 				+ "studentId =	"+studentId+ " AND courseOfferingId = "
 						+ courseId+ ";");
 		
@@ -117,9 +117,7 @@ public class CoursesTakingRepository implements TwoIntKeyRelationshipRepository<
 		while(CourseTakingRes.next())
 			studentNum++;
 
-// TODO marcellin
 		return studentNum;
-		
 		
 	}
 	
@@ -171,12 +169,10 @@ public class CoursesTakingRepository implements TwoIntKeyRelationshipRepository<
 		final List<CourseOffering> courseOfferingList = new ArrayList<CourseOffering>();
 		
 		while(CourseTakingRes.next()){
-			System.out.println(CourseTakingRes.getInt("courseOfferingId"));
 			courseOfferingList.add(CourseOfferingRepository.
 					getInstance().findById(CourseTakingRes.getInt("courseOfferingId")));
 		}
 		
-		// TODO marcellin
 		return courseOfferingList.iterator();
 	}
 

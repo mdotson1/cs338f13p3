@@ -118,10 +118,6 @@ public class ProfessorRepository implements ConcreteIntKeyRepository<Professor> 
 		final Statement st = c.createStatement();
 
 		databaseCreationCheck(c.getMetaData(), st);
-		
-		// TODO marcellin
-		
-		
 
 		final ResultSet professorRS = st.executeQuery("SELECT id, dateOfBirth, homeAddress, workAddress, " +
 				"lastName, firstName, workPhone, homePhone, cellPhone, department FROM Professor;");   
@@ -154,10 +150,6 @@ public class ProfessorRepository implements ConcreteIntKeyRepository<Professor> 
 		final Statement st = c.createStatement();
 
 		databaseCreationCheck(c.getMetaData(), st);
-		
-		// TODO marcellin
-		
-		
 
 		return st.execute("DELETE FROM Professor WHERE id = " + id + ";");
 		

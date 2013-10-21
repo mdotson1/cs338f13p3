@@ -3,8 +3,8 @@ package com.cs388f13p2.model.person;
 
 public class Person {
 
-	private ContactInformation contactInformation;
-	private String dateOfBirth;
+	protected ContactInformation contactInformation;
+	protected String dateOfBirth;
 	
 	public Person(ContactInformation ci, String dob) {
 		

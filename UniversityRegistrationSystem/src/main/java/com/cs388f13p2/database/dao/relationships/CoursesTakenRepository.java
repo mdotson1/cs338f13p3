@@ -107,8 +107,6 @@ public class CoursesTakenRepository {
 
 			final ResultSet CourseRes = st.executeQuery(SelectCourseQuery);
 
-			
-
 			while(CourseRes.next()){
 				course = new Course(CourseRes.getString("department"), CourseRes.getShort("courseNumber"),
 						CourseRes.getDouble("cost"), CourseRes.getString("courseDescription"));
@@ -117,9 +115,6 @@ public class CoursesTakenRepository {
 
 			}
 		}
-
-		
-		// TODO marcellin
 		return courseList.iterator();
 	}
 

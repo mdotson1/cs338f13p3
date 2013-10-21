@@ -42,18 +42,6 @@ public class CourseOfferingService {
 		}
 	}
 
-	// true = assigned prof, false = not assigned
-	public static boolean assignProfessorForCourse(final int courseOfferingId,
-			final int professorId) throws SQLException {
-
-		if (CoursesTeachingRepository.getInstance().findProfessorForCourse(courseOfferingId) == null) {
-			CoursesTeachingRepository.getInstance().add(professorId, courseOfferingId);
-			return true;
-		} else {
-			return false;
-		}
-	}
-
 	// true = removed prof, false = not removed
 	public static boolean removeProfessor(final int courseOfferingId) throws SQLException {
 

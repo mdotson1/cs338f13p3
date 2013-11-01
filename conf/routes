@@ -1,0 +1,45 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Home page
+GET     /                             controllers.Application.index()
+
+# Student resource
+GET     /students/all                 controllers.StudentResource.getAllStudents()
+POST    /students                     controllers.StudentResource.addStudent()
+GET     /students/:id                 controllers.StudentResource.getStudent(id : Integer)
+PUT     /students/:id                 controllers.StudentResource.updateStudent(id : Integer)
+
+# Payment resource
+GET     /students/:id/payments/all    controllers.PaymentResource.getPaymentHistoryForStudent(id : Integer)
+POST    /students/:id/payments        controllers.PaymentResource.addPaymentForStudent(id : Integer)
+GET     /students/{id}/payments/:id   controllers.PaymentResource.getPayment(id : Integer)
+PUT     /students/{id}/payments/:id   controllers.PaymentResource.updatePayment(id : Integer)
+
+# Professor resource
+GET     /professors/all               controllers.ProfessorResource.getAllProfessors()
+POST    /professors                   controllers.ProfessorResource.addProfessor()
+GET     /professors/:id               controllers.ProfessorResource.getProfessor(id : Integer)
+PUT     /professors/:id               controllers.ProfessorResource.updateProfessor(id : Integer)
+
+# Course resource
+GET     /courses/all                  controllers.CourseResource.getAllCourses()
+POST    /courses                      controllers.CourseResource.addCourse()
+GET     /courses/:deptAndCourseNum    controllers.CourseResource.getCourse(deptAndCourseNum : String)
+PUT     /courses/:deptAndCourseNum    controllers.CourseResource.updateCourse(deptAndCourseNum : String)
+
+# Semesters resource
+GET     /semesters/all                controllers.SemesterResource.getAllSemesters()
+POST    /semesters                    controllers.SemesterResource.addSemester()
+GET     /semesters/:seasonAndYear     controllers.SemesterResource.getSemester(seasonAndYear : String)
+
+# Course Offering Resource
+POST    /semesters/:seasonAndYear     controllers.CourseOfferingResource.addCourseOffering(seasonAndYear : String)
+GET     /semesters/:seasonAndYear/all controllers.CourseOfferingResource.getAllCourseOfferingsForSem(seasonAndYear : String)
+# cOffering = CS-313-001 for example
+GET     /semesters/:sy/:cOffering     controllers.CourseOfferingResource.getCourseOffering(sy : String, cOffering : String)
+PUT     /semesters/:sy/:cOffering     controllers.CourseOfferingResource.updateCourseOffering(sy : String, cOffering : String)
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file                 controllers.Assets.at(path="/public", file)

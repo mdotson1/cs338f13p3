@@ -10,9 +10,14 @@ import java.sql.Statement;
 
 public class DBHelper {
 	
-	public static Connection getConnection() throws URISyntaxException {
+	public static Connection getConnection() {
 
-        URI dbUri = new URI(System.getenv("CLEARDB_DATABASE_URL"));
+        URI dbUri = null;
+        try {
+            dbUri = new URI(System.getenv("CLEARDB_DATABASE_URL"));
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
 
         String username = dbUri.getUserInfo().split(":")[0];
         String password = dbUri.getUserInfo().split(":")[1];

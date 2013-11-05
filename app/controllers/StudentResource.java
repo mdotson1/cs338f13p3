@@ -1,5 +1,6 @@
 package controllers;
 
+import models.database.dao.concrete.StudentRepository;
 import play.*;
 import play.data.Form;
 import play.mvc.*;
@@ -7,9 +8,16 @@ import play.mvc.*;
 import models.*;
 import views.html.*;
 
+import java.sql.SQLException;
+
 public class StudentResource extends Controller {
     public static Result getAllStudents() {
-        return ok(index.render("Your new application is ready. DOOD"));
+        try {
+            return ok(student_table.render(StudentRepository.getInstance().getAll()));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return ok();
     }
 
     public static Result addStudent() {

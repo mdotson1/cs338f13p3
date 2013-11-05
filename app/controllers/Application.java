@@ -7,15 +7,20 @@ import play.mvc.*;
 import models.*;
 import views.html.*;
 
-public class Application extends Controller {
-    public static Result index() {
-        return ok(view.render("students", routes.StudentResource.getAllStudents().absoluteURL(request())));
-    }
+import java.util.HashMap;
+import java.util.Map;
 
-    private static void renderURLs() {
-        view.render("students", routes.StudentResource.getAllStudents().absoluteURL(request()));
-        view.render("professors", routes.ProfessorResource.getAllProfessors().absoluteURL(request()));
-        view.render("courses", routes.CourseResource.getAllCourses().absoluteURL(request()));
-        view.render("semesters", routes.SemesterResource.getAllSemesters().absoluteURL(request()));
+public class Application extends Controller {
+
+    public static Result index() {
+
+        Map<String, String> namesAndURLs = new HashMap<String, String>();
+
+        namesAndURLs.put("students", routes.StudentResource.getAllStudents().absoluteURL(request()));
+        namesAndURLs.put("professors", routes.ProfessorResource.getAllProfessors().absoluteURL(request()));
+        namesAndURLs.put("courses", routes.CourseResource.getAllCourses().absoluteURL(request()));
+        namesAndURLs.put("semesters", routes.SemesterResource.getAllSemesters().absoluteURL(request()));
+
+        return ok(link.render(namesAndURLs));
     }
 }

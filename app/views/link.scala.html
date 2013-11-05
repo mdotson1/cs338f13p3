@@ -1,0 +1,15 @@
+@(namesAndURLs : Map[String,String])
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+    </head>
+    <body>
+        <ul>
+            @for(pair <- namesAndURLs) {
+            <a href=@pair._2>@pair._1</a>
+            }
+        </ul>
+    </body>
+</html>

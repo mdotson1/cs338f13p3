@@ -6,6 +6,10 @@
     <title></title>
 </head>
 <body>
-       students
+    <ul>
+        @for(student <- students) {
+            <p>@student.getId</p>
+        }
+    </ul>
 </body>
 </html>

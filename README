@@ -3,3 +3,6 @@ Michael Dotson and Marcellin fom Tchassem
 
 app URL:  
 http://cs338f13p3.herokuapp.com/
+
+for compiling locally:  
+"play clean compile stage"

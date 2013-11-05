@@ -1,4 +1,4 @@
-@(names : Array[String], urls : Array[String])
+@(names : String, url : String)
 
 <!DOCTYPE html>
 <html>
@@ -7,7 +7,7 @@
     </head>
     <body>
         <div class="myLink">
-            <a href=@Html(urls[0])>@names</a>
+            <a href=@Html(url)>@names</a>
         </div>
     </body>
 </html>

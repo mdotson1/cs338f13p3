@@ -7,14 +7,14 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 
+import models.course.Semester;
 import models.database.connection.DBHelper;
 import models.database.repository.ConcreteIntKeyRepository;
 import models.course.Course;
 import models.course.CourseOffering;
-import models.course.CourseOffering.Season;
+import models.course.Semester.Season;
 
 public class CourseOfferingRepository implements ConcreteIntKeyRepository<CourseOffering> {
 
@@ -41,7 +41,9 @@ public class CourseOfferingRepository implements ConcreteIntKeyRepository<Course
 				"year SMALLINT NOT NULL," +
 				"PRIMARY KEY (courseOfferingId), " + 
 				"FOREIGN KEY (department) references Course(department), " +
-				"FOREIGN KEY (courseNumber) references Course(courseNumber)" + 
+				"FOREIGN KEY (courseNumber) references Course(courseNumber)" +
+                "FOREIGN KEY (season) references Semester(season)" +
+                "FOREIGN KEY (year) references Semester(year)" +
 				") Engine=InnoDB;";
 		st.execute(createTableStatement);
 	}
@@ -128,34 +130,32 @@ public class CourseOfferingRepository implements ConcreteIntKeyRepository<Course
 		}
 	}
 
-	public Iterator<CourseOffering> findAllCoursesBySemester(String season,
-			short year) throws SQLException {
+	public Iterator<CourseOffering> findAllCoursesBySemester(
+            final Season season, final short year) throws SQLException {
 
 		final Connection c = DBHelper.getConnection();
 		final Statement st = c.createStatement();
 
 		databaseCreationCheck(c.getMetaData(), st);
 
-		final String SelectCourseOffQuery = "SELECT courseOfferingID, department, courseNumber, sectionNumber, "+
-				"sectionNumber, sectionNumber, season, year FROM CourseOffering "+
-				"WHERE season = '"+ season + "' AND year = "+ year +";";
+		final String selectCourseOffQuery = "SELECT courseOfferingID, " +
+                "department, courseNumber, sectionNumber, sectionNumber, " +
+                "sectionNumber, season, year FROM CourseOffering " +
+				"WHERE season = '"+ season.toString() + "' AND year = "
+                + year +";";
 
 
-		final ResultSet CourseOffRes = st.executeQuery(SelectCourseOffQuery);
+		final ResultSet courseOffRes = st.executeQuery(selectCourseOffQuery);
 
 		final List<CourseOffering> courseOfferingList = new ArrayList<CourseOffering>();
 
 		CourseOffering courseOffering = null;
 
-		while(CourseOffRes.next()){
-			Course course = CourseRepository.getInstance()
-					.findById(CourseOffRes.getString("department"), CourseOffRes.getShort("courseNum"));
+		while(courseOffRes.next()){
+			CourseOffering course = CourseOfferingRepository.getInstance()
+					.findById(courseOffRes.getInt("courseOfferingId"));
 
-			courseOffering = new CourseOffering(CourseOffRes.getShort("courseOfferingID"),
-					course, Season.valueOf(CourseOffRes.getString("season")), 
-					CourseOffRes.getShort("year"), CourseOffRes.getShort("section"));
-
-			courseOfferingList.add(courseOffering);
+			courseOfferingList.add(course);
 		}
 
 		return courseOfferingList.iterator();
@@ -180,7 +180,6 @@ public class CourseOfferingRepository implements ConcreteIntKeyRepository<Course
 
 		CourseOffering courseOffering = null;
 
-
 		while(CourseOffRes.next() ){
 			Course course = CourseRepository.getInstance()
 					.findById(CourseOffRes.getString("department"), CourseOffRes.getShort("courseNumber"));
@@ -192,7 +191,7 @@ public class CourseOfferingRepository implements ConcreteIntKeyRepository<Course
 			courseOfferingList.add(courseOffering);
 		}
 
-		return  courseOfferingList.iterator();
+		return courseOfferingList.iterator();
 	}
 
 

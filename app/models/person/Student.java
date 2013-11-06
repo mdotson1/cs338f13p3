@@ -3,7 +3,12 @@ package models.person;
 public class Student extends UniversityPerson {
 	
 	private double currentBalance;
-	
+
+    // bean for play
+    public Student() {
+        super();
+    }
+
 	// when retrieving from database, has id
 	public Student(final ContactInformation ci, final int id, final String dob,
 			final double currentBalance) {
@@ -36,7 +41,10 @@ public class Student extends UniversityPerson {
 	
 	@Override
 	public String toString() {
-		return id + ": " + contactInformation.getFirstName() + " " + contactInformation.getLastName();
+		String retVal = "id: " + id +
+                ((contactInformation != null) ? contactInformation.toString() : "")
+                + " " + " current-balance: " + currentBalance;
+        return retVal;
 	}
 
 }

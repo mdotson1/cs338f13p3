@@ -4,7 +4,7 @@ import java.sql.SQLException;
 import java.util.Iterator;
 
 import models.course.CourseOffering;
-import models.course.CourseOffering.Season;
+import models.course.Semester.Season;
 import models.person.Student;
 
 // registrar should pass values to services which look up the values
@@ -12,7 +12,7 @@ public class Registrar {
 	
 	private Registrar() { } // services cannot be instantiated
 	
-	public static Iterator<CourseOffering> getCourseCatalog(final String s, final short year) throws SQLException {
+	public static Iterator<CourseOffering> getCourseCatalog(final Season s, final short year) throws SQLException {
 		
 		return CourseOfferingService.getCoursesInSemester(s, year);
 	}

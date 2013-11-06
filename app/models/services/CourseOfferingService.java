@@ -9,7 +9,7 @@ import models.database.dao.concrete.CourseOfferingRepository;
 import models.database.dao.relationships.CoursesTakingRepository;
 import models.database.dao.relationships.CoursesTeachingRepository;
 import models.course.CourseOffering;
-import models.course.CourseOffering.Season;
+import models.course.Semester.Season;
 import models.person.Professor;
 import models.person.Student;
 
@@ -17,7 +17,7 @@ public class CourseOfferingService {
 
 	private CourseOfferingService() { } // impossible to instantiate a service
 
-	public static Iterator<CourseOffering> getCoursesInSemester(String season, short year) throws SQLException {
+	public static Iterator<CourseOffering> getCoursesInSemester(Season season, short year) throws SQLException {
 		return CourseOfferingRepository.getInstance().findAllCoursesBySemester(season, year);
 	}
 

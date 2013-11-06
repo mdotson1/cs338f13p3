@@ -5,7 +5,12 @@ public class Person {
 
 	protected ContactInformation contactInformation;
 	protected String dateOfBirth;
-	
+
+    // bean for play
+    public Person() {
+
+    }
+
 	public Person(ContactInformation ci, String dob) {
 		
 		contactInformation = ci;

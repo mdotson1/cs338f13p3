@@ -1,16 +1,18 @@
 package models.course;
+import models.course.Semester.Season;
 
 public class CourseOffering {
-
-	public enum Season {
-		FALL, WINTER, SUMMER, SPRING
-	}
 
 	private int courseOfferingId;
 	private Course course;
 	private Season season;
 	private short year;
 	private short section;
+
+    // bean for play
+    public CourseOffering() {
+
+    }
 
 	// when retrieving from database, has id
 	public CourseOffering(final int courseOfferingId, final Course course,
@@ -22,6 +24,7 @@ public class CourseOffering {
 		this.year = year;
 		this.section = section;
 	}
+
 //TODO add department in the constructor	
 	// when creating before adding to database
 	public CourseOffering(final Course course, final Season season,

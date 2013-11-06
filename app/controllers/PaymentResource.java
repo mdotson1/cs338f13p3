@@ -9,22 +9,22 @@ import views.html.*;
 
 public class PaymentResource extends Controller {
     public static Result getPaymentHistoryForStudent(final Integer studentId) {
-        return ok(index.render("Your new application is ready. DOOD"));
+        return ok();
     }
 
     public static Result addPaymentForStudent(final Integer studentId) {
-        return ok(index.render("Your new application is ready. DOOD"));
+        return ok();
     }
 
     public static Result getPayment(final Integer paymentId) {
-        return ok(index.render("Your new application is ready. DOOD"));
+        return ok();
     }
 
     public static Result removePayment() {
-        return ok(index.render("Your new application is ready. DOOD"));
+        return ok();
     }
 
     public static Result updatePayment(final Integer paymentId) {
-        return ok(index.render("Your new application is ready. DOOD"));
+        return ok();
     }
 }

@@ -1,0 +1,31 @@
+@(semesters : Iterator[models.course.Semester], url : String, semesterForm : Form[models.course.Semester])
+
+@import helper._
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+<table border="1" cellspacing="0">
+    <tr>
+        <th>Season</th>
+        <th>Year</th>
+    </tr>
+
+    @for(semester <- semesters) {
+    <tr>
+        <td><a href=@url/@professor.getSeason@professor.getYear>@professor.getSeason @professor.getYear</a></td>
+    </tr>
+    }
+    @form(routes.SemesterResource.addSemester()) {
+
+    @inputText(professorForm("season"))
+    @inputText(professorForm("year"))
+
+    <input type="submit" value="Create">
+    }
+</table>
+</body>
+</html>

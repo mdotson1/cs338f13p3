@@ -1,19 +1,31 @@
 package controllers;
 
 import models.database.dao.concrete.StudentRepository;
+import models.person.ContactInformation;
+import models.person.Student;
 import play.*;
 import play.data.Form;
 import play.mvc.*;
 
 import models.*;
 import views.html.*;
+import play.api.Logger;
 
 import java.sql.SQLException;
+import java.util.Map;
 
 public class StudentResource extends Controller {
+
+    private static final String studentsUri = routes.StudentResource.
+            getAllStudents().absoluteURL(request());
+
+    private final static Form<Student> studentForm = Form.form(Student.class);
+
     public static Result getAllStudents() {
         try {
-            return ok(student_table.render(StudentRepository.getInstance().getAll()));
+            return ok(students_table.render(
+                    StudentRepository.getInstance().getAll(), studentsUri,
+                    studentForm));
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -21,18 +33,48 @@ public class StudentResource extends Controller {
     }
 
     public static Result addStudent() {
-        return ok(index.render("Your new application is ready. DOOD"));
+        final Form<Student> filledForm = studentForm.bindFromRequest();
+
+        if(filledForm.hasErrors()) {
+            return badRequest();
+        }
+        try {
+            Map<String,String> data = filledForm.data();
+
+            final ContactInformation ci = new ContactInformation(
+                    data.get("homeAddr"), data.get("workAddr"),
+                    data.get("firstName"), data.get("lastName"),
+                    data.get("workPhone"), data.get("homePhone"),
+                    data.get("cellPhone"));
+            Student s = new Student(ci, data.get("dateOfBirth"),
+                    Double.parseDouble(data.get("currentBalance")));
+
+            StudentRepository.getInstance().add(s);
+            return ok(students_table.render(
+                    StudentRepository.getInstance().getAll(), studentsUri,
+                    filledForm));
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return ok();
     }
 
     public static Result getStudent(final Integer id) {
-        return ok(index.render("Your new application is ready. DOOD"));
+        try {
+            return ok(single_student.render(
+                    StudentRepository.getInstance().findById(id), studentsUri));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return ok();
     }
 
     public static Result removeStudent() {
-        return ok(index.render("Your new application is ready. DOOD"));
+        return ok();
     }
 
     public static Result updateStudent(final Integer id) {
-        return ok(index.render("Your new application is ready. DOOD"));
+        return ok();
     }
 }

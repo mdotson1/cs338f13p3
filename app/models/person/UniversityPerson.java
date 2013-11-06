@@ -4,6 +4,11 @@ public class UniversityPerson extends Person {
 	
 	protected int id;
 
+    // bean for play
+    public UniversityPerson() {
+        super();
+    }
+
 	public UniversityPerson(final ContactInformation ci, final int id, 
 			final String dob) {
 		

@@ -6,7 +6,12 @@ public class Course {
 	protected short courseNumber; // primary key
 	protected double cost;
 	protected String courseDescription;
-	
+
+    // bean for play
+    public Course() {
+
+    }
+
 	public Course(final String dept, final short courseNum, 
 			final double cost, final String cd) {
 		

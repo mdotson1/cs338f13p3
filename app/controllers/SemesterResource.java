@@ -1,5 +1,6 @@
 package controllers;
 
+import models.course.Semester;
 import play.*;
 import play.data.Form;
 import play.mvc.*;
@@ -7,17 +8,20 @@ import play.mvc.*;
 import models.*;
 import views.html.*;
 
+import java.sql.SQLException;
+
 public class SemesterResource extends Controller {
 
-    public static Result getAllSemesters() {
-        return ok(index.render("Your new application is ready. DOOD"));
-    }
+    private static final String semestersUri = routes.SemesterResource.
+            getAllSemesters().absoluteURL(request());
 
-    public static Result getSemester(final String seasonAndYear) {
-        return ok(index.render("Your new application is ready. DOOD"));
+    private final static Form<Semester> semesterForm = Form.form(Semester.class);
+
+    public static Result getAllSemesters() {
+        return ok();
     }
 
     public static Result addSemester() {
-        return ok(index.render("Your new application is ready. DOOD"));
+        return ok();
     }
 }

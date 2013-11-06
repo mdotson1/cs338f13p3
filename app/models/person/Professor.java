@@ -4,6 +4,11 @@ public class Professor extends UniversityPerson {
 
 	protected String department;
 
+    // bean for play
+    public Professor() {
+        super();
+    }
+
 	// when retrieving from database, has id
 	public Professor(final ContactInformation ci, final int id, final String dob,
 			final String dept) {

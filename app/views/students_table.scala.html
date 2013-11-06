@@ -1,0 +1,45 @@
+@(students : Iterator[models.person.Student], url : String, studentForm : Form[models.person.Student])
+
+@import helper._
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+    <table border="1" cellspacing="0">
+        <tr>
+            <th>Id</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Current Balance</th>
+            <th>Date of Birth</th>
+        </tr>
+
+        @for(student <- students) {
+        <tr>
+            <td><a href=@url/@student.getId>@student.getId</a></td>
+            <td>@student.getContactInformation.getFirstName</td>
+            <td>@student.getContactInformation.getLastName</td>
+            <td>@student.getCurrentBalance</td>
+            <td>@student.getDateOfBirth</td>
+        </tr>
+        }
+        @form(routes.StudentResource.addStudent()) {
+
+            @inputText(studentForm("firstName"))
+            @inputText(studentForm("lastName"))
+            @inputText(studentForm("currentBalance"))
+            @inputText(studentForm("homeAddress"))
+            @inputText(studentForm("workAddress"))
+            @inputText(studentForm("workPhone"))
+            @inputText(studentForm("homePhone"))
+            @inputText(studentForm("cellPhone"))
+            @inputText(studentForm("dateOfBirth"))
+
+            <input type="submit" value="Create">
+        }
+    </table>
+</body>
+</html>

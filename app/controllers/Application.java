@@ -21,6 +21,6 @@ public class Application extends Controller {
         namesAndURLs.put("courses", routes.CourseResource.getAllCourses().absoluteURL(request()));
         namesAndURLs.put("semesters", routes.SemesterResource.getAllSemesters().absoluteURL(request()));
 
-        return ok(link.render(namesAndURLs));
+        return ok(index.render(namesAndURLs));
     }
 }

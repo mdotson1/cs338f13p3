@@ -4,7 +4,12 @@ public class Payment {
 	private int paymentId;
 	private String paymentType;
 	private double paymentAmount;
-	
+
+    // bean for play
+    public Payment() {
+
+    }
+
 	// when retrieving from database, has id
 	public Payment(final int id, final String type, final double amount) {
 		paymentId = id;

@@ -12,6 +12,7 @@ import views.html.*;
 import play.api.Logger;
 
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.Map;
 
 public class StudentResource extends Controller {
@@ -61,9 +62,13 @@ public class StudentResource extends Controller {
     }
 
     public static Result getStudent(final Integer id) {
+        final String studentURI = studentsUri + "/" + id;
         try {
+            Map<String,String> links = new HashMap<String,String>();
+            links.put("Payment History", studentURI + "/payments");
             return ok(single_student.render(
-                    StudentRepository.getInstance().findById(id), studentsUri));
+                    StudentRepository.getInstance().findById(id), studentsUri,
+                    links));
         } catch (SQLException e) {
             e.printStackTrace();
         }

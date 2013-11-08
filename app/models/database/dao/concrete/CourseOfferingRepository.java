@@ -41,8 +41,8 @@ public class CourseOfferingRepository implements ConcreteIntKeyRepository<Course
 				"year SMALLINT NOT NULL," +
 				"PRIMARY KEY (courseOfferingId), " + 
 				"FOREIGN KEY (department) references Course(department), " +
-				"FOREIGN KEY (courseNumber) references Course(courseNumber)" +
-                "FOREIGN KEY (season) references Semester(season)" +
+				"FOREIGN KEY (courseNumber) references Course(courseNumber), " +
+                "FOREIGN KEY (season) references Semester(season), " +
                 "FOREIGN KEY (year) references Semester(year)" +
 				") Engine=InnoDB;";
 		st.execute(createTableStatement);
@@ -138,11 +138,10 @@ public class CourseOfferingRepository implements ConcreteIntKeyRepository<Course
 
 		databaseCreationCheck(c.getMetaData(), st);
 
-		final String selectCourseOffQuery = "SELECT courseOfferingID, " +
-                "department, courseNumber, sectionNumber, sectionNumber, " +
-                "sectionNumber, season, year FROM CourseOffering " +
-				"WHERE season = '"+ season.toString() + "' AND year = "
-                + year +";";
+		final String selectCourseOffQuery = "SELECT courseOfferingId, " +
+                "department, courseNumber, sectionNumber, season, year FROM " +
+                "CourseOffering WHERE season = '"+ season.toString() +
+                "' AND year = " + year +";";
 
 
 		final ResultSet courseOffRes = st.executeQuery(selectCourseOffQuery);

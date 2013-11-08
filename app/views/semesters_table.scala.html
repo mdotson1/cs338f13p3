@@ -10,19 +10,18 @@
 <body>
 <table border="1" cellspacing="0">
     <tr>
-        <th>Season</th>
-        <th>Year</th>
+        <th>Semester</th>
     </tr>
 
     @for(semester <- semesters) {
     <tr>
-        <td><a href=@url/@professor.getSeason@professor.getYear>@professor.getSeason @professor.getYear</a></td>
+        <td><a href=@url/@semester.getSeason%20@semester.getYear>@semester.getSeason @semester.getYear</a></td>
     </tr>
     }
     @form(routes.SemesterResource.addSemester()) {
 
-    @inputText(professorForm("season"))
-    @inputText(professorForm("year"))
+    @inputText(semesterForm("season"))
+    @inputText(semesterForm("year"))
 
     <input type="submit" value="Create">
     }

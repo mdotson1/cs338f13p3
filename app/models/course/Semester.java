@@ -3,7 +3,7 @@ package models.course;
 public class Semester {
 
     public enum Season {
-        FALL, WINTER, SUMMER, SPRING
+        Fall, Winter, Summer, Spring
     }
 
     private Season season;

@@ -8,6 +8,7 @@
     <title></title>
 </head>
 <body>
+<h1>All Professors</h1>
 <table border="1" cellspacing="0">
     <tr>
         <th>Id</th>
@@ -15,6 +16,11 @@
         <th>Last Name</th>
         <th>Department</th>
         <th>Date of Birth</th>
+        <th>Home Address</th>
+        <th>Work Address</th>
+        <th>Home Phone</th>
+        <th>Work Phone</th>
+        <th>Cell Phone</th>
     </tr>
 
     @for(professor <- professors) {
@@ -24,22 +30,29 @@
         <td>@professor.getContactInformation.getLastName</td>
         <td>@professor.getDepartment</td>
         <td>@professor.getDateOfBirth</td>
+        <td>@professor.getContactInformation.getHomeAddress</td>
+        <td>@professor.getContactInformation.getWorkAddress</td>
+        <td>@professor.getContactInformation.getHomePhone</td>
+        <td>@professor.getContactInformation.getWorkPhone</td>
+        <td>@professor.getContactInformation.getCellPhone</td>
     </tr>
     }
-    @form(routes.ProfessorResource.addProfessor()) {
-
-    @inputText(professorForm("firstName"))
-    @inputText(professorForm("lastName"))
-    @inputText(professorForm("department"))
-    @inputText(professorForm("homeAddress"))
-    @inputText(professorForm("workAddress"))
-    @inputText(professorForm("workPhone"))
-    @inputText(professorForm("homePhone"))
-    @inputText(professorForm("cellPhone"))
-    @inputText(professorForm("dateOfBirth"))
-
-    <input type="submit" value="Create">
-    }
 </table>
+
+<h2>Add New Professor</h2>
+@form(routes.ProfessorResource.addProfessor()) {
+
+@inputText(professorForm("First Name"))
+@inputText(professorForm("Last Name"))
+@inputText(professorForm("Department"))
+@inputText(professorForm("Date of Birth"))
+@inputText(professorForm("Home Address"))
+@inputText(professorForm("Work Address"))
+@inputText(professorForm("Work Phone"))
+@inputText(professorForm("Home Phone"))
+@inputText(professorForm("Cell Phone"))
+
+<input type="submit" value="Create">
+}
 </body>
 </html>

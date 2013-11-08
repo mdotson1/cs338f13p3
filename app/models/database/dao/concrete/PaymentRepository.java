@@ -40,7 +40,7 @@ public class PaymentRepository implements ConcreteIntKeyRepository<Payment> {
 		st.execute(createTableStatement);
 	}
 	
-	private void databaseCreationCheck(final DatabaseMetaData dbm, 
+	public void databaseCreationCheck(final DatabaseMetaData dbm,
 			final Statement st) throws SQLException {
 		final ResultSet tables = dbm.getTables(null, null, "Payment", null);
 		if (!tables.next()) {

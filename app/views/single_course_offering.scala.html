@@ -1,4 +1,4 @@
-@(courseOffering : models.course.CourseOffering, url : String)
+@(course : models.course.CourseOffering, courseURL : String)
 
 <!DOCTYPE html>
 <html>
@@ -6,6 +6,18 @@
     <title></title>
 </head>
 <body>
+    <table border="1" cellspacing="0">
+        <tr>
+            <th>Course Offering ID</th>
+            <th>Course</th>
+            <th>Section Number</th>
+        </tr>
 
+        <tr>
+            <td>@course.getCourseOfferingId</td>
+            <td><a href=@courseURL/@course.getCourse.getDepartment-@course.getCourse.getCourseNumber>@course.getCourse.getDepartment-@course.getCourse.getCourseNumber</a></td>
+            <td>@course.getSectionNumber</td>
+        </tr>
+    </table>
 </body>
 </html>

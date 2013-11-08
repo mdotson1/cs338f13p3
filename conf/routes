@@ -3,42 +3,47 @@
 # ~~~~
 
 # Home page
-GET     /                             controllers.Application.index()
+GET     /                                    controllers.Application.rootIndex()
+
+# Portals
+GET     /student                            controllers.Application.studentIndex()
+GET     /professor                          controllers.Application.professorIndex()
+GET     /admin                              controllers.Application.adminIndex()
 
 # Student resource
-GET     /students                     controllers.StudentResource.getAllStudents()
-POST    /students                     controllers.StudentResource.addStudent()
-GET     /students/:id                 controllers.StudentResource.getStudent(id : Integer)
-PUT     /students/:id                 controllers.StudentResource.updateStudent(id : Integer)
+GET     /admin/students                     controllers.StudentResource.getAllStudents()
+POST    /admin/students                     controllers.StudentResource.addStudent()
+GET     /admin/students/:id                 controllers.StudentResource.getStudent(id : Integer)
+PUT     /admin/students/:id                 controllers.StudentResource.updateStudent(id : Integer)
 
 # Payment resource
-GET     /students/:id/payments        controllers.PaymentResource.getPaymentHistoryForStudent(id : Integer)
-POST    /students/:id/payments        controllers.PaymentResource.addPaymentForStudent(id : Integer)
-GET     /students/{id}/payments/:id   controllers.PaymentResource.getPayment(id : Integer)
-PUT     /students/{id}/payments/:id   controllers.PaymentResource.updatePayment(id : Integer)
+GET     /admin/students/:id/payments        controllers.PaymentResource.getPaymentHistoryForStudent(id : Integer)
+POST    /admin/students/:id/payments        controllers.PaymentResource.addPaymentForStudent(id : Integer)
+GET     /admin/students/:sid/payments/:id   controllers.PaymentResource.getPayment(sid : Integer, id : Integer)
+PUT     /admin/students/:sid/payments/:id   controllers.PaymentResource.updatePayment(sid : Integer, id : Integer)
 
 # Professor resource
-GET     /professors                   controllers.ProfessorResource.getAllProfessors()
-POST    /professors                   controllers.ProfessorResource.addProfessor()
-GET     /professors/:id               controllers.ProfessorResource.getProfessor(id : Integer)
-PUT     /professors/:id               controllers.ProfessorResource.updateProfessor(id : Integer)
+GET     /admin/professors                   controllers.ProfessorResource.getAllProfessors()
+POST    /admin/professors                   controllers.ProfessorResource.addProfessor()
+GET     /admin/professors/:id               controllers.ProfessorResource.getProfessor(id : Integer)
+PUT     /admin/professors/:id               controllers.ProfessorResource.updateProfessor(id : Integer)
 
 # Course resource
-GET     /courses                      controllers.CourseResource.getAllCourses()
-POST    /courses                      controllers.CourseResource.addCourse()
-GET     /courses/:deptAndCourseNum    controllers.CourseResource.getCourse(deptAndCourseNum : String)
-PUT     /courses/:deptAndCourseNum    controllers.CourseResource.updateCourse(deptAndCourseNum : String)
+GET     /admin/courses                      controllers.CourseResource.getAllCourses()
+POST    /admin/courses                      controllers.CourseResource.addCourse()
+GET     /admin/courses/:deptAndCourseNum    controllers.CourseResource.getCourse(deptAndCourseNum : String)
+PUT     /admin/courses/:deptAndCourseNum    controllers.CourseResource.updateCourse(deptAndCourseNum : String)
 
 # Semesters resource
-GET     /semesters                    controllers.SemesterResource.getAllSemesters()
-POST    /semesters                    controllers.SemesterResource.addSemester()
+GET     /admin/semesters                    controllers.SemesterResource.getAllSemesters()
+POST    /admin/semesters                    controllers.SemesterResource.addSemester()
 
 # Course Offering Resource
-POST    /semesters/:seasonAndYear     controllers.CourseOfferingResource.addCourseOffering(seasonAndYear : String)
-GET     /semesters/:seasonAndYear     controllers.CourseOfferingResource.getAllCourseOfferingsForSem(seasonAndYear : String)
+POST    /admin/semesters/:seasonAndYear     controllers.CourseOfferingResource.addCourseOffering(seasonAndYear : String)
+GET     /admin/semesters/:seasonAndYear     controllers.CourseOfferingResource.getAllCourseOfferingsForSem(seasonAndYear : String)
 # cOffering = CS-313-001 for example
-GET     /semesters/:sy/:cOffering     controllers.CourseOfferingResource.getCourseOffering(sy : String, cOffering : String)
-PUT     /semesters/:sy/:cOffering     controllers.CourseOfferingResource.updateCourseOffering(sy : String, cOffering : String)
+GET     /admin/semesters/:sy/:coId     controllers.CourseOfferingResource.getCourseOffering(sy : String, coId : Integer)
+PUT     /admin/semesters/:sy/:coId     controllers.CourseOfferingResource.updateCourseOffering(sy : String, coId : Integer)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file                 controllers.Assets.at(path="/public", file)

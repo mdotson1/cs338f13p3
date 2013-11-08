@@ -32,9 +32,9 @@ public class PaymentHistoryRepository implements TwoIntKeyRelationshipRepository
 	
 	private void createPaymentHistoryTable(final Statement st) throws SQLException {
 		final String createTableStatement = "CREATE TABLE PaymentHistory(" +
-				"studentId INT NOT NULL, " +
 				"paymentId INT NOT NULL, " +
-				"PRIMARY KEY (paymentId, studentId), " + 
+				"studentId INT NOT NULL, " +
+				"PRIMARY KEY (paymentId, studentId), " +
 				"FOREIGN KEY (studentId) references Student(Id), " +
 				"FOREIGN KEY (paymentId) references Payment(paymentId) " +
 				") Engine=InnoDB;";
@@ -42,8 +42,11 @@ public class PaymentHistoryRepository implements TwoIntKeyRelationshipRepository
 	}
 	
 	private void databaseCreationCheck(final DatabaseMetaData dbm, final Statement st) throws SQLException {
-		final ResultSet tables = dbm.getTables(null, null, "PaymentHistory", null);
-		if (!tables.next()) {
+
+        PaymentRepository.getInstance().databaseCreationCheck(dbm, st);
+
+		final ResultSet historyTable = dbm.getTables(null, null, "PaymentHistory", null);
+		if (!historyTable.next()) {
 			// Table does not exist
 			createPaymentHistoryTable(st);
 		}

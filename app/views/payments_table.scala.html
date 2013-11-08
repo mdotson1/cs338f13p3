@@ -1,4 +1,6 @@
-@(payments : Iterator[models.person.Payment], url : String, paymentForm : Form[models.person.Payment])
+@(payments : Iterator[models.person.Payment], url : String, paymentForm : Form[models.person.Payment], studentId : Int)
+
+@import helper._
 
 <!DOCTYPE html>
 <html>
@@ -6,6 +8,29 @@
     <title></title>
 </head>
 <body>
+<h1>All Payments For Student @studentId</h1>
+<table border="1" cellspacing="0">
+    <tr>
+        <th>Id</th>
+        <th>Payment Type</th>
+        <th>Payment Amount</th>
+    </tr>
 
+    @for(payment <- payments) {
+    <tr>
+        <td><a href=@url/@payment.getPaymentId>@payment.getPaymentId</a></td>
+        <td>@payment.getPaymentType</td>
+         <td>@payment.getPaymentAmount</td>
+    </tr>
+    }
+</table>
+<h2>Make New Payment For Student @studentId</h2>
+@form(routes.PaymentResource.addPaymentForStudent(studentId)) {
+
+@inputText(paymentForm("paymentType"))
+@inputText(paymentForm("paymentAmount"))
+
+<input type="submit" value="Create">
+}
 </body>
 </html>

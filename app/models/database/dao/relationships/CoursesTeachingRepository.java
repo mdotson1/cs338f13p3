@@ -76,9 +76,9 @@ public class CoursesTeachingRepository implements TwoIntKeyRelationshipRepositor
 		
 		databaseCreationCheck(c.getMetaData(), st);
 		
-		final String SelectCourseTeachingQuery = "SELECT  courseOfferingId "+ 
+		final String SelectCourseTeachingQuery = "SELECT courseOfferingId "+
 												"FROM CoursesTeaching "+
-												"WHERE studentId = "+ professorId + ";";
+												"WHERE professorId = "+ professorId + ";";
 
 		final ResultSet CourseTeachingRes = st.executeQuery(SelectCourseTeachingQuery);
 

@@ -5,9 +5,14 @@ import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 import models.database.connection.DBHelper;
 import models.course.Course;
+import models.person.ContactInformation;
+import models.person.Student;
 
 public class CourseRepository {
 
@@ -44,6 +49,32 @@ public class CourseRepository {
 			createCourseTable(st);
 		}
 	}
+
+    public Iterator<Course> getAll() throws SQLException {
+        final Connection c = DBHelper.getConnection();
+        final Statement st = c.createStatement();
+
+        databaseCreationCheck(c.getMetaData(), st);
+
+        final String selectCoursesQuery = "SELECT department, courseNumber, " +
+                "cost, courseDescription FROM Course;";
+
+        final ResultSet courseRS = st.executeQuery(selectCoursesQuery);
+
+        final List<Course> courseList = new ArrayList<Course>();
+
+        Course course = null;
+
+        while ( courseRS.next() ) {
+
+            course = new Course(courseRS.getString("department"),
+                    courseRS.getShort("courseNumber"),courseRS.getShort("cost"),
+                    courseRS.getString("courseDescription"));
+
+            courseList.add(course);
+        }
+        return courseList.iterator();
+    }
 
 	public void add(final Course obj) throws SQLException {
 

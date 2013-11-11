@@ -9,7 +9,7 @@ public class Student extends UniversityPerson {
         super();
     }
 
-	// when retrieving from database, has id
+	// when retrieving from database, has student
 	public Student(final ContactInformation ci, final int id, final String dob,
 			final double currentBalance) {
 		
@@ -41,7 +41,7 @@ public class Student extends UniversityPerson {
 	
 	@Override
 	public String toString() {
-		String retVal = "id: " + id +
+		String retVal = "student: " + id +
                 ((contactInformation != null) ? contactInformation.toString() : "")
                 + " " + " current-balance: " + currentBalance;
         return retVal;

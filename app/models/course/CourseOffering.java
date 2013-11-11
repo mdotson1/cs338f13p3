@@ -14,7 +14,7 @@ public class CourseOffering {
 
     }
 
-	// when retrieving from database, has id
+	// when retrieving from database, has student
 	public CourseOffering(final int courseOfferingId, final Course course,
 			final Season season, final short year, final short section) {
 
@@ -80,6 +80,6 @@ public class CourseOffering {
 	
 	@Override
 	public String toString() {
-		return "id: " + courseOfferingId;
+		return "student: " + courseOfferingId;
 	}
 }

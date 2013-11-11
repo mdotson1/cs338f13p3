@@ -1,0 +1,25 @@
+@(departments : Iterator[String], url : String)
+
+@import helper._
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+    </head>
+    <body>
+        <h1>All Departments</h1>
+        <table border="1" cellspacing="0">
+            <tr>
+                <th>Department</th>
+            </tr>
+
+            @for(dept <- departments) {
+            <tr>
+                <td><a href=@url/@dept>@dept</a></td>
+            </tr>
+            }
+        </table>
+        <p>Don't see the department you're looking for? Please create a course with a department first.</p>
+    </body>
+</html>

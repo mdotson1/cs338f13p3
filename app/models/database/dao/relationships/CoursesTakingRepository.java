@@ -36,7 +36,7 @@ public class CoursesTakingRepository implements TwoIntKeyRelationshipRepository<
 				"studentId INT NOT NULL, " +
 				"courseOfferingId INT NOT NULL, " +
 				"PRIMARY KEY (studentId, courseOfferingId), " + 
-				"FOREIGN KEY (studentId) references Student(id), " +
+				"FOREIGN KEY (studentId) references Student(student), " +
 				"FOREIGN KEY (courseOfferingId) references CourseOffering(courseOfferingId) " +
 				") Engine=InnoDB;";
 		st.execute(createTableStatement);
@@ -74,7 +74,7 @@ public class CoursesTakingRepository implements TwoIntKeyRelationshipRepository<
 		// TODO marcellin
 	}
 
-	// return the number of courses taken by a student
+	// return the number of semesters taken by a student
 	public int findNumberOfCoursesTakenByStudent(final int studentId) throws SQLException {
 		
 		final Connection c = DBHelper.getConnection();
@@ -152,7 +152,7 @@ public class CoursesTakingRepository implements TwoIntKeyRelationshipRepository<
 		return studentList.iterator();
 	}
 	
-	// return all courses taken by a particular student
+	// return all semesters taken by a particular student
 	public Iterator<CourseOffering> getCoursesTakingByStudent(final int studentId) throws SQLException {
 		
 		final Connection c = DBHelper.getConnection();

@@ -1,0 +1,58 @@
+@(professors : Iterator[models.person.Professor], url : String, professorForm : Form[models.person.Professor])
+
+@import helper._
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+<h1>All Professors</h1>
+<table border="1" cellspacing="0">
+    <tr>
+        <th>Id</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Department</th>
+        <th>Date of Birth</th>
+        <th>Home Address</th>
+        <th>Work Address</th>
+        <th>Home Phone</th>
+        <th>Work Phone</th>
+        <th>Cell Phone</th>
+    </tr>
+
+    @for(professor <- professors) {
+    <tr>
+        <td><a href=@url/@professor.getId>@professor.getId</a></td>
+        <td>@professor.getContactInformation.getFirstName</td>
+        <td>@professor.getContactInformation.getLastName</td>
+        <td>@professor.getDepartment</td>
+        <td>@professor.getDateOfBirth</td>
+        <td>@professor.getContactInformation.getHomeAddress</td>
+        <td>@professor.getContactInformation.getWorkAddress</td>
+        <td>@professor.getContactInformation.getHomePhone</td>
+        <td>@professor.getContactInformation.getWorkPhone</td>
+        <td>@professor.getContactInformation.getCellPhone</td>
+    </tr>
+    }
+</table>
+
+<h2>Add New Professor</h2>
+@form(routes.AllProfessors.addProfessor()) {
+
+@inputText(professorForm("First Name"))
+@inputText(professorForm("Last Name"))
+@inputText(professorForm("Department"))
+@inputText(professorForm("Date of Birth"))
+@inputText(professorForm("Home Address"))
+@inputText(professorForm("Work Address"))
+@inputText(professorForm("Work Phone"))
+@inputText(professorForm("Home Phone"))
+@inputText(professorForm("Cell Phone"))
+
+<input type="submit" value="Create">
+}
+</body>
+</html>

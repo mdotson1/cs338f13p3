@@ -40,8 +40,8 @@ public class CourseOfferingRepository implements ConcreteIntKeyRepository<Course
 				"season VARCHAR(6) NOT NULL," +
 				"year SMALLINT NOT NULL," +
 				"PRIMARY KEY (courseOfferingId), " + 
-				"FOREIGN KEY (department) references Course(department), " +
-				"FOREIGN KEY (courseNumber) references Course(courseNumber), " +
+				"FOREIGN KEY (department) references Semesters(department), " +
+				"FOREIGN KEY (courseNumber) references Semesters(courseNumber), " +
                 "FOREIGN KEY (season) references Semester(season), " +
                 "FOREIGN KEY (year) references Semester(year)" +
 				") Engine=InnoDB;";
@@ -73,7 +73,7 @@ public class CourseOfferingRepository implements ConcreteIntKeyRepository<Course
 		if (rs.next()) {
 			return rs.getInt(1);
 		} else {
-			throw new SQLException("Creating Payment failed, no generated key obtained.");
+			throw new SQLException("Creating payment failed, no generated key obtained.");
 		}
 
 	}

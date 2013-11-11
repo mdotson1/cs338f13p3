@@ -1,5 +1,7 @@
 @(student : models.person.Student, url : String, links : Map[String,String])
 
+@import helper._
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,8 +11,8 @@
     <table border="1" cellspacing="0">
         <tr>
             <th>Id</th>
-            <th>First Name</th>
             <th>Last Name</th>
+            <th>First Name</th>
             <th>Current Balance</th>
             <th>Date of Birth</th>
             <th>Home Address</th>
@@ -22,8 +24,8 @@
 
         <tr>
             <td>@student.getId</td>
-            <td>@student.getContactInformation.getFirstName</td>
             <td>@student.getContactInformation.getLastName</td>
+            <td>@student.getContactInformation.getFirstName</td>
             <td>@student.getCurrentBalance</td>
             <td>@student.getDateOfBirth</td>
             <td>@student.getContactInformation.getHomeAddress</td>

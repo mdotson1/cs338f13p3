@@ -35,7 +35,7 @@ public class PaymentHistoryRepository implements TwoIntKeyRelationshipRepository
 				"paymentId INT NOT NULL, " +
 				"studentId INT NOT NULL, " +
 				"PRIMARY KEY (paymentId, studentId), " +
-				"FOREIGN KEY (studentId) references Student(Id), " +
+				"FOREIGN KEY (studentId) references Student(studentId), " +
 				"FOREIGN KEY (paymentId) references Payment(paymentId) " +
 				") Engine=InnoDB;";
 		st.execute(createTableStatement);
@@ -61,7 +61,7 @@ public class PaymentHistoryRepository implements TwoIntKeyRelationshipRepository
 		databaseCreationCheck(c.getMetaData(), st);
 		
 		final ResultSet CourseRes = st.executeQuery("SELECT studentId, paymentId FROM PaymentHistory WHERE "
-				+ "studentId =	"+studentId+ " AND paymentId = "
+				+ "studentId = " + studentId + " AND paymentId = "
 						+ paymentId+ ";");
 		
 		if(!CourseRes.next()){

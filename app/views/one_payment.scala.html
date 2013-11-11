@@ -1,0 +1,25 @@
+@(payment : models.person.Payment, url : String)
+
+@import helper._
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+<table border="1" cellspacing="0">
+    <tr>
+        <th>Id</th>
+        <th>Payment Type</th>
+        <th>Payment Amount</th>
+    </tr>
+
+    <tr>
+        <td>@payment.getPaymentId</td>
+        <td>@payment.getPaymentType</td>
+        <td>@payment.getPaymentAmount</td>
+    </tr>
+</table>
+</body>
+</html>

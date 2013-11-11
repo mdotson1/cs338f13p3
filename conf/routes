@@ -2,48 +2,85 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
-# Home page
-GET     /                                    controllers.Application.rootIndex()
+# /
+GET     /                                       controllers.root.Application.get()
 
-# Portals
-GET     /student                            controllers.Application.studentIndex()
-GET     /professor                          controllers.Application.professorIndex()
-GET     /admin                              controllers.Application.adminIndex()
+# /admin
+GET     /admin                                  controllers.root.admin.Admin.get()
 
-# Student resource
-GET     /admin/students                     controllers.StudentResource.getAllStudents()
-POST    /admin/students                     controllers.StudentResource.addStudent()
-GET     /admin/students/:id                 controllers.StudentResource.getStudent(id : Integer)
-PUT     /admin/students/:id                 controllers.StudentResource.updateStudent(id : Integer)
+# /admin/course_schedules
+GET     /admin/course_schedules                 controllers.root.admin.course_schedules.CourseSchedules.get()
 
-# Payment resource
-GET     /admin/students/:id/payments        controllers.PaymentResource.getPaymentHistoryForStudent(id : Integer)
-POST    /admin/students/:id/payments        controllers.PaymentResource.addPaymentForStudent(id : Integer)
-GET     /admin/students/:sid/payments/:id   controllers.PaymentResource.getPayment(sid : Integer, id : Integer)
-PUT     /admin/students/:sid/payments/:id   controllers.PaymentResource.updatePayment(sid : Integer, id : Integer)
+# /admin/course_schedules/{sy}
+GET     /admin/course_schedules/:sy             controllers.root.admin.course_schedules.semester.Semester.get(sy : String)
 
-# Professor resource
-GET     /admin/professors                   controllers.ProfessorResource.getAllProfessors()
-POST    /admin/professors                   controllers.ProfessorResource.addProfessor()
-GET     /admin/professors/:id               controllers.ProfessorResource.getProfessor(id : Integer)
-PUT     /admin/professors/:id               controllers.ProfessorResource.updateProfessor(id : Integer)
+# /admin/course_schedules/{sy}/{dept}
+GET     /admin/course_schedules/:sy/:dept       controllers.root.admin.course_schedules.semester.department.Department.get(sy : String, dept : String)
 
-# Course resource
-GET     /admin/courses                      controllers.CourseResource.getAllCourses()
-POST    /admin/courses                      controllers.CourseResource.addCourse()
-GET     /admin/courses/:deptAndCourseNum    controllers.CourseResource.getCourse(deptAndCourseNum : String)
-PUT     /admin/courses/:deptAndCourseNum    controllers.CourseResource.updateCourse(deptAndCourseNum : String)
+# /admin/course_schedules/{sy}/{dept}/{cn}
+GET     /admin/course_schedules/:sy/:dept/:cn   controllers.root.admin.course_schedules.semester.department.course.Course.get(sy : String, dept : String, cn : String)
 
-# Semesters resource
-GET     /admin/semesters                    controllers.SemesterResource.getAllSemesters()
-POST    /admin/semesters                    controllers.SemesterResource.addSemester()
+# /admin/course_schedules/{sy}/{dept}/{cn}/{sn}
+GET     /admin/course_schedules/:sy/:dept/:cn/:sn   controllers.root.admin.course_schedules.semester.department.course.section.Section.get(sy : String, dept : String, cn : String, sn : String)
 
-# Course Offering Resource
-POST    /admin/semesters/:seasonAndYear     controllers.CourseOfferingResource.addCourseOffering(seasonAndYear : String)
-GET     /admin/semesters/:seasonAndYear     controllers.CourseOfferingResource.getAllCourseOfferingsForSem(seasonAndYear : String)
-# cOffering = CS-313-001 for example
-GET     /admin/semesters/:sy/:coId     controllers.CourseOfferingResource.getCourseOffering(sy : String, coId : Integer)
-PUT     /admin/semesters/:sy/:coId     controllers.CourseOfferingResource.updateCourseOffering(sy : String, coId : Integer)
+# /admin/departments
+GET     /admin/departments                      controllers.root.admin.departments.Departments.get()
 
-# Map static resources from the /public folder to the /assets URL path
-GET     /assets/*file                 controllers.Assets.at(path="/public", file)
+# /admin/departments/{dept}
+GET     /admin/departments/:dept                controllers.root.admin.departments.department.Department.get(dept : String)
+
+# /admin/departments/{dept}/courses
+GET     /admin/departments/:dept/courses        controllers.root.admin.departments.department.courses.Courses.get(dept : String)
+
+# /admin/departments/{dept}/courses/{cn}
+GET     /admin/departments/:dept/courses/:cn    controllers.root.admin.departments.department.courses.course.Course.get(dept : String, cn : String)
+
+# /admin/departments/{dept}/faculty
+GET     /admin/departments/:dept/faculty        controllers.root.admin.departments.department.faculty.Faculty.get(dept : String)
+
+# /admin/departments/{dept}/faculty/{id}
+GET     /admin/departments/:dept/faculty/:id   controllers.root.admin.departments.department.faculty.professor.Professor.get(dept : String, id : Integer)
+
+# /admin/departments/{dept}/faculty/{id}/semesters
+GET     /admin/departments/:dept/faculty/:id/semesters   controllers.root.admin.departments.department.faculty.professor.semesters.Semesters.get(dept : String, id : Integer)
+
+# /admin/departments/{dept}/faculty/{id}/semesters/{sy}
+GET     /admin/departments/:dept/faculty/:id/semesters/:sy   controllers.root.admin.departments.department.faculty.professor.semesters.semester.Semester.get(dept : String, id : Integer, sy : String)
+
+# /admin/departments/{dept}/faculty/{id}/semesters/{sy}/courses
+GET     /admin/departments/:dept/faculty/:id/semesters/:sy/courses   controllers.root.admin.departments.department.faculty.professor.semesters.semester.courses.Courses.get(dept : String, id : Integer, sy : String)
+
+# /admin/departments/{dept}/faculty/{id}/semesters/{sy}/courses/{cn}
+GET     /admin/departments/:dept/faculty/:id/semesters/:sy/courses/:cn   controllers.root.admin.departments.department.faculty.professor.semesters.semester.courses.course.Course.get(dept : String, id : Integer, sy : String, cn : String)
+
+# /admin/departments/{dept}/faculty/{id}/semesters/{sy}/courses/{cn}/{sn}
+GET     /admin/departments/:dept/faculty/:id/semesters/:sy/courses/:cn/:sn   controllers.root.admin.departments.department.faculty.professor.semesters.semester.courses.course.section.Section.get(dept : String, id : Integer, sy : String, cn : String, sn : String)
+
+# /admin/students
+GET     /admin/students                         controllers.root.admin.students.Students.get()
+POST    /admin/students                         controllers.root.admin.students.Students.post()
+
+# /admin/students/{id}
+GET     /admin/students/:id                     controllers.root.admin.students.student.Student.get(id : Integer)
+
+# /admin/students/{id}/semesters
+GET     /admin/students/:id/semesters             controllers.root.admin.students.student.semesters.Semesters.get(id : Integer)
+
+# /admin/students/{id}/semesters/{sy}
+GET     /admin/students/:id/semesters/:sy         controllers.root.admin.students.student.semesters.semester.Semester.get(id : Integer, sy : String)
+
+# /admin/students/{id}/semesters/{sy}/{cn}/{sn}
+GET     /admin/students/:id/semesters/:sy/:cn/:sn         controllers.root.admin.students.student.semesters.semester.course.Course.get(id : Integer, sy : String, cn : String, sn : String)
+
+# /admin/students/{id}/payments
+GET     /admin/students/:id/payments            controllers.root.admin.students.student.payments.Payments.get(id : Integer)
+POST    /admin/students/:id/payments            controllers.root.admin.students.student.payments.Payments.post(id : Integer)
+
+# /admin/students/{id}/payments/{pid}
+GET     /admin/students/:id/payments/:pid       controllers.root.admin.students.student.payments.payment.Payment.get(id : Integer, pid : Integer)
+
+# /student
+GET     /student                                  controllers.root.student.Student.get()
+
+# /professor
+GET     /professor                                  controllers.root.professor.Professor.get()

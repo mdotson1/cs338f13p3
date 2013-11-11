@@ -66,7 +66,7 @@ public class PaymentRepository implements ConcreteIntKeyRepository<Payment> {
 		if (rs.next()) {
 			return rs.getInt(1);
         } else {
-            throw new SQLException("Creating Payment failed, no generated key obtained.");
+            throw new SQLException("Creating payment failed, no generated key obtained.");
         }
 	}
 

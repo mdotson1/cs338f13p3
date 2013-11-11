@@ -38,7 +38,7 @@ public class CoursesTeachingRepository implements TwoIntKeyRelationshipRepositor
 				"professorId INT NOT NULL, " +
 				"courseOfferingId INT NOT NULL, " +
 				"PRIMARY KEY (professorId, courseOfferingId), "  + 
-				"FOREIGN KEY (professorId) references Professor(id), " +
+				"FOREIGN KEY (professorId) references Professor(student), " +
 				"FOREIGN KEY (courseOfferingId) references CourseOffering(courseOfferingId) " + 
 				") Engine=InnoDB;";
 		st.execute(createTableStatement);
@@ -68,7 +68,7 @@ public class CoursesTeachingRepository implements TwoIntKeyRelationshipRepositor
 		st.executeUpdate(insertCourseTeachingQuery, Statement.RETURN_GENERATED_KEYS);
 	}
 
-	// return all courses taught by professor
+	// return all semesters taught by professor
 	public Iterator<CourseOffering> findAllCoursesTaughtByProfessor(final int professorId) throws SQLException {
 		
 		final Connection c = DBHelper.getConnection();

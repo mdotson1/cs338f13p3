@@ -33,9 +33,9 @@ public class CoursesTakenRepository {
 				"department VARCHAR(20) NOT NULL," +
 				"courseNumber SMALLINT NOT NULL," +
 				"PRIMARY KEY (studentId, department, courseNumber), " + 
-				"FOREIGN KEY (studentId) references Student(id), " +
-				"FOREIGN KEY (department) references Course(department), " + 
-				"FOREIGN KEY (courseNumber) references Course(courseNumber) " +
+				"FOREIGN KEY (studentId) references Student(student), " +
+				"FOREIGN KEY (department) references Semesters(department), " +
+				"FOREIGN KEY (courseNumber) references Semesters(courseNumber) " +
 				") Engine=InnoDB;";
 		st.execute(createTableStatement);
 	}
@@ -71,14 +71,14 @@ public class CoursesTakenRepository {
 		if (rs.next()) {
 			return rs.getInt(1);
 		} else {
-			throw new SQLException("Creating Course taken failed, no generated key obtained.");
+			throw new SQLException("Creating Semesters taken failed, no generated key obtained.");
 		}}
 		else return -1;
 
 		// TODO marcellin
 	}
 	
-	// return the courses taken by the student
+	// return the semesters taken by the student
 	public Iterator<Course> findAllCoursesTakenByStudent(final int studentId) throws SQLException {
 		
 		final Connection c = DBHelper.getConnection();
@@ -102,7 +102,7 @@ public class CoursesTakenRepository {
 			final String department = CourseTakenRes.getString("department");
 
 			final String SelectCourseQuery = "SELECT department, courseNumber, cost, courseDescription " +
-											"FROM Course WHERE courseNumber = "+ courseNum + 
+											"FROM Semesters WHERE courseNumber = "+ courseNum +
 											" AND department = '"+ department + "';";
 
 			final ResultSet CourseRes = st.executeQuery(SelectCourseQuery);

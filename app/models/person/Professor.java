@@ -9,7 +9,7 @@ public class Professor extends UniversityPerson {
         super();
     }
 
-	// when retrieving from database, has id
+	// when retrieving from database, has student
 	public Professor(final ContactInformation ci, final int id, final String dob,
 			final String dept) {
 
@@ -36,6 +36,6 @@ public class Professor extends UniversityPerson {
 	
 	@Override
 	public String toString() {
-		return "id: " + id;
+		return "student: " + id;
 	}
 }

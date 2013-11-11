@@ -32,7 +32,7 @@ public class StudentRepository implements ConcreteIntKeyRepository<Student> {
 	
 	private void createStudentTable(final Statement st) throws SQLException {
 		final String createTableStatement = "CREATE TABLE Student(" +
-				"id INT NOT NULL AUTO_INCREMENT, " +
+				"studentId INT NOT NULL AUTO_INCREMENT, " +
 				"dateOfBirth VARCHAR(10) NOT NULL, " +
 				"homeAddress VARCHAR(200) NOT NULL, " +
 				"workAddress VARCHAR(200), " + 
@@ -42,7 +42,7 @@ public class StudentRepository implements ConcreteIntKeyRepository<Student> {
 				"homePhone CHAR(13), " +
 				"cellPhone CHAR(13), " +
 				"currentBalance DOUBLE NOT NULL, " +
-				"PRIMARY KEY ( id ) " +
+				"PRIMARY KEY ( studentId ) " +
 				") Engine=InnoDB;";
 		st.execute(createTableStatement);
 	}
@@ -57,7 +57,7 @@ public class StudentRepository implements ConcreteIntKeyRepository<Student> {
 	}
 
 	@Override
-	// returns the id added
+	// returns the student added
 	public int add(final Student obj) throws SQLException {
 		final Connection c = DBHelper.getConnection();
 		final Statement st = c.createStatement();
@@ -88,9 +88,9 @@ public class StudentRepository implements ConcreteIntKeyRepository<Student> {
 		
 		databaseCreationCheck(c.getMetaData(), st);
 
-		final String selectStudentQuery = "SELECT id, dateOfBirth, homeAddress, workAddress, " +
+		final String selectStudentQuery = "SELECT studentId, dateOfBirth, homeAddress, workAddress, " +
 				"lastName, firstName, workPhone, homePhone, cellPhone, currentBalance" +
-				" FROM Student WHERE id = " + id + ";";
+				" FROM Student WHERE studentId = " + id + ";";
 		
 		final ResultSet studentRS = st.executeQuery(selectStudentQuery);   
 
@@ -117,7 +117,7 @@ public class StudentRepository implements ConcreteIntKeyRepository<Student> {
 		
 
 		final String updateBalanceStatement = "UPDATE Student SET currentBalance=" + newBalance
-				+ " WHERE id=" + studentId + ";";
+				+ " WHERE studentId=" + studentId + ";";
 
 		st.execute(updateBalanceStatement);
 	}
@@ -129,7 +129,7 @@ public class StudentRepository implements ConcreteIntKeyRepository<Student> {
 		
 		databaseCreationCheck(c.getMetaData(), st);
 
-		final String selectStudentsQuery = "SELECT id, dateOfBirth, homeAddress, workAddress, " +
+		final String selectStudentsQuery = "SELECT studentId, dateOfBirth, homeAddress, workAddress, " +
 				"lastName, firstName, workPhone, homePhone, cellPhone, currentBalance FROM Student;";
 
 		final ResultSet studentRS = st.executeQuery(selectStudentsQuery);   
@@ -145,7 +145,7 @@ public class StudentRepository implements ConcreteIntKeyRepository<Student> {
 					studentRS.getString("firstName"), studentRS.getString("workPhone"),
 					studentRS.getString("homePhone"), studentRS.getString("cellPhone"));
 			
-			student = new Student(contactInformation, studentRS.getInt("id"), 
+			student = new Student(contactInformation, studentRS.getInt("studentId"),
 					studentRS.getString("dateOfBirth"), studentRS.getDouble("currentBalance"));
 			
 			studentList.add(student);
@@ -160,7 +160,7 @@ public class StudentRepository implements ConcreteIntKeyRepository<Student> {
 		
 		databaseCreationCheck(c.getMetaData(), st);
 		
-		final String deleteStudentQuery = "DELETE FROM Student WHERE id = " + id + ";";
+		final String deleteStudentQuery = "DELETE FROM Student WHERE studentId = " + id + ";";
 
 		return st.execute(deleteStudentQuery);
 	}

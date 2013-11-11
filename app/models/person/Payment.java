@@ -10,7 +10,7 @@ public class Payment {
 
     }
 
-	// when retrieving from database, has id
+	// when retrieving from database, has student
 	public Payment(final int id, final String type, final double amount) {
 		paymentId = id;
 		paymentType = type;

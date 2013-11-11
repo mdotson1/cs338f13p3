@@ -33,10 +33,10 @@ public class CoursePrereqsRepository {
 				"prereqDepartment VARCHAR(20) NOT NULL," +
 				"prereqCourseNumber SMALLINT NOT NULL," +
 				"PRIMARY KEY (department, courseNumber, prereqDepartment, prereqCourseNumber), " + 
-				"FOREIGN KEY (department) references Course(department), " +
-				"FOREIGN KEY (courseNumber) references Course(courseNumber), " + 
-				"FOREIGN KEY (prereqDepartment) references Course(department), " +
-				"FOREIGN KEY (prereqCourseNumber) references Course(courseNumber) " +
+				"FOREIGN KEY (department) references Semesters(department), " +
+				"FOREIGN KEY (courseNumber) references Semesters(courseNumber), " +
+				"FOREIGN KEY (prereqDepartment) references Semesters(department), " +
+				"FOREIGN KEY (prereqCourseNumber) references Semesters(courseNumber) " +
 				") Engine=InnoDB;";
 		st.execute(createTableStatement);
 	}
@@ -74,7 +74,7 @@ public class CoursePrereqsRepository {
 			if (rs.next()) {
 				return rs.getInt(1);
 			} else {
-				throw new SQLException("Creating Course prerequisite failed, no generated key obtained.");
+				throw new SQLException("Creating Semesters prerequisite failed, no generated key obtained.");
 			}
 		}
 		else 
@@ -106,7 +106,7 @@ public class CoursePrereqsRepository {
 			final String dep = CoursePrereqRes.getString("prereqDepartment");
 
 			final String SelectCourseQuery = "SELECT department, courseNumber, cost, courseDescription" +
-					"FROM Course WHERE courseNumber = "+ courseNum + 
+					"FROM Semesters WHERE courseNumber = "+ courseNum +
 					" AND department = '"+ dep + "';";
 
 			final ResultSet CourseRes = st.executeQuery(SelectCourseQuery);

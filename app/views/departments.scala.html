@@ -1,4 +1,4 @@
-@(departments : Iterator[String], url : String)
+@(departments : Iterator[String], url : String, courseForm : Form[models.course.Course], backLink : Map[String,String])
 
 @import helper._
 
@@ -21,5 +21,8 @@
             }
         </table>
         <p>Don't see the department you're looking for? Please create a course with a department first.</p>
+        @helpers.forms.course_form(courseForm, controllers.root.admin.departments.routes.Departments.post())
+
+        @helpers.link(backLink)
     </body>
 </html>

@@ -32,7 +32,7 @@ public class PaymentsResource {
             return ok(payments.render(PaymentHistoryRepository.
                     getInstance().findAllPaymentsByStudent(studentId),
                     PaymentsResource.allPaymentsURI(studentId), PAYMENT_FORM,
-                    studentId));
+                    studentId, backLink));
         } catch (SQLException e) {
             return ok(debug.render(e.toString()));
         }
@@ -58,7 +58,7 @@ public class PaymentsResource {
                     PaymentHistoryRepository.getInstance().
                             findAllPaymentsByStudent(studentId),
                     PaymentsResource.allPaymentsURI(studentId), filledForm,
-                    studentId));
+                    studentId, backLink));
 
         } catch (SQLException e) {
             return ok(debug.render(e.toString()));

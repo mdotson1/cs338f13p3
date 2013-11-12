@@ -16,7 +16,8 @@ public class OneStudentResource {
     private static final String STUDENTS_URI = controllers.root.admin.students.
             routes.Students.get().url();
 
-    public static Result get(final int studentId, Map<String,String> backLink) {
+    public static Result get(final int studentId,
+                             final Map<String,String> backLink) {
 
         final String SINGLE_STUDENT_URI = STUDENTS_URI + "/" + studentId;
 
@@ -26,7 +27,7 @@ public class OneStudentResource {
             links.put("Courses Taking/Taken", SINGLE_STUDENT_URI +
                     "/semesters");
             links.putAll(backLink);
-            return ok(single_student.render(
+            return ok(one_student.render(
                     StudentRepository.getInstance().findById(studentId),
                     STUDENTS_URI, links));
         } catch (SQLException e) {

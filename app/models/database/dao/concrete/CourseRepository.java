@@ -30,7 +30,7 @@ public class CourseRepository {
 	}
 
 	private void createCourseTable(final Statement st) throws SQLException {
-		final String createTableStatement = "CREATE TABLE Semesters(" +
+		final String createTableStatement = "CREATE TABLE Course(" +
 				"department VARCHAR(20) NOT NULL, " +
 				"courseNumber SMALLINT NOT NULL, " +
 				"cost DOUBLE NOT NULL, " +
@@ -41,9 +41,9 @@ public class CourseRepository {
 		st.execute(createTableStatement);
 	}
 
-	private void databaseCreationCheck(final DatabaseMetaData dbm, 
+	public void databaseCreationCheck(final DatabaseMetaData dbm,
 			final Statement st) throws SQLException {
-		final ResultSet tables = dbm.getTables(null, null, "Semesters", null);
+		final ResultSet tables = dbm.getTables(null, null, "Course", null);
 		if (!tables.next()) {
 			// Table does not exist
 			createCourseTable(st);
@@ -57,7 +57,35 @@ public class CourseRepository {
         databaseCreationCheck(c.getMetaData(), st);
 
         final String selectCoursesQuery = "SELECT department, courseNumber, " +
-                "cost, courseDescription FROM Semesters;";
+                "cost, courseDescription FROM Course;";
+
+        final ResultSet courseRS = st.executeQuery(selectCoursesQuery);
+
+        final List<Course> courseList = new ArrayList<Course>();
+
+        Course course = null;
+
+        while ( courseRS.next() ) {
+
+            course = new Course(courseRS.getString("department"),
+                    courseRS.getShort("courseNumber"),courseRS.getShort("cost"),
+                    courseRS.getString("courseDescription"));
+
+            courseList.add(course);
+        }
+        return courseList.iterator();
+    }
+
+    public Iterator<Course> getAllByDepartment(final String department)
+            throws SQLException {
+        final Connection c = DBHelper.getConnection();
+        final Statement st = c.createStatement();
+
+        databaseCreationCheck(c.getMetaData(), st);
+
+        final String selectCoursesQuery = "SELECT department, courseNumber, " +
+                "cost, courseDescription FROM Course WHERE department = '" +
+                department + "';";
 
         final ResultSet courseRS = st.executeQuery(selectCoursesQuery);
 
@@ -83,7 +111,7 @@ public class CourseRepository {
 
 		databaseCreationCheck(c.getMetaData(), st);
 
-		final String insertStudentStatement = "INSERT INTO Semesters(department, courseNumber, " +
+		final String insertStudentStatement = "INSERT INTO Course(department, courseNumber, " +
 				"cost, courseDescription)" + " VALUES('" + obj.getDepartment() + "', " + 
 				obj.getCourseNumber() + ", " + obj.getCost() + ", '" + 
 				obj.getCourseDescription() + "');";
@@ -91,6 +119,25 @@ public class CourseRepository {
 		st.execute(insertStudentStatement);
 	}
 
+    public Iterator<String> allDepartments() throws SQLException {
+        final Connection c = DBHelper.getConnection();
+        final Statement st = c.createStatement();
+
+        databaseCreationCheck(c.getMetaData(), st);
+
+        final String selectDepartmentsQuery = "SELECT department FROM Course " +
+                "GROUP BY department;";
+
+        final ResultSet departmentRS = st.executeQuery(selectDepartmentsQuery);
+
+        final List<String> departmentList = new ArrayList<String>();
+
+        while ( departmentRS.next() ) {
+
+            departmentList.add(departmentRS.getString("department"));
+        }
+        return departmentList.iterator();
+    }
 
 	public Course findById(final String department, final short courseNumber)
 			throws SQLException {
@@ -101,7 +148,7 @@ public class CourseRepository {
 		databaseCreationCheck(c.getMetaData(), st);
 
 		final String SelectCourseQuery = "SELECT department, courseNumber, cost, courseDescription " +
-				"FROM Semesters WHERE courseNumber = "+ courseNumber +
+				"FROM Course WHERE courseNumber = "+ courseNumber +
 				" AND department = '"+ department + "';";
 
 		final ResultSet CourseRes = st.executeQuery(SelectCourseQuery);
@@ -123,7 +170,7 @@ public class CourseRepository {
 
 		databaseCreationCheck(c.getMetaData(), st);
 
-		final String deleteCourseQuery = "DELETE FROM Semesters WHERE courseNumber = "+ courseNumber +
+		final String deleteCourseQuery = "DELETE FROM Course WHERE courseNumber = "+ courseNumber +
 				" AND department = '"+ department + "';";
 
 		return st.execute(deleteCourseQuery);

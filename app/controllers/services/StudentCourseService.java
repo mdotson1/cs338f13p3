@@ -2,21 +2,21 @@ package controllers.services;
 
 import java.sql.SQLException;
 
-import models.database.dao.relationships.CoursesTakingRepository;
+import models.database.dao.relationships.CoursesTakenRepository;
 
 public class StudentCourseService {
 	// true = enrolled in, false = not enrolled in
 	public static boolean enrollInCourse(final int studentId,
 			final int courseOfferingId) throws SQLException {
 
-		if (CoursesTakingRepository.getInstance().
+		if (CoursesTakenRepository.getInstance().
 				findNumberOfCoursesTakenByStudent(studentId) == 4) {
 			return false;
 		} else {
 			if (studentIsTakingCourse(studentId, courseOfferingId)) {
 				return false;
 			} else {
-				CoursesTakingRepository.getInstance().add(studentId, courseOfferingId);
+				CoursesTakenRepository.getInstance().add(studentId, courseOfferingId);
 				return true;
 			}
 		}
@@ -27,7 +27,7 @@ public class StudentCourseService {
 			final int courseOfferingId) throws SQLException {
 
 		if (studentIsTakingCourse(studentId, courseOfferingId)) {
-			CoursesTakingRepository.getInstance().delete(studentId, courseOfferingId);
+			CoursesTakenRepository.getInstance().delete(studentId, courseOfferingId);
 			return true;
 		} else {
 			return false;
@@ -38,6 +38,6 @@ public class StudentCourseService {
 	private static boolean studentIsTakingCourse(final int studentId,
 			final int courseOfferingId) throws SQLException {
 
-		return CoursesTakingRepository.getInstance().contains(studentId, courseOfferingId);
+		return CoursesTakenRepository.getInstance().contains(studentId, courseOfferingId);
 	}
 }

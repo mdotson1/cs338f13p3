@@ -1,12 +1,13 @@
-@(students : Iterator[models.person.Student], url : String, studentForm : Form[models.person.Student], backLink : Map[String,String])
+@(student : models.person.Student, url : String, links : Map[String,String])
+
+@import helper._
 
 <!DOCTYPE html>
 <html>
-    <head>
-        <title></title>
-    </head>
-    <body>
-    <h1>All Students</h1>
+<head>
+    <title></title>
+</head>
+<body>
     <table border="1" cellspacing="0">
         <tr>
             <th>Id</th>
@@ -21,9 +22,8 @@
             <th>Cell Phone</th>
         </tr>
 
-        @for(student <- students) {
         <tr>
-            <td><a href=@url/@student.getId>@student.getId</a></td>
+            <td>@student.getId</td>
             <td>@student.getContactInformation.getLastName</td>
             <td>@student.getContactInformation.getFirstName</td>
             <td>@student.getCurrentBalance</td>
@@ -34,12 +34,7 @@
             <td>@student.getContactInformation.getWorkPhone</td>
             <td>@student.getContactInformation.getCellPhone</td>
         </tr>
-        }
     </table>
-
-    @helpers.forms.student_form(studentForm, controllers.root.admin.students.routes.Students.post())
-
-    @helpers.link(backLink)
-
-    </body>
+    <p>@helpers.link(links)</p>
+</body>
 </html>

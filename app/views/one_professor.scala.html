@@ -1,0 +1,60 @@
+@(professor : models.person.Professor, coURL : String, courseURL : String, courseOfferings : Iterator[models.course.CourseOffering])
+
+@import helper._
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+    </head>
+    <body>
+        <h1>Information for Id:@professor.getId - @professor.getContactInformation.getLastName, @professor.getContactInformation.getFirstName</h1>
+        <table border="1" cellspacing="0">
+            <tr>
+                <th>Id</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Department</th>
+                <th>Date of Birth</th>
+                <th>Home Address</th>
+                <th>Work Address</th>
+                <th>Home Phone</th>
+                <th>Work Phone</th>
+                <th>Cell Phone</th>
+            </tr>
+
+            <tr>
+                <td>@professor.getId</td>
+                <td>@professor.getContactInformation.getFirstName</td>
+                <td>@professor.getContactInformation.getLastName</td>
+                <td>@professor.getDepartment</td>
+                <td>@professor.getDateOfBirth</td>
+                <td>@professor.getContactInformation.getHomeAddress</td>
+                <td>@professor.getContactInformation.getWorkAddress</td>
+                <td>@professor.getContactInformation.getHomePhone</td>
+                <td>@professor.getContactInformation.getWorkPhone</td>
+                <td>@professor.getContactInformation.getCellPhone</td>
+            </tr>
+        </table>
+        <h2>Courses Teaching or Taught</h2>
+        <table border="1" cellspacing="0">
+            <tr>
+                <th>Course Offering Id</th>
+                <th>Department-Course Number</th>
+                <th>Section Number</th>
+                <th>Season</th>
+                <th>Year</th>
+            </tr>
+
+            @for(course <- courseOfferings) {
+            <tr>
+                <td><a href=@coURL/@course.getCourseOfferingId>@course.getCourseOfferingId</a></td>
+                <td><a href=@courseURL/@course.getCourse.getDepartment-@course.getCourse.getCourseNumber>@course.getCourse.getDepartment-@course.getCourse.getCourseNumber</a></td>
+                <td>@course.getSectionNumber</td>
+                <td>@course.getSemester.getSeason</td>
+                <td>@course.getSemester.getYear</td>
+            </tr>
+            }
+        </table>
+    </body>
+</html>

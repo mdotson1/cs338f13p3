@@ -1,0 +1,17 @@
+@(professorForm : Form[models.person.Student], post : play.api.mvc.Call)
+
+<h2>Create New Professor Entry</h2>
+@helper.form(post) {
+
+@helper.inputText(professorForm("Last Name"))
+@helper.inputText(professorForm("First Name"))
+@helper.inputText(professorForm("Department"))
+@helper.inputText(professorForm("Home Address"))
+@helper.inputText(professorForm("Work Address"))
+@helper.inputText(professorForm("Work Phone"))
+@helper.inputText(professorForm("Home Phone"))
+@helper.inputText(professorForm("Cell Phone"))
+@helper.inputText(professorForm("Date of Birth"))
+
+<input type="submit" value="Create">
+}

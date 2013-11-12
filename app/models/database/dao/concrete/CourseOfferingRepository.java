@@ -16,10 +16,12 @@ import models.course.Course;
 import models.course.CourseOffering;
 import models.course.Semester.Season;
 
-public class CourseOfferingRepository implements ConcreteIntKeyRepository<CourseOffering> {
+public class CourseOfferingRepository
+        implements ConcreteIntKeyRepository<CourseOffering> {
 
 	private static class SingletonHolder { 
-		public static final CourseOfferingRepository INSTANCE = new CourseOfferingRepository();
+		public static final CourseOfferingRepository INSTANCE =
+                new CourseOfferingRepository();
 	}
 
 	public static CourseOfferingRepository getInstance() {
@@ -31,7 +33,8 @@ public class CourseOfferingRepository implements ConcreteIntKeyRepository<Course
 
 	}
 
-	private void createCourseOfferingTable(final Statement st) throws SQLException {
+	private void createCourseOfferingTable(final Statement st)
+            throws SQLException {
 		final String createTableStatement = "CREATE TABLE CourseOffering(" +
 				"courseOfferingId INT NOT NULL AUTO_INCREMENT, " +
 				"department VARCHAR(20) NOT NULL, " +
@@ -40,16 +43,20 @@ public class CourseOfferingRepository implements ConcreteIntKeyRepository<Course
 				"season VARCHAR(6) NOT NULL," +
 				"year SMALLINT NOT NULL," +
 				"PRIMARY KEY (courseOfferingId), " + 
-				"FOREIGN KEY (department) references Semesters(department), " +
-				"FOREIGN KEY (courseNumber) references Semesters(courseNumber), " +
+				"FOREIGN KEY (department) references Course(department), " +
+				"FOREIGN KEY (courseNumber) references Course(courseNumber), " +
                 "FOREIGN KEY (season) references Semester(season), " +
                 "FOREIGN KEY (year) references Semester(year)" +
 				") Engine=InnoDB;";
 		st.execute(createTableStatement);
 	}
 
-	private void databaseCreationCheck(DatabaseMetaData dbm, Statement st) throws SQLException {
+	public void databaseCreationCheck(DatabaseMetaData dbm, Statement st) throws SQLException {
 		final ResultSet tables = dbm.getTables(null, null, "CourseOffering", null);
+
+        CourseRepository.getInstance().databaseCreationCheck(dbm, st);
+        SemesterRepository.getInstance().databaseCreationCheck(dbm, st);
+
 		if (!tables.next()) {
 			// Table does not exist
 			createCourseOfferingTable(st);
@@ -63,17 +70,21 @@ public class CourseOfferingRepository implements ConcreteIntKeyRepository<Course
 
 		databaseCreationCheck(c.getMetaData(), st);
 
-		final String insertCourseOfferingStatement = "INSERT INTO CourseOffering (department," +
-				" courseNumber, sectionNumber, season, year) VALUES('" + 
-				obj.getCourse().getDepartment() + "', " + obj.getCourse().getCourseNumber() + 
-				", " + obj.getSectionNumber() + ", '" + obj.getSeason() + "', " + obj.getYear() + ");";
+		final String insertCourseOfferingStatement = "INSERT INTO " +
+                "CourseOffering (department, courseNumber, sectionNumber, " +
+                "season, year) VALUES('" + obj.getCourse().getDepartment() +
+                "', " + obj.getCourse().getCourseNumber() + ", " +
+                obj.getSectionNumber() + ", '" + obj.getSemester().getSeason() +
+                "', " + obj.getSemester().getYear() + ");";
 
-		st.executeUpdate(insertCourseOfferingStatement, Statement.RETURN_GENERATED_KEYS);
+		st.executeUpdate(insertCourseOfferingStatement,
+                Statement.RETURN_GENERATED_KEYS);
 		ResultSet rs = st.getGeneratedKeys();
 		if (rs.next()) {
 			return rs.getInt(1);
 		} else {
-			throw new SQLException("Creating payment failed, no generated key obtained.");
+			throw new SQLException("Creating payment failed, no generated " +
+                    "key obtained.");
 		}
 
 	}
@@ -87,22 +98,28 @@ public class CourseOfferingRepository implements ConcreteIntKeyRepository<Course
 
 		databaseCreationCheck(c.getMetaData(), st);
 
-		final String SelectCourseOffQuery = "SELECT courseOfferingId, department, courseNumber, sectionNumber, "+
-				"sectionNumber, sectionNumber, season, year FROM CourseOffering "+
-				"WHERE courseOfferingId = " + id + ";";
+		final String SelectCourseOffQuery = "SELECT courseOfferingId, " +
+                "department, courseNumber, sectionNumber, sectionNumber, " +
+                "sectionNumber, season, year FROM CourseOffering WHERE " +
+                "courseOfferingId = " + id + ";";
 
 
-		final ResultSet CourseOffRes = st.executeQuery(SelectCourseOffQuery);
+		final ResultSet courseOffRes = st.executeQuery(SelectCourseOffQuery);
 
 		CourseOffering courseOffering = null;
 
-		while(CourseOffRes.next()){
-			Course course = CourseRepository.getInstance()
-					.findById(CourseOffRes.getString("department"), CourseOffRes.getShort("courseNumber"));
+		while(courseOffRes.next()){
+			final Course course = CourseRepository.getInstance()
+					.findById(courseOffRes.getString("department"),
+                            courseOffRes.getShort("courseNumber"));
 
-			courseOffering = new CourseOffering(CourseOffRes.getShort("courseOfferingID"),
-					course, Season.valueOf(CourseOffRes.getString("season")), 
-					CourseOffRes.getShort("year"), CourseOffRes.getShort("sectionNumber"));
+            final Semester sem = new Semester(Season.valueOf(
+                    courseOffRes.getString("season")),
+                    courseOffRes.getShort("year"));
+
+			courseOffering = new CourseOffering(
+                    courseOffRes.getShort("courseOfferingID"), course, sem,
+                    courseOffRes.getShort("sectionNumber"));
 		}
 		return courseOffering;
 	}
@@ -116,7 +133,8 @@ public class CourseOfferingRepository implements ConcreteIntKeyRepository<Course
 
 		databaseCreationCheck(c.getMetaData(), st);
 
-		final String deleteCourseOfferingQuery = "DELETE FROM CourseOffering WHERE courseOfferingId = " + id +";";
+		final String deleteCourseOfferingQuery = "DELETE FROM CourseOffering " +
+                "WHERE courseOfferingId = " + id +";";
 
 		return st.execute(deleteCourseOfferingQuery);
 	}
@@ -169,23 +187,28 @@ public class CourseOfferingRepository implements ConcreteIntKeyRepository<Course
 
 		databaseCreationCheck(c.getMetaData(), st);
 
-		final String SelectCourseOffQuery = "SELECT courseOfferingID, department, courseNumber, sectionNumber, "+
-				" season, year FROM CourseOffering;";
+		final String SelectCourseOffQuery = "SELECT courseOfferingID, " +
+                "department, courseNumber, sectionNumber, season, year FROM " +
+                "CourseOffering;";
 
 
-		final ResultSet CourseOffRes = st.executeQuery(SelectCourseOffQuery);
+		final ResultSet courseOffRes = st.executeQuery(SelectCourseOffQuery);
 
 		final List<CourseOffering> courseOfferingList = new ArrayList<CourseOffering>();
 
-		CourseOffering courseOffering = null;
 
-		while(CourseOffRes.next() ){
-			Course course = CourseRepository.getInstance()
-					.findById(CourseOffRes.getString("department"), CourseOffRes.getShort("courseNumber"));
+		while(courseOffRes.next() ){
+			final Course course = CourseRepository.getInstance()
+					.findById(courseOffRes.getString("department"),
+                            courseOffRes.getShort("courseNumber"));
 
-			courseOffering = new CourseOffering(CourseOffRes.getShort("courseOfferingID"),
-					course, Season.valueOf(CourseOffRes.getString("season")), 
-					CourseOffRes.getShort("year"), CourseOffRes.getShort("sectionNumber"));
+            final Semester sem = new Semester(Season.valueOf(
+                    courseOffRes.getString("season")),
+                    courseOffRes.getShort("year"));
+
+			final CourseOffering courseOffering = new CourseOffering(
+                    courseOffRes.getShort("courseOfferingID"), course, sem,
+                    courseOffRes.getShort("sectionNumber"));
 
 			courseOfferingList.add(courseOffering);
 		}

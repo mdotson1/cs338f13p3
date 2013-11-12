@@ -1,0 +1,14 @@
+@(department : String, backLink : Map[String,String])
+
+@import helper._
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+    </head>
+    <body>
+        <h1>Welcome to the @department Department</h1>
+        @helpers.link(backLink)
+    </body>
+</html>

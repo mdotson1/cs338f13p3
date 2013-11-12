@@ -1,5 +1,7 @@
 package controllers.root.admin.students.student.payments.payment;
 
+import controllers.resources.OnePaymentResource;
+import controllers.resources.PaymentsResource;
 import play.mvc.Controller;
 import play.mvc.Result;
 
@@ -18,6 +20,7 @@ public class Payment extends Controller {
 
     public static Result get(final int studentId, final int paymentId) {
 
-        return ok();
+        return OnePaymentResource.get(studentId, paymentId,
+                GENERATE_BACK_LINK(studentId));
     }
 }

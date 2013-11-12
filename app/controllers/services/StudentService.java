@@ -6,7 +6,7 @@ import java.util.Iterator;
 import models.database.dao.concrete.CourseRepository;
 import models.database.dao.concrete.PaymentRepository;
 import models.database.dao.concrete.StudentRepository;
-import models.database.dao.relationships.CoursesTakingRepository;
+import models.database.dao.relationships.CoursesTakenRepository;
 import models.database.dao.relationships.PaymentHistoryRepository;
 import models.course.Course;
 import models.course.CourseOffering;
@@ -26,17 +26,20 @@ public class StudentService {
 			Student student = students.next();
 			
 			int studentId = student.getId();
-			Iterator<CourseOffering> courses = CoursesTakingRepository.getInstance().getCoursesTakingByStudent(studentId);
+			Iterator<CourseOffering> courses = CoursesTakenRepository.
+                    getInstance().getCoursesTakenByStudent(studentId);
 			
 			double currentBalance = student.getCurrentBalance();
 			while (courses.hasNext()) {
 				
 				Course course = courses.next().getCourse();
-				currentBalance =- CourseRepository.getInstance().findById(course.getDepartment(),
-						course.getCourseNumber()).getCost();
+				currentBalance =- CourseRepository.getInstance().findById(
+                        course.getDepartment(), course.getCourseNumber()).
+                        getCost();
 			}
 			
-			StudentRepository.getInstance().updateBalance(studentId, currentBalance);
+			StudentRepository.getInstance().updateBalance(studentId,
+                    currentBalance);
 		}
 	}
 

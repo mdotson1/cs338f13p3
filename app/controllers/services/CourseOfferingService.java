@@ -5,8 +5,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import models.course.Semester;
 import models.database.dao.concrete.CourseOfferingRepository;
-import models.database.dao.relationships.CoursesTakingRepository;
+import models.database.dao.relationships.CoursesTakenRepository;
 import models.database.dao.relationships.CoursesTeachingRepository;
 import models.course.CourseOffering;
 import models.course.Semester.Season;
@@ -24,20 +25,20 @@ public class CourseOfferingService {
 	// true = added, false = not added
 	public static boolean addStudent(final int studentId, final int courseOfferingId) throws SQLException {
 
-		if (CoursesTakingRepository.getInstance().findNumberOfStudentsTakingCourse(courseOfferingId) >= 10) {
+		if (CoursesTakenRepository.getInstance().findNumberOfStudentsTakingCourse(courseOfferingId) >= 10) {
 			return false;
 		} else {
-			CoursesTakingRepository.getInstance().add(studentId, courseOfferingId);
+			CoursesTakenRepository.getInstance().add(studentId, courseOfferingId);
 			return true;
 		}
 	}
 
 	public static boolean dropStudent(final int studentId, final int courseOfferingId) throws SQLException {
 
-		if (CoursesTakingRepository.getInstance().findNumberOfStudentsTakingCourse(courseOfferingId) <= 3) {
+		if (CoursesTakenRepository.getInstance().findNumberOfStudentsTakingCourse(courseOfferingId) <= 3) {
 			return false;
 		} else {
-			CoursesTakingRepository.getInstance().delete(studentId, courseOfferingId);
+			CoursesTakenRepository.getInstance().delete(studentId, courseOfferingId);
 			return true;
 		}
 	}
@@ -56,13 +57,12 @@ public class CourseOfferingService {
 
 	public static Iterator<Student> getRoster(final int courseOfferingId) throws SQLException {
 
-		return CoursesTakingRepository.getInstance().getStudentsTakingCourse(courseOfferingId);
+		return CoursesTakenRepository.getInstance().getStudentsTakingCourse(courseOfferingId);
 	}
 
 	public static boolean allCoursesInSameSemester(int[] courseIdsToCheck) throws SQLException {
 
-		final Season season;
-		final short year;
+		Semester semester;
 		CourseOffering co;
 		
 		List<CourseOffering> courses = new ArrayList<CourseOffering>();
@@ -75,18 +75,18 @@ public class CourseOfferingService {
 
 		if (coursesToCheck.hasNext()) {
 			co = coursesToCheck.next();
-			season = co.getSeason();
-			year = co.getYear();
+			semester = co.getSemester();
 		} else {
 			return true;
 		}
 
 		boolean inSameSemester = true;
+
 		while (coursesToCheck.hasNext()) {
 
 			co = coursesToCheck.next();
 
-			if (!((co.getSeason() == season) && (co.getYear() == year))) {
+			if (!(co.getSemester().equals(semester))) {
 				inSameSemester = false;
 				break;
 			}

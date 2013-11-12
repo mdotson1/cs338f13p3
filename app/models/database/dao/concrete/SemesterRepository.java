@@ -30,7 +30,7 @@ public class SemesterRepository {
         st.execute(createTableStatement);
     }
 
-    private void databaseCreationCheck(DatabaseMetaData dbm, Statement st)
+    public void databaseCreationCheck(DatabaseMetaData dbm, Statement st)
             throws SQLException {
         final ResultSet tables = dbm.getTables(null, null, "Semester", null);
         if (!tables.next()) {
@@ -61,7 +61,7 @@ public class SemesterRepository {
         databaseCreationCheck(c.getMetaData(), st);
 
         final String selectSemesterQuery = "SELECT season, year, cost " +
-                "FROM Semesters WHERE season = '" + season.toString() +
+                "FROM Semester WHERE season = '" + season.toString() +
                 "' AND year = " + year + ";";
 
         final ResultSet semesterRes = st.executeQuery(selectSemesterQuery);

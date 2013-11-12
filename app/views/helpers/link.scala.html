@@ -1,0 +1,5 @@
+@(namesAndURLs : Map[String,String])
+
+@for(pair <- namesAndURLs) {
+<p><a href=@pair._2>@pair._1</a> <br></p>
+}

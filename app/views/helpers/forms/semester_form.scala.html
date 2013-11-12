@@ -1,0 +1,10 @@
+@(semesterForm : Form[models.course.Semester], post : play.api.mvc.Call)
+
+<h2>Create New Semester Entry</h2>
+@helper.form(post) {
+
+@helper.inputText(semesterForm("Season"))
+@helper.inputText(semesterForm("Year"))
+
+<input type="submit" value="Create">
+}

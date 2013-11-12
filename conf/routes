@@ -5,6 +5,9 @@
 # /
 GET     /                                       controllers.root.Application.get()
 
+# remove trailing slashes
+GET     /*path/                                 controllers.root.Application.untrail(path: String)
+
 # /admin
 GET     /admin                                  controllers.root.admin.Admin.get()
 
@@ -16,27 +19,33 @@ GET     /admin/course_schedules/:sy             controllers.root.admin.course_sc
 
 # /admin/course_schedules/{sy}/{dept}
 GET     /admin/course_schedules/:sy/:dept       controllers.root.admin.course_schedules.semester.department.Department.get(sy : String, dept : String)
+POST    /admin/course_schedules/:sy/:dept       controllers.root.admin.course_schedules.semester.department.Department.post(sy : String, dept : String)
 
 # /admin/course_schedules/{sy}/{dept}/{cn}
 GET     /admin/course_schedules/:sy/:dept/:cn   controllers.root.admin.course_schedules.semester.department.course.Course.get(sy : String, dept : String, cn : String)
+POST    /admin/course_schedules/:sy/:dept/:cn   controllers.root.admin.course_schedules.semester.department.course.Course.post(sy : String, dept : String, cn : String)
 
 # /admin/course_schedules/{sy}/{dept}/{cn}/{sn}
 GET     /admin/course_schedules/:sy/:dept/:cn/:sn   controllers.root.admin.course_schedules.semester.department.course.section.Section.get(sy : String, dept : String, cn : String, sn : String)
 
 # /admin/departments
 GET     /admin/departments                      controllers.root.admin.departments.Departments.get()
+POST    /admin/departments                      controllers.root.admin.departments.Departments.post()
 
 # /admin/departments/{dept}
 GET     /admin/departments/:dept                controllers.root.admin.departments.department.Department.get(dept : String)
 
 # /admin/departments/{dept}/courses
 GET     /admin/departments/:dept/courses        controllers.root.admin.departments.department.courses.Courses.get(dept : String)
+POST    /admin/departments/:dept/courses        controllers.root.admin.departments.department.courses.Courses.post(dept : String)
 
 # /admin/departments/{dept}/courses/{cn}
 GET     /admin/departments/:dept/courses/:cn    controllers.root.admin.departments.department.courses.course.Course.get(dept : String, cn : String)
+POST    /admin/departments/:dept/courses/:cn    controllers.root.admin.departments.department.courses.course.Course.post(dept : String, cn : String)
 
 # /admin/departments/{dept}/faculty
 GET     /admin/departments/:dept/faculty        controllers.root.admin.departments.department.faculty.Faculty.get(dept : String)
+POST    /admin/departments/:dept/faculty        controllers.root.admin.departments.department.faculty.Faculty.post(dept : String)
 
 # /admin/departments/{dept}/faculty/{id}
 GET     /admin/departments/:dept/faculty/:id   controllers.root.admin.departments.department.faculty.professor.Professor.get(dept : String, id : Integer)

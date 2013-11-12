@@ -5,8 +5,7 @@ public class CourseOffering {
 
 	private int courseOfferingId;
 	private Course course;
-	private Season season;
-	private short year;
+	private Semester semester;
 	private short section;
 
     // bean for play
@@ -16,24 +15,22 @@ public class CourseOffering {
 
 	// when retrieving from database, has student
 	public CourseOffering(final int courseOfferingId, final Course course,
-			final Season season, final short year, final short section) {
+			final Semester semester, final short section) {
 
 		this.courseOfferingId = courseOfferingId;
 		this.course = course;
-		this.season = season;
-		this.year = year;
+		this.semester = semester;
 		this.section = section;
 	}
 
 //TODO add department in the constructor	
 	// when creating before adding to database
-	public CourseOffering(final Course course, final Season season,
-			final short year, final short section) {
+	public CourseOffering(final Course course, final Semester semester,
+                          final short section) {
 
 		courseOfferingId = -1;
 		this.course = course;
-		this.season = season;
-		this.year = year;
+		this.semester = semester;
 		this.section = section;
 	}
 
@@ -54,20 +51,12 @@ public class CourseOffering {
 		this.course = course;
 	}
 
-	public Season getSeason() {
-		return season;
+	public Semester getSemester() {
+		return semester;
 	}
 
-	public void setSeason(Season season) {
-		this.season = season;
-	}
-
-	public short getYear() {
-		return year;
-	}
-
-	public void setYear(short year) {
-		this.year = year;
+	public void setSemester(Semester semester) {
+		this.semester = semester;
 	}
 
 	public short getSectionNumber() {

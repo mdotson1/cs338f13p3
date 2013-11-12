@@ -8,4 +8,8 @@ public class Course extends Controller {
 
         return ok();
     }
+
+    public static Result post(final String dept, final String courseNum) {
+        return ok();
+    }
 }

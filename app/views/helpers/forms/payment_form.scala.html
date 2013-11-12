@@ -1,0 +1,10 @@
+@(paymentForm : Form[models.person.Payment], post : play.api.mvc.Call, studentId : Int)
+
+<h2>Make New Payment For Student @studentId</h2>
+@helper.form(post) {
+
+@helper.inputText(paymentForm("Payment Type"))
+@helper.inputText(paymentForm("Payment Amount (USD)"))
+
+<input type="submit" value="Create">
+}

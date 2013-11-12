@@ -5,12 +5,8 @@ import play.mvc.Result;
 
 import static play.mvc.Results.ok;
 
-public class FacultyResource {
+public class OneProfessorResource {
     public static Result get() {
-        return ok();
-    }
-
-    public static Result post() {
         return ok();
     }
 }

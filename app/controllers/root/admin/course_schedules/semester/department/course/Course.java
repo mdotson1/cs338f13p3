@@ -9,4 +9,9 @@ public class Course extends Controller {
 
         return ok();
     }
+
+    public static Result post(final String seasonAndYear,
+                              final String department, final String courseNum) {
+        return ok();
+    }
 }

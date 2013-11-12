@@ -1,0 +1,23 @@
+@(semesters : Iterator[models.course.Semester], url : String, backLink : Map[String,String])
+
+@import helper._
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+<table border="1" cellspacing="0">
+    <tr>
+        <th>Semester</th>
+    </tr>
+
+    @for(semester <- semesters) {
+    <tr>
+        <td><a href=@url/@semester.getSeason%20@semester.getYear>@semester.getSeason @semester.getYear</a></td>
+    </tr>
+    }
+</table>
+</body>
+</html>

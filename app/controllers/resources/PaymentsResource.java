@@ -1,6 +1,9 @@
 package controllers.resources;
 
+import controllers.root.admin.Admin;
+import controllers.root.admin.students.student.payments.Payments;
 import controllers.services.Bursar;
+import controllers.services.PaymentService;
 import models.database.dao.concrete.PaymentRepository;
 import models.database.dao.relationships.PaymentHistoryRepository;
 import models.person.Payment;
@@ -19,27 +22,23 @@ public class PaymentsResource {
 
     private final static Form<Payment> PAYMENT_FORM = Form.form(Payment.class);
 
-    // this function is used to obtain the URI for the resource containing
-    // all of the specified student's Payments
-    public static String allPaymentsURI(final int studentId) {
-        return controllers.root.admin.students.student.payments.routes.Payments.
-                get(studentId).url();
-    }
+    public static Result payments_get(final int studentId) {
 
-    public static Result get(final int studentId,
-                             final Map<String,String> backLink) {
+        final String context = Payments.url(studentId);
+
         try {
             return ok(payments.render(PaymentHistoryRepository.
                     getInstance().findAllPaymentsByStudent(studentId),
-                    PaymentsResource.allPaymentsURI(studentId), PAYMENT_FORM,
-                    studentId, backLink));
+                    context, PAYMENT_FORM, studentId,
+                    Resource.BACK_LINK(context)));
         } catch (SQLException e) {
             return ok(debug.render(e.toString()));
         }
     }
 
-    public static Result post(final int studentId,
-                              final Map<String,String> backLink) {
+    public static Result payments_post(final int studentId) {
+
+        final String context = Payments.url(studentId);
 
         final Form<Payment> filledForm = PAYMENT_FORM.bindFromRequest();
 
@@ -47,18 +46,14 @@ public class PaymentsResource {
             return badRequest();
         }
         try {
-            Map<String,String> data = filledForm.data();
+            int paymentId = PaymentService.createPayment(filledForm.data());
 
-            final Payment p = new Payment(data.get("Payment Type"),
-                    Double.parseDouble(data.get("Payment Amount (USD)")));
-
-            int paymentId = PaymentRepository.getInstance().add(p);
             Bursar.payBalance(studentId, paymentId);
             return ok(payments.render(
                     PaymentHistoryRepository.getInstance().
                             findAllPaymentsByStudent(studentId),
-                    PaymentsResource.allPaymentsURI(studentId), filledForm,
-                    studentId, backLink));
+                    context, filledForm, studentId,
+                    Resource.BACK_LINK(context)));
 
         } catch (SQLException e) {
             return ok(debug.render(e.toString()));

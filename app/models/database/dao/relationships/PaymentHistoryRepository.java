@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
@@ -94,7 +95,7 @@ public class PaymentHistoryRepository
         final ResultSet paymentHistoryRS = st.executeQuery(
                 selectPaymentHistoryQuery);
 
-        final List<Payment> allPayments = new ArrayList<Payment>();
+        final Collection<Payment> allPayments = new ArrayList<Payment>();
 
         while ( paymentHistoryRS.next() ) {
             allPayments.add(PaymentRepository.getInstance().

@@ -1,10 +1,10 @@
 @(courseForm : Form[models.course.Course], post : play.api.mvc.Call)
 
 <h2>Create New Course</h2>
-<p>Example: CS, 313, 750.00, Intermediate Object Oriented Programming</p>
+<p>Example: 313, 750.00, Intermediate Object Oriented Programming</p>
+
 @helper.form(post) {
 
-@helper.inputText(courseForm("Department"))
 @helper.inputText(courseForm("Course Number"))
 @helper.inputText(courseForm("Cost (USD)"))
 @helper.inputText(courseForm("Course Description"))

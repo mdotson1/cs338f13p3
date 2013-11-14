@@ -1,5 +1,7 @@
 package controllers.resources;
 
+import controllers.root.admin.Admin;
+import controllers.root.admin.students.student.Student;
 import models.database.dao.concrete.StudentRepository;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -13,23 +15,19 @@ import static play.mvc.Results.ok;
 
 public class OneStudentResource {
 
-    private static final String STUDENTS_URI = controllers.root.admin.students.
-            routes.Students.get().url();
+    public static Result students_get(final int studentId) {
 
-    public static Result get(final int studentId,
-                             final Map<String,String> backLink) {
-
-        final String SINGLE_STUDENT_URI = STUDENTS_URI + "/" + studentId;
+        final String context = Student.url(studentId);
 
         try {
             Map<String,String> links = new HashMap<String,String>();
-            links.put("Payment History", SINGLE_STUDENT_URI + "/payments");
-            links.put("Courses Taking/Taken", SINGLE_STUDENT_URI +
+            links.put("Payment History", context + "/payments");
+            links.put("Courses Taking/Taken", context +
                     "/semesters");
-            links.putAll(backLink);
+
             return ok(one_student.render(
                     StudentRepository.getInstance().findById(studentId),
-                    STUDENTS_URI, links));
+                    context, links, Resource.BACK_LINK(context)));
         } catch (SQLException e) {
             return ok(e.toString());
         }

@@ -1,0 +1,17 @@
+@(courses : Iterator[models.course.CourseOffering], courseURL : String)
+
+<table border="1" cellspacing="0">
+    <tr>
+        <th>Course Offering ID</th>
+        <th>Course</th>
+        <th>Section Number</th>
+    </tr>
+
+    @for(course <- courses) {
+    <tr>
+        <td>@course.getCourseOfferingId</td>
+        <td><a href=@courseURL/@course.getCourse.getDepartment-@course.getCourse.getCourseNumber>@course.getCourse.getDepartment-@course.getCourse.getCourseNumber</a></td>
+        <td>@course.getSectionNumber</td>
+    </tr>
+    }
+</table>

@@ -1,15 +1,8 @@
 package controllers.root;
 
 import controllers.resources.BaseResource;
-import play.*;
-import play.data.Form;
-import play.mvc.*;
-
-import models.*;
-import views.html.*;
-
-import java.util.HashMap;
-import java.util.Map;
+import play.mvc.Controller;
+import play.mvc.Result;
 
 public class Application extends Controller {
 
@@ -19,7 +12,7 @@ public class Application extends Controller {
 
     public static Result get() {
 
-        return BaseResource.get();
+        return BaseResource.root_get();
     }
 
     public static Result untrail(String path) {

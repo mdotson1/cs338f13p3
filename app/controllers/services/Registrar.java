@@ -52,7 +52,7 @@ public class Registrar {
 		
 		if (allCoursesInSameSemester(desiredAndAlternatives)) {
 			if (! s.hasRegistered()) {
-				// get first course's semesters, because they are guaranteed to
+				// get first section's semesters, because they are guaranteed to
 				// be identical at this point
 				if (beforeDropDate(currentDate, 
 						concatenated.get(0).getSemester())) {

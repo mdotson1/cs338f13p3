@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
@@ -110,7 +111,7 @@ public class CoursesTakenRepository
         return courseNum;
     }
 
-    // return the number of students taking a course
+    // return the number of students taking a section
     public int findNumberOfStudentsTakingCourse(final int courseOfferingId)
             throws SQLException {
 
@@ -144,7 +145,7 @@ public class CoursesTakenRepository
         return (!findById(studentId, courseOfferingId).compare(null, null));
     }
 
-    // return all students taking a particular course
+    // return all students taking a particular section
     public Iterator<Student> getStudentsTakingCourse(final int courseOfferingId)
             throws SQLException {
 
@@ -161,7 +162,7 @@ public class CoursesTakenRepository
         final ResultSet courseTakingRes =
                 st.executeQuery(selectCourseTakingQuery);
 
-        final List<Student> studentList = new ArrayList<Student>();
+        final Collection<Student> studentList = new ArrayList<Student>();
 
         while(courseTakingRes.next())
             studentList.add(StudentRepository.getInstance().findById(
@@ -174,7 +175,7 @@ public class CoursesTakenRepository
     public Iterator<Semester> allSemestersStudentAttended(final int studentId)
             throws SQLException {
 
-        final List<Semester> semesterList = new ArrayList<Semester>();
+        final Collection<Semester> semesterList = new ArrayList<Semester>();
 
         Iterator<CourseOffering> coursesTaking =
                 getCoursesTakenByStudent(studentId);
@@ -202,7 +203,7 @@ public class CoursesTakenRepository
         final ResultSet CourseTakingRes =
                 st.executeQuery(SelectCourseTakingQuery);
 
-        final List<CourseOffering> courseOfferingList =
+        final Collection<CourseOffering> courseOfferingList =
                 new ArrayList<CourseOffering>();
 
         while(CourseTakingRes.next()){

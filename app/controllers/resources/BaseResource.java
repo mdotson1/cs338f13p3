@@ -1,5 +1,9 @@
 package controllers.resources;
 
+import controllers.root.Application;
+import controllers.root.admin.Admin;
+import controllers.root.professor.Professor;
+import controllers.root.student.Student;
 import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.*;
@@ -12,16 +16,16 @@ import static play.mvc.Results.ok;
 
 public class BaseResource {
 
-    public static Result get() {
+    public static Result root_get() {
 
-        Map<String, String> loginsAndURLs = new LinkedHashMap<String, String>();
+        final String context = Application.url();
 
-        loginsAndURLs.put("Login as a student", controllers.root.student.
-                routes.Student.get().url());
-        loginsAndURLs.put("Login as a professor", controllers.root.professor.
-                routes.Professor.get().url());
-        loginsAndURLs.put("Login as an administrator", controllers.root.admin.
-                routes.Admin.get().url());
+        final Map<String, String> loginsAndURLs =
+                new LinkedHashMap<String, String>();
+
+        loginsAndURLs.put("Login as a student", Student.url());
+        loginsAndURLs.put("Login as a professor", Professor.url());
+        loginsAndURLs.put("Login as an administrator", Admin.url());
 
         return ok(base.render(loginsAndURLs));
     }

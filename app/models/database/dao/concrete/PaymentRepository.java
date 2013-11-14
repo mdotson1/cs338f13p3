@@ -5,10 +5,7 @@ import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 import models.database.connection.DBHelper;
 import models.database.repository.ConcreteIntKeyRepository;
@@ -134,7 +131,7 @@ public class PaymentRepository implements ConcreteIntKeyRepository<Payment> {
 
 		Payment payment = null;
 		
-		final List<Payment> paymentList = new ArrayList<Payment>();
+		final Collection<Payment> paymentList = new ArrayList<Payment>();
 
 		while(PaymentRes.next()){
 			payment = new Payment(PaymentRes.getInt("paymentId"), PaymentRes.getString("paymentType"),

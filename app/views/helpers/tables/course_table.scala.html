@@ -1,0 +1,34 @@
+@(courses : Iterator[models.course.Course], url : String, includeDepartment : Boolean, displayLinks : Boolean)
+
+<table border="1" cellspacing="0">
+    <tr>
+        @if(includeDepartment) {
+            <th>Department</th>
+        }
+        <th>Course Number</th>
+        <th>Cost (USD)</th>
+        <th>Course Description</th>
+    </tr>
+
+    @for(course <- courses) {
+    <tr>
+        <td>
+        @if(includeDepartment) {
+            @if(displayLinks) {
+                <a href=@url/@course.getDepartment-@course.getCourseNumber>@course.getDepartment-@course.getCourseNumber</a>
+            } else {
+                @course.getDepartment</td><td>@course.getCourseNumber
+            }
+        } else {
+            @if(displayLinks) {
+                <a href=@url/@course.getCourseNumber>@course.getCourseNumber</a>
+            } else {
+                @course.getCourseNumber
+            }
+        }
+        </td>
+        <td>@course.getCost</td>
+        <td>@course.getCourseDescription</td>
+    </tr>
+    }
+</table>

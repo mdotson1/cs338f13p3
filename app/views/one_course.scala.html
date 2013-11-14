@@ -1,6 +1,7 @@
-@(course : models.course.Course, url : String)
+@(course : models.course.Course, course_schedules_url : String, backUri : String)
 
 @import helper._
+@import scala.collection.Iterator
 
 <!DOCTYPE html>
 <html>
@@ -8,20 +9,13 @@
     <title></title>
 </head>
 <body>
-    <table border="1" cellspacing="0">
-        <tr>
-            <th>Department</th>
-            <th>Course Number</th>
-            <th>Cost (USD)</th>
-            <th>Course Description</th>
-        </tr>
+    <h1>@course.getDepartment-@course.getCourseNumber Course Information</h1>
 
-        <tr>
-            <td>@course.getDepartment</td>
-            <td>@course.getCourseNumber</td>
-            <td>@course.getCost</td>
-            <td>@course.getCourseDescription</td>
-        </tr>
-    </table>
+    @helpers.tables.course_table(Iterator.single(course), backUri, true, false)
+
+    <p>Would you like to create a section for this course? <br>
+    Please visit the <a href=@course_schedules_url>Course Schedules</a> page</p>
+
+    @helpers.back_link(backUri)
 </body>
 </html>

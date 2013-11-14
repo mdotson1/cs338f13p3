@@ -5,12 +5,9 @@ import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.ListIterator;
+import java.util.*;
 
+import models.course.Semester;
 import models.database.connection.DBHelper;
 import models.database.dao.concrete.CourseOfferingRepository;
 import models.database.dao.concrete.ProfessorRepository;
@@ -76,7 +73,7 @@ public class CoursesTeachingRepository
                 Statement.RETURN_GENERATED_KEYS);
     }
 
-    // return all semesters taught by professor
+    // return all courses taught by professor
     public Iterator<CourseOffering> findAllCoursesTaughtByProfessor(
             final int professorId) throws SQLException {
 
@@ -91,7 +88,7 @@ public class CoursesTeachingRepository
         final ResultSet CourseTeachingRes = st.executeQuery(
                 SelectCourseTeachingQuery);
 
-        final List<CourseOffering> courseOfferingList =
+        final Collection<CourseOffering> courseOfferingList =
                 new ArrayList<CourseOffering>();
 
         while(CourseTeachingRes.next()) {
@@ -103,7 +100,37 @@ public class CoursesTeachingRepository
         return courseOfferingList.iterator();
     }
 
-    // return the professor for the course
+    // return all semesters taught by professor
+    public Iterator<Semester> allSemestersProfessorTaughtIn(
+            final int professorId) throws SQLException {
+
+        final Connection c = DBHelper.getConnection();
+        final Statement st = c.createStatement();
+
+        databaseCreationCheck(c.getMetaData(), st);
+
+        final String selectCourseTeachingQuery = "SELECT courseOfferingId "+
+                "FROM CoursesTeaching WHERE professorId = " + professorId + ";";
+
+        final ResultSet courseOfferingIdsRS = st.executeQuery(
+                selectCourseTeachingQuery);
+
+        final Collection<Semester> semesterList = new ArrayList<Semester>();
+
+        while(courseOfferingIdsRS.next()) {
+            final CourseOffering co = CourseOfferingRepository.getInstance().findById(
+                    courseOfferingIdsRS.getInt("courseOfferingId"));
+
+            final Semester sem = co.getSemester();
+            if (!semesterList.contains(sem)) {
+                semesterList.add(sem);
+            }
+        }
+
+        return semesterList.iterator();
+    }
+
+    // return the professor for the section
     public Professor findProfessorForCourse(final int courseOfferingId)
             throws SQLException {
         Professor professor = null;

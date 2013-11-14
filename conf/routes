@@ -13,13 +13,13 @@ GET     /admin                                  controllers.root.admin.Admin.get
 
 # /admin/course_schedules
 GET     /admin/course_schedules                 controllers.root.admin.course_schedules.CourseSchedules.get()
+POST    /admin/course_schedules                 controllers.root.admin.course_schedules.CourseSchedules.post()
 
 # /admin/course_schedules/{sy}
 GET     /admin/course_schedules/:sy             controllers.root.admin.course_schedules.semester.Semester.get(sy : String)
 
 # /admin/course_schedules/{sy}/{dept}
-GET     /admin/course_schedules/:sy/:dept       controllers.root.admin.course_schedules.semester.department.Department.get(sy : String, dept : String)
-POST    /admin/course_schedules/:sy/:dept       controllers.root.admin.course_schedules.semester.department.Department.post(sy : String, dept : String)
+GET     /admin/course_schedules/:sy/:dept       controllers.root.admin.course_schedules.semester.department.CourseSchedulesDepartment.get(sy : String, dept : String)
 
 # /admin/course_schedules/{sy}/{dept}/{cn}
 GET     /admin/course_schedules/:sy/:dept/:cn   controllers.root.admin.course_schedules.semester.department.course.Course.get(sy : String, dept : String, cn : String)
@@ -41,7 +41,6 @@ POST    /admin/departments/:dept/courses        controllers.root.admin.departmen
 
 # /admin/departments/{dept}/courses/{cn}
 GET     /admin/departments/:dept/courses/:cn    controllers.root.admin.departments.department.courses.course.Course.get(dept : String, cn : String)
-POST    /admin/departments/:dept/courses/:cn    controllers.root.admin.departments.department.courses.course.Course.post(dept : String, cn : String)
 
 # /admin/departments/{dept}/faculty
 GET     /admin/departments/:dept/faculty        controllers.root.admin.departments.department.faculty.Faculty.get(dept : String)
@@ -51,19 +50,16 @@ POST    /admin/departments/:dept/faculty        controllers.root.admin.departmen
 GET     /admin/departments/:dept/faculty/:id   controllers.root.admin.departments.department.faculty.professor.Professor.get(dept : String, id : Integer)
 
 # /admin/departments/{dept}/faculty/{id}/semesters
-GET     /admin/departments/:dept/faculty/:id/semesters   controllers.root.admin.departments.department.faculty.professor.semesters.Semesters.get(dept : String, id : Integer)
+GET     /admin/departments/:dept/faculty/:id/semesters   controllers.root.admin.departments.department.faculty.professor.semesters.ProfessorSemesters.get(dept : String, id : Integer)
 
 # /admin/departments/{dept}/faculty/{id}/semesters/{sy}
 GET     /admin/departments/:dept/faculty/:id/semesters/:sy   controllers.root.admin.departments.department.faculty.professor.semesters.semester.Semester.get(dept : String, id : Integer, sy : String)
 
-# /admin/departments/{dept}/faculty/{id}/semesters/{sy}/courses
-GET     /admin/departments/:dept/faculty/:id/semesters/:sy/courses   controllers.root.admin.departments.department.faculty.professor.semesters.semester.courses.Courses.get(dept : String, id : Integer, sy : String)
+# /admin/departments/{dept}/faculty/{id}/semesters/{sy}/{cn}
+GET     /admin/departments/:dept/faculty/:id/semesters/:sy/:cn   controllers.root.admin.departments.department.faculty.professor.semesters.semester.course.Course.get(dept : String, id : Integer, sy : String, cn : String)
 
-# /admin/departments/{dept}/faculty/{id}/semesters/{sy}/courses/{cn}
-GET     /admin/departments/:dept/faculty/:id/semesters/:sy/courses/:cn   controllers.root.admin.departments.department.faculty.professor.semesters.semester.courses.course.Course.get(dept : String, id : Integer, sy : String, cn : String)
-
-# /admin/departments/{dept}/faculty/{id}/semesters/{sy}/courses/{cn}/{sn}
-GET     /admin/departments/:dept/faculty/:id/semesters/:sy/courses/:cn/:sn   controllers.root.admin.departments.department.faculty.professor.semesters.semester.courses.course.section.Section.get(dept : String, id : Integer, sy : String, cn : String, sn : String)
+# /admin/departments/{dept}/faculty/{id}/semesters/{sy}/{cn}/{sn}
+GET     /admin/departments/:dept/faculty/:id/semesters/:sy/:cn/:sn   controllers.root.admin.departments.department.faculty.professor.semesters.semester.course.section.Section.get(dept : String, id : Integer, sy : String, cn : String, sn : String)
 
 # /admin/students
 GET     /admin/students                         controllers.root.admin.students.Students.get()
@@ -73,13 +69,13 @@ POST    /admin/students                         controllers.root.admin.students.
 GET     /admin/students/:id                     controllers.root.admin.students.student.Student.get(id : Integer)
 
 # /admin/students/{id}/semesters
-GET     /admin/students/:id/semesters             controllers.root.admin.students.student.semesters.Semesters.get(id : Integer)
+GET     /admin/students/:id/semesters             controllers.root.admin.students.student.semesters.StudentSemesters.get(id : Integer)
 
 # /admin/students/{id}/semesters/{sy}
 GET     /admin/students/:id/semesters/:sy         controllers.root.admin.students.student.semesters.semester.Semester.get(id : Integer, sy : String)
 
 # /admin/students/{id}/semesters/{sy}/{cn}/{sn}
-GET     /admin/students/:id/semesters/:sy/:cn/:sn         controllers.root.admin.students.student.semesters.semester.course.Course.get(id : Integer, sy : String, cn : String, sn : String)
+GET     /admin/students/:id/semesters/:sy/:cn/:sn         controllers.root.admin.students.student.semesters.semester.section.Section.get(id : Integer, sy : String, cn : String, sn : String)
 
 # /admin/students/{id}/payments
 GET     /admin/students/:id/payments            controllers.root.admin.students.student.payments.Payments.get(id : Integer)

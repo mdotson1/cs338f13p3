@@ -1,5 +1,9 @@
 package controllers.resources;
 
+import controllers.root.admin.Admin;
+import controllers.root.admin.course_schedules.CourseSchedules;
+import controllers.root.admin.departments.Departments;
+import controllers.root.admin.students.Students;
 import play.mvc.*;
 import views.html.*;
 
@@ -10,17 +14,16 @@ import static play.mvc.Results.ok;
 
 public class AdminResource {
 
-    public static Result get(Map<String,String> backLink) {
+    public static Result admin_get() {
 
-        Map<String,String> namesAndURLs = new LinkedHashMap<String, String>();
-        namesAndURLs.put("All Students", controllers.root.admin.students.
-                routes.Students.get().url());
-        namesAndURLs.put("All Course Schedules", controllers.root.admin.
-                course_schedules.routes.CourseSchedules.get().url());
-        namesAndURLs.put("All Departments", controllers.root.admin.departments.
-                routes.Departments.get().url());
-        namesAndURLs.putAll(backLink);
+        final String context = Admin.url();
 
-        return ok(admin.render(namesAndURLs));
+        final Map<String,String> namesAndURLs =
+                new LinkedHashMap<String, String>();
+        namesAndURLs.put("All Students", Students.url());
+        namesAndURLs.put("All Section Schedules", CourseSchedules.url());
+        namesAndURLs.put("All Departments", Departments.url());
+
+        return ok(admin.render(namesAndURLs, Resource.BACK_LINK(context)));
     }
 }

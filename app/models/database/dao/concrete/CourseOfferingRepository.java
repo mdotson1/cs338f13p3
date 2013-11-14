@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
@@ -43,16 +44,19 @@ public class CourseOfferingRepository
 				"season VARCHAR(6) NOT NULL," +
 				"year SMALLINT NOT NULL," +
 				"PRIMARY KEY (courseOfferingId), " + 
-				"FOREIGN KEY (department) references Course(department), " +
-				"FOREIGN KEY (courseNumber) references Course(courseNumber), " +
+				"FOREIGN KEY (department) references Section(department), " +
+				"FOREIGN KEY (courseNumber) references Section(courseNumber), " +
                 "FOREIGN KEY (season) references Semester(season), " +
                 "FOREIGN KEY (year) references Semester(year)" +
 				") Engine=InnoDB;";
 		st.execute(createTableStatement);
 	}
 
-	public void databaseCreationCheck(DatabaseMetaData dbm, Statement st) throws SQLException {
-		final ResultSet tables = dbm.getTables(null, null, "CourseOffering", null);
+	public void databaseCreationCheck(DatabaseMetaData dbm, Statement st)
+            throws SQLException {
+
+		final ResultSet tables = dbm.getTables(null, null, "CourseOffering",
+                null);
 
         CourseRepository.getInstance().databaseCreationCheck(dbm, st);
         SemesterRepository.getInstance().databaseCreationCheck(dbm, st);
@@ -148,7 +152,35 @@ public class CourseOfferingRepository
 		}
 	}
 
-	public Iterator<CourseOffering> findAllCoursesBySemester(
+    public Iterator<Course> findAllCoursesBySemester(
+            final Season season, final short year) throws SQLException {
+
+        final Connection c = DBHelper.getConnection();
+        final Statement st = c.createStatement();
+
+        databaseCreationCheck(c.getMetaData(), st);
+
+        final String selectCourseQuery = "SELECT department, courseNumber " +
+                "FROM CourseOffering WHERE season = '"+ season.toString() +
+                "' AND year = " + year +" GROUP BY department, courseNumber;";
+
+
+        final ResultSet courseRes = st.executeQuery(selectCourseQuery);
+
+        final Collection<Course> courseList = new ArrayList<Course>();
+
+        while(courseRes.next()){
+            final Course course = CourseRepository.getInstance()
+                    .findById(courseRes.getString("department"),
+                            courseRes.getShort("courseNumber"));
+
+            courseList.add(course);
+        }
+
+        return courseList.iterator();
+    }
+
+	public Iterator<CourseOffering> findAllCourseOfferingsBySemester(
             final Season season, final short year) throws SQLException {
 
 		final Connection c = DBHelper.getConnection();
@@ -164,7 +196,8 @@ public class CourseOfferingRepository
 
 		final ResultSet courseOffRes = st.executeQuery(selectCourseOffQuery);
 
-		final List<CourseOffering> courseOfferingList = new ArrayList<CourseOffering>();
+		final Collection<CourseOffering> courseOfferingList =
+                new ArrayList<CourseOffering>();
 
 		CourseOffering courseOffering = null;
 
@@ -177,7 +210,6 @@ public class CourseOfferingRepository
 
 		return courseOfferingList.iterator();
 	}
-
 
 	@Override
 	public Iterator<CourseOffering> getAll() throws SQLException {
@@ -194,7 +226,8 @@ public class CourseOfferingRepository
 
 		final ResultSet courseOffRes = st.executeQuery(SelectCourseOffQuery);
 
-		final List<CourseOffering> courseOfferingList = new ArrayList<CourseOffering>();
+		final Collection<CourseOffering> courseOfferingList =
+                new ArrayList<CourseOffering>();
 
 
 		while(courseOffRes.next() ){

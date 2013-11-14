@@ -1,4 +1,4 @@
-@(namesAndURLs : Map[String,String])
+@(namesAndURLs : Map[String,String], backUri : String)
 
 <!DOCTYPE html>
 <html>
@@ -6,6 +6,8 @@
         <title></title>
     </head>
     <body>
-        @helpers.link(namesAndURLs)
+        @helpers.multi_link(namesAndURLs)
+
+        @helpers.back_link(backUri)
     </body>
 </html>

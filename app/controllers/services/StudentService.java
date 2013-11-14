@@ -2,6 +2,7 @@ package controllers.services;
 
 import java.sql.SQLException;
 import java.util.Iterator;
+import java.util.Map;
 
 import models.database.dao.concrete.CourseRepository;
 import models.database.dao.concrete.PaymentRepository;
@@ -10,12 +11,26 @@ import models.database.dao.relationships.CoursesTakenRepository;
 import models.database.dao.relationships.PaymentHistoryRepository;
 import models.course.Course;
 import models.course.CourseOffering;
+import models.person.ContactInformation;
 import models.person.Payment;
 import models.person.Student;
 
 public class StudentService {
 	
 	private StudentService() { } // impossible to instantiate a service
+
+    public static void createStudent(Map<String,String> data)
+            throws SQLException {
+
+        final ContactInformation ci = new ContactInformation(
+                data.get("Home Address"), data.get("Work Address"),
+                data.get("First Name"), data.get("Last Name"),
+                data.get("Work Phone"), data.get("Home Phone"),
+                data.get("Cell Phone"));
+        Student s = new Student(ci, data.get("Date of Birth"), 0);
+
+        StudentRepository.getInstance().add(s);
+    }
 
 	public static void billStudents() throws SQLException {
 

@@ -19,7 +19,7 @@ public class CourseOfferingService {
 	private CourseOfferingService() { } // impossible to instantiate a service
 
 	public static Iterator<CourseOffering> getCoursesInSemester(Season season, short year) throws SQLException {
-		return CourseOfferingRepository.getInstance().findAllCoursesBySemester(season, year);
+		return CourseOfferingRepository.getInstance().findAllCourseOfferingsBySemester(season, year);
 	}
 
 	// true = added, false = not added

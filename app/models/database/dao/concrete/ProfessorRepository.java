@@ -5,10 +5,7 @@ import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 import models.database.connection.DBHelper;
 import models.database.repository.ConcreteIntKeyRepository;
@@ -37,8 +34,8 @@ public class ProfessorRepository implements ConcreteIntKeyRepository<Professor> 
 				"dateOfBirth VARCHAR(10) NOT NULL," +
 				"homeAddress VARCHAR(200) NOT NULL," +
 				"workAddress VARCHAR(200)," + 
-				"lastName VARCHAR(30) NOT NULL," +
-				"firstName VARCHAR(20) NOT NULL," +
+				"firstName VARCHAR(30) NOT NULL," +
+				"lastName VARCHAR(20) NOT NULL," +
 				"workPhone CHAR(13)," +
 				"homePhone CHAR(13)," +
 				"cellPhone CHAR(13)," +
@@ -67,18 +64,22 @@ public class ProfessorRepository implements ConcreteIntKeyRepository<Professor> 
 
 		final ContactInformation ci = obj.getContactInformation();
 
-		final String insertProfessorStatement = "INSERT INTO Professor(dateOfBirth, homeAddress, workAddress, " +
-				"lastName, firstName, workPhone, homePhone, cellPhone, department) VALUES('" +
-				obj.getDateOfBirth() + "', '" + ci.getHomeAddress() + "', '" + ci.getWorkAddress() + "', '" +
-				ci.getLastName() + "', '" + ci.getFirstName() + "', '" + ci.getWorkPhone() + "', '" + 
-				ci.getHomePhone() + "', '" + ci.getCellPhone() + "', '" + obj.getDepartment() + "');";
+		final String insertProfessorStatement = "INSERT INTO Professor(" +
+                "dateOfBirth, homeAddress, workAddress, firstName, lastName, " +
+                "workPhone, homePhone, cellPhone, department) VALUES('" +
+				obj.getDateOfBirth() + "', '" + ci.getHomeAddress() + "', '" +
+                ci.getWorkAddress() + "', '" + ci.getFirstName() + "', '" +
+                ci.getLastName() + "', '" + ci.getWorkPhone() + "', '" +
+				ci.getHomePhone() + "', '" + ci.getCellPhone() + "', '" +
+                obj.getDepartment() + "');";
 
 		st.executeUpdate(insertProfessorStatement, Statement.RETURN_GENERATED_KEYS);
 		ResultSet rs = st.getGeneratedKeys();
 		if (rs.next()) {
 			return rs.getInt(1);
         } else {
-            throw new SQLException("Creating Professor failed, no generated key obtained.");
+            throw new SQLException("Creating Professor failed, no generated" +
+                    " key obtained.");
         }
 	}
 
@@ -90,9 +91,10 @@ public class ProfessorRepository implements ConcreteIntKeyRepository<Professor> 
 
 		databaseCreationCheck(c.getMetaData(), st);
 
-		final String selectProfessorQuery = "SELECT professorId, dateOfBirth, homeAddress, workAddress, " +
-				"lastName, firstName, workPhone, homePhone, cellPhone, department" +
-				" FROM Professor WHERE professorId =" + id + ";";
+		final String selectProfessorQuery = "SELECT professorId, dateOfBirth," +
+                " homeAddress, workAddress, firstName, lastName, workPhone, " +
+                "homePhone, cellPhone, department FROM Professor WHERE " +
+                "professorId =" + id + ";";
 
 		final ResultSet professorRS = st.executeQuery(selectProfessorQuery);   
 
@@ -100,12 +102,17 @@ public class ProfessorRepository implements ConcreteIntKeyRepository<Professor> 
 		ContactInformation contactInformation = null;
 
 		while ( professorRS.next() ) {
-			contactInformation = new ContactInformation(professorRS.getString("homeAddress"),
-					professorRS.getString("workAddress"), professorRS.getString("firstName"),
-					professorRS.getString("lastName"), professorRS.getString("workPhone"),
-					professorRS.getString("homePhone"), professorRS.getString("cellPhone"));
+			contactInformation = new ContactInformation(
+                    professorRS.getString("homeAddress"),
+					professorRS.getString("workAddress"),
+                    professorRS.getString("firstName"),
+					professorRS.getString("lastName"),
+                    professorRS.getString("workPhone"),
+					professorRS.getString("homePhone"),
+                    professorRS.getString("cellPhone"));
 
-			professor = new Professor(contactInformation, id, professorRS.getString("dateOfBirth"),
+			professor = new Professor(contactInformation, id,
+                    professorRS.getString("dateOfBirth"),
 					professorRS.getString("department"));
 		}
 		return professor;
@@ -119,28 +126,90 @@ public class ProfessorRepository implements ConcreteIntKeyRepository<Professor> 
 
 		databaseCreationCheck(c.getMetaData(), st);
 
-		final ResultSet professorRS = st.executeQuery("SELECT professorId, dateOfBirth, homeAddress, workAddress, " +
-				"lastName, firstName, workPhone, homePhone, cellPhone, department FROM Professor;");   
+		final ResultSet professorRS = st.executeQuery("SELECT professorId, " +
+                "dateOfBirth, homeAddress, workAddress, firstName, lastName, " +
+                "workPhone, homePhone, cellPhone, department FROM Professor;");
 
-		final List<Professor> profList = new ArrayList<Professor>();
+		final Collection<Professor> profList = new ArrayList<Professor>();
 
 		Professor professor = null;
 		ContactInformation contactInformation = null;
 		
 		while ( professorRS.next() ) {
-			contactInformation = new ContactInformation(professorRS.getString("homeAddress"),
-					professorRS.getString("workAddress"), professorRS.getString("lastName"),
-					professorRS.getString("firstName"), professorRS.getString("workPhone"),
-					professorRS.getString("homePhone"), professorRS.getString("cellPhone"));
+			contactInformation = new ContactInformation(
+                    professorRS.getString("homeAddress"),
+					professorRS.getString("workAddress"),
+                    professorRS.getString("firstName"),
+                    professorRS.getString("lastName"),
+                    professorRS.getString("workPhone"),
+					professorRS.getString("homePhone"),
+                    professorRS.getString("cellPhone"));
 			
-			professor = new Professor(contactInformation, professorRS.getInt("professorId"),
-					professorRS.getString("dateOfBirth"), professorRS.getString("department"));
+			professor = new Professor(contactInformation,
+                    professorRS.getInt("professorId"),
+					professorRS.getString("dateOfBirth"),
+                    professorRS.getString("department"));
 			
 			profList.add(professor);
 		}
 		return profList.iterator();
-		
 	}
+
+    public Iterator<Professor> getFaculty(final String department)
+            throws SQLException {
+
+        final Connection c = DBHelper.getConnection();
+        final Statement st = c.createStatement();
+
+        databaseCreationCheck(c.getMetaData(), st);
+
+        final ResultSet professorRS = st.executeQuery("SELECT professorId, " +
+                "dateOfBirth, homeAddress, workAddress, firstName, lastName, " +
+                "workPhone, homePhone, cellPhone, department FROM Professor " +
+                "WHERE department='" + department + "';");
+
+        final Collection<Professor> profList = new ArrayList<Professor>();
+
+        Professor professor = null;
+        ContactInformation contactInformation = null;
+
+        while ( professorRS.next() ) {
+            contactInformation = new ContactInformation(
+                    professorRS.getString("homeAddress"),
+                    professorRS.getString("workAddress"),
+                    professorRS.getString("firstName"),
+                    professorRS.getString("lastName"),
+                    professorRS.getString("workPhone"),
+                    professorRS.getString("homePhone"),
+                    professorRS.getString("cellPhone"));
+
+            professor = new Professor(contactInformation,
+                    professorRS.getInt("professorId"),
+                    professorRS.getString("dateOfBirth"),
+                    professorRS.getString("department"));
+
+            profList.add(professor);
+        }
+        return profList.iterator();
+    }
+
+    public Iterator<String> allDepartments() throws SQLException {
+
+        final Connection c = DBHelper.getConnection();
+        final Statement st = c.createStatement();
+
+        databaseCreationCheck(c.getMetaData(), st);
+
+        final ResultSet departmentRS = st.executeQuery("SELECT department " +
+                "FROM Professor GROUP BY department;");
+
+        final Collection<String> departmentList = new ArrayList<String>();
+
+        while ( departmentRS.next() ) {
+            departmentList.add(departmentRS.getString("department"));
+        }
+        return departmentList.iterator();
+    }
 	
 
 	@Override
@@ -151,7 +220,8 @@ public class ProfessorRepository implements ConcreteIntKeyRepository<Professor> 
 
 		databaseCreationCheck(c.getMetaData(), st);
 
-		return st.execute("DELETE FROM Professor WHERE professorId = " + id + ";");
+		return st.execute("DELETE FROM Professor WHERE professorId = " + id +
+                ";");
 		
 	}
 

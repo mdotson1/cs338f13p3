@@ -1,9 +1,20 @@
+@(professors : Iterator[models.person.Professor], url : String, professorForm : Form[models.person.Professor], backUri : String, dept : String)
+
+@import helper._
+
 <!DOCTYPE html>
 <html>
 <head>
     <title></title>
 </head>
 <body>
+<h1>All Professors in @dept Department</h1>
 
+@helpers.tables.professor_table(professors, url)
+
+<h2>Add New Professor</h2>
+@helpers.forms.professor_form(professorForm, controllers.root.admin.departments.department.faculty.routes.Faculty.post(dept), false)
+
+@helpers.back_link(backUri)
 </body>
 </html>

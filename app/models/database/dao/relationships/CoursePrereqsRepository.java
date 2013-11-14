@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
@@ -33,10 +34,10 @@ public class CoursePrereqsRepository {
 				"prereqDepartment VARCHAR(20) NOT NULL," +
 				"prereqCourseNumber SMALLINT NOT NULL," +
 				"PRIMARY KEY (department, courseNumber, prereqDepartment, prereqCourseNumber), " + 
-				"FOREIGN KEY (department) references Semesters(department), " +
-				"FOREIGN KEY (courseNumber) references Semesters(courseNumber), " +
-				"FOREIGN KEY (prereqDepartment) references Semesters(department), " +
-				"FOREIGN KEY (prereqCourseNumber) references Semesters(courseNumber) " +
+				"FOREIGN KEY (department) references StudentSemesters(department), " +
+				"FOREIGN KEY (courseNumber) references StudentSemesters(courseNumber), " +
+				"FOREIGN KEY (prereqDepartment) references StudentSemesters(department), " +
+				"FOREIGN KEY (prereqCourseNumber) references StudentSemesters(courseNumber) " +
 				") Engine=InnoDB;";
 		st.execute(createTableStatement);
 	}
@@ -58,7 +59,7 @@ public class CoursePrereqsRepository {
 
 		databaseCreationCheck(c.getMetaData(), st);
 
-		final ResultSet CourseRes = st.executeQuery("SELECT department, courseNumber FROM course WHERE "
+		final ResultSet CourseRes = st.executeQuery("SELECT department, courseNumber FROM section WHERE "
 				+ "department =	'"+department+ "' AND courseNumber = "
 				+ courseNumber+ ";");
 
@@ -74,14 +75,14 @@ public class CoursePrereqsRepository {
 			if (rs.next()) {
 				return rs.getInt(1);
 			} else {
-				throw new SQLException("Creating Semesters prerequisite failed, no generated key obtained.");
+				throw new SQLException("Creating StudentSemesters prerequisite failed, no generated key obtained.");
 			}
 		}
 		else 
 			return -1;
 	}
 
-	// return an iterator of all prereqs for a course
+	// return an iterator of all prereqs for a section
 	public Iterator<Course> findAllPrereqsForCourse(final String department,
 			final short courseNumber) throws SQLException {
 
@@ -97,7 +98,7 @@ public class CoursePrereqsRepository {
 
 		final ResultSet CoursePrereqRes = st.executeQuery(SelectCoursePrereqQuery);
 
-		final List<Course> courseList = new ArrayList<Course>();
+		final Collection<Course> courseList = new ArrayList<Course>();
 
 		Course course = null;
 
@@ -106,7 +107,7 @@ public class CoursePrereqsRepository {
 			final String dep = CoursePrereqRes.getString("prereqDepartment");
 
 			final String SelectCourseQuery = "SELECT department, courseNumber, cost, courseDescription" +
-					"FROM Semesters WHERE courseNumber = "+ courseNum +
+					"FROM StudentSemesters WHERE courseNumber = "+ courseNum +
 					" AND department = '"+ dep + "';";
 
 			final ResultSet CourseRes = st.executeQuery(SelectCourseQuery);

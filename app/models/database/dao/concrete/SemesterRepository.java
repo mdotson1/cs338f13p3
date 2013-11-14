@@ -6,6 +6,7 @@ import models.database.connection.DBHelper;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
@@ -101,7 +102,7 @@ public class SemesterRepository {
 
         final ResultSet semesterRes = st.executeQuery(selectSemesterQuery);
 
-        final List<Semester> semesterList = new ArrayList<Semester>();
+        final Collection<Semester> semesterList = new ArrayList<Semester>();
 
         while(semesterRes.next() ){
             Semester semester = new Semester(Season.valueOf(

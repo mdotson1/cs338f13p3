@@ -1,11 +1,12 @@
-@(professorForm : Form[models.person.Student], post : play.api.mvc.Call)
+@(professorForm : Form[models.person.Professor], post : play.api.mvc.Call, displayDepartment : Boolean)
 
-<h2>Create New Professor Entry</h2>
 @helper.form(post) {
 
 @helper.inputText(professorForm("Last Name"))
 @helper.inputText(professorForm("First Name"))
-@helper.inputText(professorForm("Department"))
+@if(displayDepartment) {
+    @helper.inputText(professorForm("Department"))
+}
 @helper.inputText(professorForm("Home Address"))
 @helper.inputText(professorForm("Work Address"))
 @helper.inputText(professorForm("Work Phone"))

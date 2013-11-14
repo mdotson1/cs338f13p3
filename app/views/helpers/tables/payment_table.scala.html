@@ -1,0 +1,23 @@
+@(payments : Iterator[models.person.Payment], url : String)
+
+<table border="1" cellspacing="0">
+    <tr>
+        <th>Id</th>
+        <th>Payment Type</th>
+        <th>Payment Amount (USD)</th>
+    </tr>
+
+    @for(payment <- payments) {
+    <tr>
+        <td>
+        @if(url != null) {
+        <a href=@url/@payment.getPaymentId>@payment.getPaymentId</a>
+        } else {
+        @payment.getPaymentId
+        }
+        </td>
+        <td>@payment.getPaymentType</td>
+        <td>@payment.getPaymentAmount</td>
+    </tr>
+    }
+</table>

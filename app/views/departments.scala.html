@@ -1,4 +1,4 @@
-@(departments : Iterator[String], url : String, courseForm : Form[models.course.Course], backLink : Map[String,String])
+@(departments : Iterator[String], url : String, professorForm : Form[models.person.Professor], backUri : String)
 
 @import helper._
 
@@ -9,20 +9,13 @@
     </head>
     <body>
         <h1>All Departments</h1>
-        <table border="1" cellspacing="0">
-            <tr>
-                <th>Department</th>
-            </tr>
 
             @for(dept <- departments) {
-            <tr>
-                <td><a href=@url/@dept>@dept</a></td>
-            </tr>
+                <p><a href=@url/@dept>@dept</a></p>
             }
-        </table>
-        <p>Don't see the department you're looking for? Please create a course with a department first.</p>
-        @helpers.forms.course_form(courseForm, controllers.root.admin.departments.routes.Departments.post())
+        <p>Don't see the department you're looking for? Please create a faculty member entry with that department first.</p>
+        @helpers.forms.professor_form(professorForm, controllers.root.admin.departments.routes.Departments.post(), true)
 
-        @helpers.link(backLink)
+        @helpers.back_link(backUri)
     </body>
 </html>

@@ -5,10 +5,7 @@ import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 import models.database.connection.DBHelper;
 import models.database.repository.ConcreteIntKeyRepository;
@@ -134,7 +131,7 @@ public class StudentRepository implements ConcreteIntKeyRepository<Student> {
 
 		final ResultSet studentRS = st.executeQuery(selectStudentsQuery);   
 
-		final List<Student> studentList = new ArrayList<Student>();
+		final Collection<Student> studentList = new ArrayList<Student>();
 
 		Student student = null;
 		ContactInformation contactInformation = null;

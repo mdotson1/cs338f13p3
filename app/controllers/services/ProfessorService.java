@@ -21,7 +21,7 @@ public class ProfessorService {
                 data.get("Work Phone"), data.get("Home Phone"),
                 data.get("Cell Phone"));
         Professor p = new Professor(ci, data.get("Date of Birth"),
-                data.get("CourseSchedulesDepartment"));
+                data.get("Department"));
 
         ProfessorRepository.getInstance().add(p);
     }

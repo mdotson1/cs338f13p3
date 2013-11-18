@@ -1,0 +1,15 @@
+@(payment : models.person.Payment, backUri : String)
+
+@import helper._
+@import scala.collection.Iterator
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+    </head>
+    <body>
+        @helpers.tables.payment_table(Iterator.single(payment), null)
+        @helpers.text.back_link(backUri)
+    </body>
+</html>

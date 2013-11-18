@@ -61,7 +61,7 @@ public class SemesterRepository {
 
         databaseCreationCheck(c.getMetaData(), st);
 
-        final String selectSemesterQuery = "SELECT season, year, cost " +
+        final String selectSemesterQuery = "SELECT season, year " +
                 "FROM Semester WHERE season = '" + season.toString() +
                 "' AND year = " + year + ";";
 

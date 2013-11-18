@@ -1,23 +1,37 @@
-@(payments : Iterator[models.person.Payment], url : String)
+@* 3 boolean fields, 1 boolean display *@
+
+@(payments : Iterator[models.person.Payment], url : String, paymentId : Boolean, paymentType : Boolean, paymentAmount : Boolean, displayLinks : Boolean)
+
+@import helpers.text.th
+@import helpers.text.td
+@import helpers.text.td_link
 
 <table border="1" cellspacing="0">
     <tr>
-        <th>Id</th>
-        <th>Payment Type</th>
-        <th>Payment Amount (USD)</th>
+        @if(paymentId) {
+            @th("Id")
+        }
+        @if(paymentType) {
+            @th("Payment Type")
+        }
+        @if(paymentAmount) {
+            @th("Payment Amount (USD)")
+        }
     </tr>
 
     @for(payment <- payments) {
-    <tr>
-        <td>
-        @if(url != null) {
-        <a href=@url/@payment.getPaymentId>@payment.getPaymentId</a>
-        } else {
-        @payment.getPaymentId
-        }
-        </td>
-        <td>@payment.getPaymentType</td>
-        <td>@payment.getPaymentAmount</td>
-    </tr>
+        <tr>
+            @if(displayLinks) {
+                @td_link(url + "/" + payment.getPaymentId, payment.getPaymentId + "")
+            } else {
+                @td(payment.getPaymentId + "")
+            }
+            @if(paymentType) {
+                @td(payment.getPaymentType)
+            }
+            @if(paymentAmount) {
+                @td(payment.getPaymentAmount + "")
+            }
+        </tr>
     }
 </table>

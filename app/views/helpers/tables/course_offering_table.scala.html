@@ -1,17 +1,37 @@
-@(courses : Iterator[models.course.CourseOffering], courseURL : String)
+@(courses : Iterator[models.course.CourseOffering], courseURL : String, department : Boolean, courseNumber : Boolean, sectionNumber : Boolean, displayLinks : Boolean)
+
+@import helpers.text.th
+@import helpers.text.td
+@import helpers.text.td_link
 
 <table border="1" cellspacing="0">
     <tr>
-        <th>Course Offering ID</th>
-        <th>Course</th>
-        <th>Section Number</th>
+        @if(department) {
+            @th("Department")
+        }
+        @if(courseNumber) {
+            @th("Course Number")
+        }
+        @if(sectionNumber) {
+            @th("Section Number")
+        }
     </tr>
 
     @for(course <- courses) {
-    <tr>
-        <td>@course.getCourseOfferingId</td>
-        <td><a href=@courseURL/@course.getCourse.getDepartment-@course.getCourse.getCourseNumber>@course.getCourse.getDepartment-@course.getCourse.getCourseNumber</a></td>
-        <td>@course.getSectionNumber</td>
-    </tr>
+        <tr>
+            @if(department) {
+                @td(course.getCourse.getDepartment)
+            }
+            @if(courseNumber) {
+                @td(course.getCourse.getCourseNumber + "")
+            }
+            @if(sectionNumber) {
+                @if(displayLinks) {
+                    @td_link(courseURL + "/" + course.getSectionNumber, course.getSectionNumber + "")
+                } else {
+                    @td(course.getSectionNumber + "")
+                }
+            }
+        </tr>
     }
 </table>

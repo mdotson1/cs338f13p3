@@ -31,7 +31,7 @@ public class CourseRepository {
 	}
 
 	private void createCourseTable(final Statement st) throws SQLException {
-		final String createTableStatement = "CREATE TABLE Section(" +
+		final String createTableStatement = "CREATE TABLE Course(" +
 				"department VARCHAR(20) NOT NULL, " +
 				"courseNumber SMALLINT NOT NULL, " +
 				"cost DOUBLE NOT NULL, " +
@@ -44,7 +44,7 @@ public class CourseRepository {
 
 	public void databaseCreationCheck(final DatabaseMetaData dbm,
 			final Statement st) throws SQLException {
-		final ResultSet tables = dbm.getTables(null, null, "Section", null);
+		final ResultSet tables = dbm.getTables(null, null, "Course", null);
 		if (!tables.next()) {
 			// Table does not exist
 			createCourseTable(st);
@@ -58,7 +58,7 @@ public class CourseRepository {
         databaseCreationCheck(c.getMetaData(), st);
 
         final String selectCoursesQuery = "SELECT department, courseNumber, " +
-                "cost, courseDescription FROM Section;";
+                "cost, courseDescription FROM Course;";
 
         final ResultSet courseRS = st.executeQuery(selectCoursesQuery);
 
@@ -85,7 +85,7 @@ public class CourseRepository {
         databaseCreationCheck(c.getMetaData(), st);
 
         final String selectCoursesQuery = "SELECT department, courseNumber, " +
-                "cost, courseDescription FROM Section WHERE department = '" +
+                "cost, courseDescription FROM Course WHERE department = '" +
                 department + "';";
 
         final ResultSet courseRS = st.executeQuery(selectCoursesQuery);
@@ -112,7 +112,7 @@ public class CourseRepository {
 
 		databaseCreationCheck(c.getMetaData(), st);
 
-		final String insertStudentStatement = "INSERT INTO Section(department, courseNumber, " +
+		final String insertStudentStatement = "INSERT INTO Course(department, courseNumber, " +
 				"cost, courseDescription)" + " VALUES('" + obj.getDepartment() + "', " + 
 				obj.getCourseNumber() + ", " + obj.getCost() + ", '" + 
 				obj.getCourseDescription() + "');";
@@ -126,7 +126,7 @@ public class CourseRepository {
 
         databaseCreationCheck(c.getMetaData(), st);
 
-        final String selectDepartmentsQuery = "SELECT department FROM Section " +
+        final String selectDepartmentsQuery = "SELECT department FROM Course " +
                 "GROUP BY department;";
 
         final ResultSet departmentRS = st.executeQuery(selectDepartmentsQuery);
@@ -148,9 +148,9 @@ public class CourseRepository {
 
 		databaseCreationCheck(c.getMetaData(), st);
 
-		final String SelectCourseQuery = "SELECT department, courseNumber, cost, courseDescription " +
-				"FROM Section WHERE courseNumber = "+ courseNumber +
-				" AND department = '"+ department + "';";
+		final String SelectCourseQuery = "SELECT department, courseNumber, " +
+                "cost, courseDescription FROM Course WHERE courseNumber = " +
+                courseNumber + " AND department = '"+ department + "';";
 
 		final ResultSet CourseRes = st.executeQuery(SelectCourseQuery);
 
@@ -171,7 +171,7 @@ public class CourseRepository {
 
 		databaseCreationCheck(c.getMetaData(), st);
 
-		final String deleteCourseQuery = "DELETE FROM Section WHERE courseNumber = "+ courseNumber +
+		final String deleteCourseQuery = "DELETE FROM Course WHERE courseNumber = "+ courseNumber +
 				" AND department = '"+ department + "';";
 
 		return st.execute(deleteCourseQuery);

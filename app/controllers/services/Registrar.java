@@ -33,11 +33,13 @@ public class Registrar {
 	public static boolean removeProfessorFromCourse(final int courseOfferingId) throws SQLException {
 		return CourseOfferingService.removeProfessor(courseOfferingId);
 	}
-	
+
+    /*
 	private static boolean allCoursesInSameSemester(final int[] courseIdsToCheck) throws SQLException {
 		
 		return CourseOfferingService.allCoursesInSameSemester(courseIdsToCheck);
 	}
+	*/
 	
 	/*
 	public boolean registerForCourses(final int studentId, 

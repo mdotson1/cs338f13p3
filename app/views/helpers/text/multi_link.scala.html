@@ -1,0 +1,5 @@
+@(namesAndURLs : Map[String,String])
+
+@for(pair <- namesAndURLs) {
+    @link(pair._2, pair._1)
+}

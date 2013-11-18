@@ -1,0 +1,18 @@
+@(courses : Iterator[models.course.Course], url : String, backUri : String, seasonAndYear : String, department : String, coForm : Form[models.course.CourseOffering], post : play.api.mvc.Call)
+
+@import helper._
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+    </head>
+    <body>
+        <h1>Courses Offered for @seasonAndYear by the @department Department</h1>
+
+        @helpers.tables.course_table(courses, url, true, true)
+        @helpers.forms.entity.course_offering_form(coForm, post)
+        @helpers.text.back_link(backUri)
+
+    </body>
+</html>

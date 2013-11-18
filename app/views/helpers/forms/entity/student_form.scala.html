@@ -1,0 +1,35 @@
+@* 8 field params *@
+
+@(studentForm : Form[models.person.Student], post : play.api.mvc.Call, lastName : Boolean, firstName : Boolean, dateOfBirth : Boolean, homeAddr : Boolean, workAddr : Boolean, homePhone : Boolean, workPhone : Boolean, cellPhone : Boolean)
+
+@import helper.inputText
+@import helper.form
+
+@form(post) {
+
+    @if(lastName) {
+        @inputText(studentForm("Last Name"))
+    }
+    @if(firstName) {
+        @inputText(studentForm("First Name"))
+    }
+    @if(dateOfBirth) {
+        @inputText(studentForm("Date of Birth"))
+    }
+    @if(homeAddr) {
+        @inputText(studentForm("Home Address"))
+    }
+    @if(workAddr) {
+        @inputText(studentForm("Work Address"))
+    }
+    @if(homePhone) {
+        @inputText(studentForm("Home Phone"))
+    }
+    @if(workPhone) {
+        @inputText(studentForm("Work Phone"))
+    }
+    @if(cellPhone) {
+        @inputText(studentForm("Cell Phone"))
+    }
+    <input type="submit" value="Create">
+}

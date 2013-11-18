@@ -1,0 +1,20 @@
+@* 3 boolean fields *@
+
+@(courseForm : Form[models.course.Course], post : play.api.mvc.Call, courseNumber : Boolean, cost : Boolean, courseDescription : Boolean)
+
+@import helper.inputText
+@import helper.form
+
+@helper.form(post) {
+
+    @if(courseNumber) {
+        @helper.inputText(courseForm("Course Number"))
+    }
+    @if(courseNumber) {
+        @helper.inputText(courseForm("Cost (USD)"))
+    }
+    @if(courseNumber) {
+        @helper.inputText(courseForm("Course Description"))
+    }
+    <input type="submit" value="Create">
+}

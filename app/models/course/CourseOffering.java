@@ -23,7 +23,6 @@ public class CourseOffering {
 		this.section = section;
 	}
 
-//TODO add department in the constructor	
 	// when creating before adding to database
 	public CourseOffering(final Course course, final Semester semester,
                           final short section) {
@@ -41,7 +40,7 @@ public class CourseOffering {
 	public void setCourseOfferingId(int courseOfferingId) {
 		this.courseOfferingId = courseOfferingId;
 	}
-	
+
 
 	public Course getCourse() {
 		return course;
@@ -66,7 +65,7 @@ public class CourseOffering {
 	public void setSectionNumber(short section) {
 		this.section = section;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "student: " + courseOfferingId;

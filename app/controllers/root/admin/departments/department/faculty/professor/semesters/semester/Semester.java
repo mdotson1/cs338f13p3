@@ -1,8 +1,11 @@
 package controllers.root.admin.departments.department.faculty.professor.semesters.semester;
 
-import controllers.resources.OneSemesterResource;
 import play.mvc.Controller;
 import play.mvc.Result;
+import views.html.root.admin.departments.department.faculty.professor.semesters.semester.*;
+import views.html.helpers.*;
+
+import java.sql.SQLException;
 
 public class Semester extends Controller {
 
@@ -13,10 +16,16 @@ public class Semester extends Controller {
                         seasonAndYear).url();
     }
 
+    private static Result render(final String department, final int professorId,
+                                 final String seasonAndYear) {
+
+        // TODO
+        return ok();
+    }
+
     public static Result get(final String department, final int professorId,
                              final String seasonAndYear) {
 
-        return OneSemesterResource.professor_get(department, professorId,
-                seasonAndYear);
+        return render(department, professorId, seasonAndYear);
     }
 }

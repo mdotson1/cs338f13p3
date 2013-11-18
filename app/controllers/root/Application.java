@@ -1,8 +1,15 @@
 package controllers.root;
 
-import controllers.resources.BaseResource;
+import controllers.root.admin.Admin;
+import controllers.root.professor.Professor;
+import controllers.root.student.Student;
 import play.mvc.Controller;
 import play.mvc.Result;
+import views.html.root.*;
+import views.html.helpers.*;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class Application extends Controller {
 
@@ -10,9 +17,22 @@ public class Application extends Controller {
         return controllers.root.routes.Application.get().url();
     }
 
-    public static Result get() {
+    private static Result render() {
 
-        return BaseResource.root_get();
+        final String context = Application.url();
+
+        final Map<String, String> loginsAndURLs =
+                new LinkedHashMap<String, String>();
+
+        loginsAndURLs.put("Login as a student", Student.url());
+        loginsAndURLs.put("Login as a professor", Professor.url());
+        loginsAndURLs.put("Login as an administrator", Admin.url());
+
+        return ok(root.render(loginsAndURLs));
+    }
+
+    public static Result get() {
+        return render();
     }
 
     public static Result untrail(String path) {

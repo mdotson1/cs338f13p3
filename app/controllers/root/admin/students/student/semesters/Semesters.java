@@ -1,13 +1,14 @@
 package controllers.root.admin.students.student.semesters;
 
-import controllers.resources.SemestersResource;
-import controllers.root.admin.students.student.Student;
+import controllers.root.Resource;
+import models.database.dao.concrete.StudentRepository;
+import models.database.dao.relationships.CoursesTakenRepository;
 import play.mvc.Controller;
 import play.mvc.Result;
+import views.html.root.admin.students.student.semesters.*;
+import views.html.helpers.*;
 
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.sql.SQLException;
 
 public class Semesters extends Controller {
 
@@ -16,14 +17,22 @@ public class Semesters extends Controller {
                 Semesters.get(studentId).url();
     }
 
-    private static Map<String,String> GENERATE_BACK_LINK(final int studentId) {
-        Map<String, String> aMap = new LinkedHashMap<String, String>();
-        aMap.put("Back", Student.url(studentId));
-        return Collections.unmodifiableMap(aMap);
+    private static Result render(final int studentId)
+            throws SQLException {
+
+        final String context = Semesters.url(studentId);
+
+        return ok(semesters.render(CoursesTakenRepository.getInstance().
+                allSemestersStudentAttended(studentId), context,
+                Resource.BACK_LINK(context),
+                StudentRepository.getInstance().findById(studentId)));
     }
 
     public static Result get(final int studentId) {
-
-        return SemestersResource.get(studentId, GENERATE_BACK_LINK(studentId));
+        try {
+            return render(studentId);
+        } catch (SQLException e) {
+            return ok(debug.render(e.toString()));
+        }
     }
 }

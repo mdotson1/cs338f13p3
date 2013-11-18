@@ -1,36 +1,75 @@
-@(students : Iterator[models.person.Student], url : String, displayLinks : Boolean)
+@* 9 boolean fields. 1 boolean display *@
+
+@(students : Iterator[models.person.Student], url : String, id : Boolean, lastName : Boolean, firstName : Boolean, dateOfBirth : Boolean, homeAddr : Boolean, workAddr : Boolean, homePhone : Boolean, workPhone : Boolean, cellPhone : Boolean, displayLinks : Boolean)
+
+@import helpers.text.th
+@import helpers.text.td
+@import helpers.text.td_link
 
 <table border="1" cellspacing="0">
     <tr>
-        <th>Id</th>
-        <th>Last Name</th>
-        <th>First Name</th>
-        <th>Current Balance</th>
-        <th>Date of Birth</th>
-        <th>Home Address</th>
-        <th>Work Address</th>
-        <th>Home Phone</th>
-        <th>Work Phone</th>
-        <th>Cell Phone</th>
+        @if(id) {
+            @th("Id")
+        }
+        @if(lastName) {
+            @th("Last Name")
+        }
+        @if(firstName) {
+            @th("First Name")
+        }
+        @if(dateOfBirth) {
+            @th("Date of Birth")
+        }
+        @if(homeAddr) {
+            @th("Home Address")
+        }
+        @if(workAddr) {
+            @th("Work Address")
+        }
+        @if(homePhone) {
+            @th("Home Phone")
+        }
+        @if(workPhone) {
+            @th("Work Phone")
+        }
+        @if(cellPhone) {
+            @th("Cell Phone")
+        }
     </tr>
 
     @for(student <- students) {
-    <tr>
-        <td>
-        @if(displayLinks) {
-            <a href=@url/@student.getId>@student.getId</a>
-        } else {
-            @student.getId
-        }</td>
-        <td>@student.getContactInformation.getLastName</td>
-        <td>@student.getContactInformation.getFirstName</td>
-        <td>@student.getCurrentBalance</td>
-        <td>@student.getDateOfBirth</td>
-        <td>@student.getContactInformation.getHomeAddress</td>
-        <td>@student.getContactInformation.getWorkAddress</td>
-        <td>@student.getContactInformation.getHomePhone</td>
-        <td>@student.getContactInformation.getWorkPhone</td>
-        <td>@student.getContactInformation.getCellPhone</td>
-    </tr>
+        <tr>
+            @if(id) {
+                @if(displayLinks) {
+                    @td_link(url + "/" + student.getId, student.getId + "")
+                } else {
+                    @td(student.getId + "")
+                }
+            }
+            @if(lastName) {
+                @td(student.getContactInformation.getLastName)
+            }
+            @if(firstName) {
+                @td(student.getContactInformation.getFirstName)
+            }
+            @if(dateOfBirth) {
+                @td(student.getDateOfBirth)
+            }
+            @if(homeAddr) {
+                @td(student.getContactInformation.getHomeAddress)
+            }
+            @if(workAddr) {
+                @td(student.getContactInformation.getWorkAddress)
+            }
+            @if(homePhone) {
+                @td(student.getContactInformation.getHomePhone)
+            }
+            @if(workPhone) {
+                @td(student.getContactInformation.getWorkPhone)
+            }
+            @if(cellPhone) {
+                @td(student.getContactInformation.getCellPhone)
+            }
+        </tr>
     }
 </table>

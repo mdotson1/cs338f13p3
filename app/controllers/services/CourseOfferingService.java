@@ -4,9 +4,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
+import models.course.Course;
 import models.course.Semester;
 import models.database.dao.concrete.CourseOfferingRepository;
+import models.database.dao.concrete.CourseRepository;
+import models.database.dao.concrete.SemesterRepository;
 import models.database.dao.relationships.CoursesTakenRepository;
 import models.database.dao.relationships.CoursesTeachingRepository;
 import models.course.CourseOffering;
@@ -17,6 +21,37 @@ import models.person.Student;
 public class CourseOfferingService {
 
 	private CourseOfferingService() { } // impossible to instantiate a service
+
+    public static int createCourseOffering(final Map<String,String> data,
+                                           final Season season,
+                                           final short year)
+            throws SQLException {
+
+        try {
+        Course c = CourseRepository.getInstance().findById(
+                data.get("Department"),
+                Short.parseShort(data.get("Course Number")));
+            try {
+                CourseOffering co = new CourseOffering(c,
+                        SemesterRepository.getInstance().findById(season, year),
+                        Short.parseShort(data.get("Section Number")));
+                try {
+                    return CourseOfferingRepository.getInstance().add(co);
+                } catch (Exception e) {
+                    System.out.println("FIN");
+                }
+
+            } catch (Exception e) {
+                System.out.println("breeding");
+            }
+        } catch (Exception e) {
+            System.out.println("sea turtle");
+        }
+
+
+
+        return 0;
+    }
 
 	public static Iterator<CourseOffering> getCoursesInSemester(Season season, short year) throws SQLException {
 		return CourseOfferingRepository.getInstance().findAllCourseOfferingsBySemester(season, year);

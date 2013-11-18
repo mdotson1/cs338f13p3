@@ -63,11 +63,14 @@ public class StudentRepository implements ConcreteIntKeyRepository<Student> {
 
 		final ContactInformation ci = obj.getContactInformation();
 
-		final String insertStudentStatement = "INSERT INTO Student(dateOfBirth, homeAddress, workAddress, " +
-				"lastName, firstName, workPhone, homePhone, cellPhone, currentBalance) VALUES('" + 
-				obj.getDateOfBirth() + "', '" + ci.getHomeAddress() + "', '" + ci.getWorkAddress() + "', '" +
-				ci.getFirstName() + "', '" + ci.getLastName() + "', '" + ci.getWorkPhone() + "', '" + 
-				ci.getHomePhone() + "', '" + ci.getCellPhone() + "', " + obj.getCurrentBalance() + ");";
+		final String insertStudentStatement = "INSERT INTO Student(" +
+                "dateOfBirth, homeAddress, workAddress, lastName, firstName, " +
+                "workPhone, homePhone, cellPhone, currentBalance) VALUES('" +
+				obj.getDateOfBirth() + "', '" + ci.getHomeAddress() + "', '" +
+                ci.getWorkAddress() + "', '" + ci.getFirstName() + "', '" +
+                ci.getLastName() + "', '" + ci.getWorkPhone() + "', '" +
+                ci.getHomePhone() + "', '" + ci.getCellPhone() + "', " +
+                obj.getCurrentBalance() + ");";
 
 		st.executeUpdate(insertStudentStatement, Statement.RETURN_GENERATED_KEYS);
 		ResultSet rs = st.getGeneratedKeys();
@@ -85,9 +88,10 @@ public class StudentRepository implements ConcreteIntKeyRepository<Student> {
 		
 		databaseCreationCheck(c.getMetaData(), st);
 
-		final String selectStudentQuery = "SELECT studentId, dateOfBirth, homeAddress, workAddress, " +
-				"lastName, firstName, workPhone, homePhone, cellPhone, currentBalance" +
-				" FROM Student WHERE studentId = " + id + ";";
+		final String selectStudentQuery = "SELECT studentId, dateOfBirth, " +
+                "homeAddress, workAddress, lastName, firstName, workPhone, " +
+                "homePhone, cellPhone, currentBalance FROM Student WHERE " +
+                "studentId = " + id + ";";
 		
 		final ResultSet studentRS = st.executeQuery(selectStudentQuery);   
 
@@ -95,12 +99,17 @@ public class StudentRepository implements ConcreteIntKeyRepository<Student> {
 		ContactInformation contactInformation = null;
 
 		while ( studentRS.next() ) {
-			contactInformation = new ContactInformation(studentRS.getString("homeAddress"),
-					studentRS.getString("workAddress"), studentRS.getString("lastName"),
-					studentRS.getString("firstName"), studentRS.getString("workPhone"),
-					studentRS.getString("homePhone"), studentRS.getString("cellPhone"));
+			contactInformation = new ContactInformation(
+                    studentRS.getString("homeAddress"),
+					studentRS.getString("workAddress"),
+                    studentRS.getString("lastName"),
+					studentRS.getString("firstName"),
+                    studentRS.getString("workPhone"),
+					studentRS.getString("homePhone"),
+                    studentRS.getString("cellPhone"));
 			
-			student = new Student(contactInformation, id, studentRS.getString("dateOfBirth"),
+			student = new Student(contactInformation, id,
+                    studentRS.getString("dateOfBirth"),
 						studentRS.getDouble("currentBalance"));
 		}
 		return student;
@@ -113,8 +122,9 @@ public class StudentRepository implements ConcreteIntKeyRepository<Student> {
 		databaseCreationCheck(c.getMetaData(), st);
 		
 
-		final String updateBalanceStatement = "UPDATE Student SET currentBalance=" + newBalance
-				+ " WHERE studentId=" + studentId + ";";
+		final String updateBalanceStatement = "UPDATE Student SET " +
+                "currentBalance=" + newBalance + " WHERE studentId=" +
+                studentId + ";";
 
 		st.execute(updateBalanceStatement);
 	}
@@ -126,8 +136,9 @@ public class StudentRepository implements ConcreteIntKeyRepository<Student> {
 		
 		databaseCreationCheck(c.getMetaData(), st);
 
-		final String selectStudentsQuery = "SELECT studentId, dateOfBirth, homeAddress, workAddress, " +
-				"lastName, firstName, workPhone, homePhone, cellPhone, currentBalance FROM Student;";
+		final String selectStudentsQuery = "SELECT studentId, dateOfBirth, " +
+                "homeAddress, workAddress, lastName, firstName, workPhone, " +
+                "homePhone, cellPhone, currentBalance FROM Student;";
 
 		final ResultSet studentRS = st.executeQuery(selectStudentsQuery);   
 
@@ -137,13 +148,19 @@ public class StudentRepository implements ConcreteIntKeyRepository<Student> {
 		ContactInformation contactInformation = null;
 		
 		while ( studentRS.next() ) {
-			contactInformation = new ContactInformation(studentRS.getString("homeAddress"),
-					studentRS.getString("workAddress"), studentRS.getString("lastName"),
-					studentRS.getString("firstName"), studentRS.getString("workPhone"),
-					studentRS.getString("homePhone"), studentRS.getString("cellPhone"));
+			contactInformation = new ContactInformation(
+                    studentRS.getString("homeAddress"),
+					studentRS.getString("workAddress"),
+                    studentRS.getString("lastName"),
+					studentRS.getString("firstName"),
+                    studentRS.getString("workPhone"),
+					studentRS.getString("homePhone"),
+                    studentRS.getString("cellPhone"));
 			
-			student = new Student(contactInformation, studentRS.getInt("studentId"),
-					studentRS.getString("dateOfBirth"), studentRS.getDouble("currentBalance"));
+			student = new Student(contactInformation,
+                    studentRS.getInt("studentId"),
+					studentRS.getString("dateOfBirth"),
+                    studentRS.getDouble("currentBalance"));
 			
 			studentList.add(student);
 		}
@@ -157,7 +174,8 @@ public class StudentRepository implements ConcreteIntKeyRepository<Student> {
 		
 		databaseCreationCheck(c.getMetaData(), st);
 		
-		final String deleteStudentQuery = "DELETE FROM Student WHERE studentId = " + id + ";";
+		final String deleteStudentQuery = "DELETE FROM Student WHERE " +
+                "studentId = " + id + ";";
 
 		return st.execute(deleteStudentQuery);
 	}

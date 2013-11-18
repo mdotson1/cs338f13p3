@@ -1,34 +1,50 @@
-@(courses : Iterator[models.course.Course], url : String, includeDepartment : Boolean, displayLinks : Boolean)
+@* 4 boolean fields, 1 boolean display *@
+
+@(courses : Iterator[models.course.Course], url : String, department : Boolean, courseNumber : Boolean, cost : Boolean, courseDescription : Boolean, displayLinks : Boolean)
+
+@import helpers.text.th
+@import helpers.text.td
+@import helpers.text.td_link
 
 <table border="1" cellspacing="0">
     <tr>
-        @if(includeDepartment) {
-            <th>Department</th>
+        @if(department) {
+            @th("Department-CourseNumber")
         }
-        <th>Course Number</th>
-        <th>Cost (USD)</th>
-        <th>Course Description</th>
+        @if(courseNumber) {
+            @th("Course Number")
+        }
+        @if(cost) {
+            @th("Cost (USD)")
+        }
+        @if(courseDescription) {
+            @th("Course Description")
+        }
     </tr>
 
     @for(course <- courses) {
-    <tr>
-        <td>
-        @if(includeDepartment) {
-            @if(displayLinks) {
-                <a href=@url/@course.getDepartment-@course.getCourseNumber>@course.getDepartment-@course.getCourseNumber</a>
-            } else {
-                @course.getDepartment</td><td>@course.getCourseNumber
+        <tr>
+            @if(department) {
+                @if(displayLinks) {
+                    @td_link(url + "/" + course.getCourseNumber, course.getDepartment + "-" + course.getCourseNumber)
+                } else {
+                   @td(course.getDepartment)
+                }
             }
-        } else {
-            @if(displayLinks) {
-                <a href=@url/@course.getCourseNumber>@course.getCourseNumber</a>
-            } else {
-                @course.getCourseNumber
+
+            @if(courseNumber) {
+                @if(displayLinks) {
+                    @td_link(url + "/" + course.getCourseNumber, course.getCourseNumber + "")
+                } else {
+                    @td(course.getCourseNumber + "")
+                }
             }
-        }
-        </td>
-        <td>@course.getCost</td>
-        <td>@course.getCourseDescription</td>
-    </tr>
+            @if(cost) {
+                @td(course.getCost + "");
+            }
+            @if(courseDescription) {
+                @td(course.getCourseDescription)
+            }
+        </tr>
     }
 </table>

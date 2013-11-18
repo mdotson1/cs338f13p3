@@ -1,0 +1,14 @@
+@(course : models.course.CourseOffering, courseURL : String)
+
+@import helper._
+@import scala.collection.Iterator
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+    </head>
+    <body>
+        @helpers.tables.course_offering_table(Iterator.single(course), courseURL, true)
+    </body>
+</html>

@@ -1,29 +1,75 @@
-@(professors : Iterator[models.person.Professor], url : String)
+@* 9 boolean fields. 1 boolean display *@
+
+@(professors : Iterator[models.person.Professor], url : String, id : Boolean, lastName : Boolean, firstName : Boolean, dateOfBirth : Boolean, homeAddr : Boolean, workAddr : Boolean, homePhone : Boolean, workPhone : Boolean, cellPhone : Boolean, displayLinks : Boolean)
+
+@import helpers.text.th
+@import helpers.text.td
+@import helpers.text.td_link
 
 <table border="1" cellspacing="0">
     <tr>
-        <th>Id</th>
-        <th>Last Name</th>
-        <th>First Name</th>
-        <th>Date of Birth</th>
-        <th>Home Address</th>
-        <th>Work Address</th>
-        <th>Home Phone</th>
-        <th>Work Phone</th>
-        <th>Cell Phone</th>
+        @if(id) {
+            @th("Id")
+        }
+        @if(lastName) {
+            @th("Last Name")
+        }
+        @if(firstName) {
+            @th("First Name")
+        }
+        @if(dateOfBirth) {
+            @th("Date of Birth")
+        }
+        @if(homeAddr) {
+            @th("Home Address")
+        }
+        @if(workAddr) {
+            @th("Work Address")
+        }
+        @if(homePhone) {
+            @th("Home Phone")
+        }
+        @if(workPhone) {
+            @th("Work Phone")
+        }
+        @if(cellPhone) {
+            @th("Cell Phone")
+        }
     </tr>
 
     @for(professor <- professors) {
-    <tr>
-        <td><a href=@url/@professor.getId>@professor.getId</a></td>
-        <td>@professor.getContactInformation.getLastName</td>
-        <td>@professor.getContactInformation.getFirstName</td>
-        <td>@professor.getDateOfBirth</td>
-        <td>@professor.getContactInformation.getHomeAddress</td>
-        <td>@professor.getContactInformation.getWorkAddress</td>
-        <td>@professor.getContactInformation.getHomePhone</td>
-        <td>@professor.getContactInformation.getWorkPhone</td>
-        <td>@professor.getContactInformation.getCellPhone</td>
-    </tr>
+        <tr>
+            @if(id) {
+                @if(displayLinks) {
+                    @td_link(url + "/" + professor.getId, professor.getId + "")
+                } else {
+                    @td(professor.getId + "")
+                }
+            }
+            @if(lastName) {
+                @td(professor.getContactInformation.getLastName)
+            }
+            @if(firstName) {
+                @td(professor.getContactInformation.getFirstName)
+            }
+            @if(dateOfBirth) {
+                @td(professor.getDateOfBirth)
+            }
+            @if(homeAddr) {
+                @td(professor.getContactInformation.getHomeAddress)
+            }
+            @if(workAddr) {
+                @td(professor.getContactInformation.getWorkAddress)
+            }
+            @if(homePhone) {
+                @td(professor.getContactInformation.getHomePhone)
+            }
+            @if(workPhone) {
+                @td(professor.getContactInformation.getWorkPhone)
+            }
+            @if(cellPhone) {
+                @td(professor.getContactInformation.getCellPhone)
+            }
+        </tr>
     }
 </table>

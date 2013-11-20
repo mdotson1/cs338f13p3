@@ -1,0 +1,26 @@
+@(departments : Iterator[String], url : String, backUri : String, sem : String, coForm : Form[models.course.CourseOffering], post : play.api.mvc.Call)
+
+@import helpers.text.p
+@import helpers.text.h1
+@import helpers.text.back_link
+@import helpers.text.link
+@import helpers.forms.entity.course_offering_form
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+    </head>
+    <body>
+        @h1("Course Schedule for " + sem)
+
+        @for(dept <- departments) {
+            @link(url + "../../../../public/" + dept, dept)
+        }
+
+        @p("If department not listed, please add a course with that department")
+
+        @course_offering_form(coForm, post, true, true, true)
+        @back_link(backUri)
+    </body>
+</html>

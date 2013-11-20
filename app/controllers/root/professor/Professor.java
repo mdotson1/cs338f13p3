@@ -5,6 +5,9 @@ import play.mvc.Result;
 import views.html.root.professor.*;
 import views.html.helpers.*;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 public class Professor extends Controller {
 
     public static String url() {
@@ -12,8 +15,14 @@ public class Professor extends Controller {
     }
 
     private static Result render() {
-        // TODO
-        return ok();
+        final String context = Professor.url();
+
+        final Map<String,String> namesAndURLs =
+                new LinkedHashMap<String, String>();
+        namesAndURLs.put("All Course Schedules", CourseSchedules.url());
+        namesAndURLs.put("All Departments", Departments.url());
+
+        return ok(professor.render(namesAndURLs, Resource.BACK_LINK(context)));
     }
 
     public static Result get() {

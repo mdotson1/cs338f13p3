@@ -24,7 +24,7 @@ public class Payment extends Controller {
         final String context = Payment.url(studentId, paymentId);
         final Form<Professor> form;
 
-        return ok(one_payment.render(
+        return ok(payment.render(
                 PaymentRepository.getInstance().findById(paymentId),
                 Resource.BACK_LINK(context)));
     }

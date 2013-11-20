@@ -1,0 +1,23 @@
+@(payments : Iterator[models.person.Payment], url : String, paymentForm : Form[models.person.Payment], studentId : Int, backUri : String, post : play.api.mvc.Call)
+
+@import helpers.tables.payment_table
+@import helpers.forms.entity.payment_form
+@import helpers.text.back_link
+@import helpers.text.h1
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+    </head>
+    <body>
+        @h1("All Payments For Student " + studentId)
+
+        @payment_table(payments, url, true, true, true, true)
+
+        @payment_form(paymentForm, post, true, true)
+
+        @back_link(backUri)
+
+    </body>
+</html>

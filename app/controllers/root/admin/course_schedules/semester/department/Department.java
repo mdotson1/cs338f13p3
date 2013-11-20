@@ -52,7 +52,7 @@ public class Department extends Controller {
                 return badRequest();
             }
             CourseOfferingService.createCourseOffering(form.data(),
-                    season, year);
+                    season, year, dept);
         } else {
             form = CO_FORM;
         }

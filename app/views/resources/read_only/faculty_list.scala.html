@@ -1,0 +1,21 @@
+@(professors : Iterator[models.person.Professor], url : String, backUri : String, dept : String)
+
+@import helpers.text.back_link
+@import helpers.text.h1
+@import helpers.text.h2
+@import helpers.tables.professor_table
+@import helpers.forms.entity.professor_form
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+    </head>
+    <body>
+        @h1("All Professors in the " + dept + " Department")
+
+        @professor_table(professors, url, true, true, true, true, true, true, true, true, true, true)
+
+        @back_link(backUri)
+    </body>
+</html>

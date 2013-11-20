@@ -38,18 +38,70 @@ public class CourseOfferingService {
                 try {
                     return CourseOfferingRepository.getInstance().add(co);
                 } catch (Exception e) {
-                    System.out.println("FIN");
+                    System.out.println(e.toString());
+                }
+            } catch (Exception e) {
+                System.out.println(e.toString());
+            }
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+        return 0;
+    }
+
+    public static int createCourseOffering(final Map<String,String> data,
+                                           final Season season,
+                                           final short year,
+                                           final String department,
+                                           final short courseNum)
+            throws SQLException {
+
+        try {
+            Course c = CourseRepository.getInstance().findById(
+                    department, courseNum);
+            try {
+                CourseOffering co = new CourseOffering(c,
+                        SemesterRepository.getInstance().findById(season, year),
+                        Short.parseShort(data.get("Section Number")));
+                try {
+                    return CourseOfferingRepository.getInstance().add(co);
+                } catch (Exception e) {
+                    System.out.println(e.toString());
+                }
+            } catch (Exception e) {
+                System.out.println(e.toString());
+            }
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+        return 0;
+    }
+
+    public static int createCourseOffering(final Map<String,String> data,
+                                           final Season season,
+                                           final short year,
+                                           final String department)
+            throws SQLException {
+
+        try {
+            Course c = CourseRepository.getInstance().findById(
+                    department, Short.parseShort(data.get("Course Number")));
+            try {
+                CourseOffering co = new CourseOffering(c,
+                        SemesterRepository.getInstance().findById(season, year),
+                        Short.parseShort(data.get("Section Number")));
+                try {
+                    return CourseOfferingRepository.getInstance().add(co);
+                } catch (Exception e) {
+                    System.out.println(e.toString());
                 }
 
             } catch (Exception e) {
-                System.out.println("breeding");
+                System.out.println(e.toString());
             }
         } catch (Exception e) {
-            System.out.println("sea turtle");
+            System.out.println(e.toString());
         }
-
-
-
         return 0;
     }
 

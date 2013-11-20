@@ -13,6 +13,9 @@ import views.html.root.admin.course_schedules.semester.department.course.*;
 import views.html.helpers.*;
 
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class Course extends Controller {
 
@@ -53,7 +56,7 @@ public class Course extends Controller {
                 return badRequest();
             }
             CourseOfferingService.createCourseOffering(form.data(),
-                    season, year);
+                    season, year, department, Short.parseShort(courseNum));
         } else {
             form = CO_FORM;
         }

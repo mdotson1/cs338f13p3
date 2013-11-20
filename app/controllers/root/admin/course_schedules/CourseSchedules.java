@@ -30,7 +30,6 @@ public class CourseSchedules extends Controller {
 
     private static Result render(final boolean create) throws SQLException {
 
-
         final String context = CourseSchedules.url();
         final Form<Semester> form;
 

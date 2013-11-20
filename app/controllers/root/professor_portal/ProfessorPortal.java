@@ -1,4 +1,4 @@
-package controllers.root.professor;
+package controllers.root.professor_portal;
 
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -8,14 +8,14 @@ import views.html.helpers.*;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class Professor extends Controller {
+public class ProfessorPortal extends Controller {
 
     public static String url() {
-        return controllers.root.professor.routes.Professor.get().url();
+        return controllers.root.professor_portal.routes.ProfessorPortal.get().url();
     }
 
     private static Result render() {
-        final String context = Professor.url();
+        final String context = ProfessorPortal.url();
 
         final Map<String,String> namesAndURLs =
                 new LinkedHashMap<String, String>();

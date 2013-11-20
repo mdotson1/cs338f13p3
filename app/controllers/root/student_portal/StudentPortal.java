@@ -1,14 +1,14 @@
-package controllers.root.student;
+package controllers.root.student_portal;
 
 import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.root.student.*;
 import views.html.helpers.*;
 
-public class Student extends Controller {
+public class StudentPortal extends Controller {
 
     public static String url() {
-        return controllers.root.student.routes.Student.get().url();
+        return controllers.root.student_portal.routes.StudentPortal.get().url();
     }
 
     private static Result render() {

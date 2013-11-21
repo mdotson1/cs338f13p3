@@ -1,0 +1,22 @@
+@* this is similar to the admin version, but this version does not expose anything besides name and ID *@
+
+@(professor : models.person.Professor, url : String, semesters : Iterator[models.course.Semester], backUri : String)
+
+@import helpers.tables.professor_table
+@import helpers.text.back_link
+@import helpers.text.h1
+@import helpers.text.h2
+@import scala.collection.Iterator
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+    </head>
+    <body>
+        @h1("Information for " + professor.getContactInformation.getLastName + ", " + professor.getContactInformation.getFirstName)
+        @professor_table(Iterator.single(professor), url, true, true, true, false, false, false, false, false, false, false)
+        @h2("Explore Course Offerings Taught by This Professor")
+        @helpers.text.back_link(backUri)
+    </body>
+</html>

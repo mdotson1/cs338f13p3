@@ -1,0 +1,17 @@
+@(department : String, links : Map[String,String], backUri : String)
+
+@import helpers.text.multi_link
+@import helpers.text.back_link
+@import helpers.text.h1
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+    </head>
+    <body>
+        @h1("Welcome to the " + department + " Department")
+        @multi_link(links)
+        @back_link(backUri)
+    </body>
+</html>

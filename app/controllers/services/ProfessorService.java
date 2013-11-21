@@ -40,7 +40,8 @@ public class ProfessorService {
 
         ProfessorRepository.getInstance().add(p);
     }
-	
+
+    /*
 	public static boolean assignCourseForProfessor(int courseOfferingId,
 			int professorId) throws SQLException {
 
@@ -54,6 +55,7 @@ public class ProfessorService {
 			return false;
 		}
 	}
+	*/
 	
 	public static boolean dropCourseFromProfessor(int professorId,
 			int courseOfferingId) throws SQLException {

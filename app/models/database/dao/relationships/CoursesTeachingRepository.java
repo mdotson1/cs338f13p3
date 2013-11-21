@@ -130,10 +130,10 @@ public class CoursesTeachingRepository
         return semesterList.iterator();
     }
 
-    // return the professor for the section
-    public Professor findProfessorForCourse(final int courseOfferingId)
-            throws SQLException {
-        Professor professor = null;
+    // return the professors for the section
+    public Iterator<Professor> findProfessorsForCourse(
+            final int courseOfferingId) throws SQLException {
+
         final Connection c = DBHelper.getConnection();
         final Statement st = c.createStatement();
 
@@ -147,12 +147,16 @@ public class CoursesTeachingRepository
         final ResultSet courseTeachingRes = st.executeQuery(
                 selectCourseTeachingQuery);
 
+        Collection<Professor> professorList = new ArrayList<Professor>();
+
         while(courseTeachingRes.next()) {
-            professor = ProfessorRepository.getInstance().
+
+            final Professor professor = ProfessorRepository.getInstance().
                     findById(courseTeachingRes.getInt("professorId"));
+            professorList.add(professor);
         }
 
-        return professor;
+        return professorList.iterator();
     }
 
 

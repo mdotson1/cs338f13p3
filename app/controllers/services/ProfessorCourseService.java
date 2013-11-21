@@ -9,6 +9,7 @@ public class ProfessorCourseService {
 
 	private ProfessorCourseService() { } // impossible to instantiate a service
 
+    /*
 	// true = assigned prof, false = not assigned
 	public static boolean assignProfessorForCourse(final int courseOfferingId,
 			final int professorId) throws SQLException {
@@ -22,6 +23,7 @@ public class ProfessorCourseService {
 			return false;
 		}
 	}
+	*/
 	public static boolean dropCourseFromProfessor(int professorId,
 			int courseOfferingId) throws SQLException {
 

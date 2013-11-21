@@ -1,0 +1,3 @@
+@(professor : models.person.Professor, url : String, semesters : Iterator[models.course.Semester], backUri : String)
+
+@resources.read_only.professor(professor, url, semesters, backUri)

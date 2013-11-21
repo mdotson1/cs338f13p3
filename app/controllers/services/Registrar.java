@@ -21,7 +21,8 @@ public class Registrar {
 		
 		return CourseOfferingService.getRoster(courseOfferingId);
 	}
-	
+
+    /*
 	public static boolean assignProfessorToCourse(final int courseOfferingId, 
 			final int professorId) throws SQLException {
 		
@@ -33,6 +34,7 @@ public class Registrar {
 	public static boolean removeProfessorFromCourse(final int courseOfferingId) throws SQLException {
 		return CourseOfferingService.removeProfessor(courseOfferingId);
 	}
+	*/
 
     /*
 	private static boolean allCoursesInSameSemester(final int[] courseIdsToCheck) throws SQLException {

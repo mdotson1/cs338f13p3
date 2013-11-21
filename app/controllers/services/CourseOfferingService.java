@@ -130,10 +130,12 @@ public class CourseOfferingService {
 		}
 	}
 
+    /*
 	// true = removed prof, false = not removed
 	public static boolean removeProfessor(final int courseOfferingId) throws SQLException {
 
-		Professor p = CoursesTeachingRepository.getInstance().findProfessorForCourse(courseOfferingId);
+		Iterator<Professor> profs = CoursesTeachingRepository.getInstance().
+                findProfessorsForCourse(courseOfferingId);
 		if (p == null) {
 			return false;
 		} else {
@@ -141,6 +143,7 @@ public class CourseOfferingService {
 			return true;
 		}
 	}
+	*/
 
 	public static Iterator<Student> getRoster(final int courseOfferingId) throws SQLException {
 

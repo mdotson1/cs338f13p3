@@ -1,3 +1,3 @@
 @(students : Iterator[models.person.Student], url : String, studentForm : Form[models.person.Student], backUri : String, post : play.api.mvc.Call)
 
-@resources.student_list_admin(students, url, studentForm, backUri, post)
+@resources.admin.student_list(students, url, studentForm, backUri, post)

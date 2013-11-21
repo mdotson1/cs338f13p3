@@ -2,7 +2,7 @@ package controllers.root.student_portal;
 
 import play.mvc.Controller;
 import play.mvc.Result;
-import views.html.root.student.*;
+import views.html.root.student_portal.*;
 import views.html.helpers.*;
 
 public class StudentPortal extends Controller {

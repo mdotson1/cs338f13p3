@@ -1,0 +1,20 @@
+@(professors : Iterator[models.person.Professor], profUrl : String, backUri : String, courseInfo : String)
+
+@import helpers.tables.professor_table
+@import helpers.text.back_link
+@import helpers.text.h1
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+    </head>
+    <body>
+        @h1("All Professors Teaching " + courseInfo)
+
+        @professor_table(professors, profUrl, true, true, true, false, false, false, false, false, false, true)
+
+        @back_link(backUri)
+
+    </body>
+</html>

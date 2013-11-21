@@ -92,6 +92,45 @@ public class CourseOfferingRepository
 
 	}
 
+    public CourseOffering find(final String department, final short courseNum,
+                               final short sectionNum, final Season season,
+                               final short year) throws SQLException {
+
+        final Connection c = DBHelper.getConnection();
+        final Statement st = c.createStatement();
+
+        databaseCreationCheck(c.getMetaData(), st);
+
+        final String SelectCourseOffQuery = "SELECT courseOfferingId, " +
+                "department, courseNumber, sectionNumber, sectionNumber, " +
+                "sectionNumber, season, year FROM CourseOffering WHERE " +
+                "department = '" + department + "' AND courseNumber = " +
+                courseNum + " AND sectionNumber = " + sectionNum +
+                " AND season = '" + season.toString() + "' AND year = " + year +
+                ";";
+
+
+        final ResultSet courseOffRes = st.executeQuery(SelectCourseOffQuery);
+
+        CourseOffering courseOffering = null;
+
+        while(courseOffRes.next()){
+            final Course course = CourseRepository.getInstance()
+                    .findById(courseOffRes.getString("department"),
+                            courseOffRes.getShort("courseNumber"));
+
+            final Semester sem = new Semester(Season.valueOf(
+                    courseOffRes.getString("season")),
+                    courseOffRes.getShort("year"));
+
+            courseOffering = new CourseOffering(
+                    courseOffRes.getShort("courseOfferingID"), course, sem,
+                    courseOffRes.getShort("sectionNumber"));
+        }
+        c.close();
+        return courseOffering;
+    }
+
     @Override
     public CourseOffering findById(final int id) throws SQLException {
 

@@ -1,0 +1,3 @@
+@(professors : Iterator[models.person.Professor], profUrl : String, backUri : String, post : play.api.mvc.Call, courseInfo : String)
+
+@resources.read_only.course_offering_professor_list(professors, profUrl, backUri, courseInfo)

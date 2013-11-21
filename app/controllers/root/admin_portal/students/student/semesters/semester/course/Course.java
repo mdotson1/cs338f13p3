@@ -13,7 +13,7 @@ public class Course extends Controller {
     public static String url(final int studentId, final String seasonAndYear,
                              final String courseNum, final String sectionNum) {
         return controllers.root.admin_portal.students.student.semesters.semester.
-                course.routes.Section.get(studentId, seasonAndYear, courseNum,
+                course.routes.Course.get(studentId, seasonAndYear, courseNum,
                 sectionNum).url();
     }
 

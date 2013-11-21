@@ -66,7 +66,7 @@ GET         /admin_portal/departments/:dept/faculty/:id/semesters               
 GET         /admin_portal/departments/:dept/faculty/:id/semesters/:sy                        controllers.root.admin_portal.departments.department.faculty.professor.semesters.semester.Semester.get(dept : String, id : Integer, sy : String)
 
 # /admin_portal/departments/{dept}/faculty/{id}/semesters/{sy}/{cn_sn}
-GET         /admin_portal/departments/:dept/faculty/:id/semesters/:sy/:cn_sn                    controllers.root.admin_portal.departments.department.faculty.professor.semesters.semester.course.Course.get(dept : String, id : Integer, sy : String, cn_sn : String)
+GET         /admin_portal/departments/:dept/faculty/:id/semesters/:sy/:cn/:sn                controllers.root.admin_portal.departments.department.faculty.professor.semesters.semester.course.Course.get(dept : String, id : Integer, sy : String, cn : String, sn : String)
 
 # /admin_portal/students
 GET         /admin_portal/students                                                           controllers.root.admin_portal.students.Students.get()
@@ -82,7 +82,7 @@ GET         /admin_portal/students/:id/semesters                                
 GET         /admin_portal/students/:id/semesters/:sy                                         controllers.root.admin_portal.students.student.semesters.semester.Semester.get(id : Integer, sy : String)
 
 # /admin_portal/students/{id}/semesters/{sy}/{cn}/{sn}
-GET         /admin_portal/students/:id/semesters/:sy/:cn/:sn                                 controllers.root.admin_portal.students.student.semesters.semester.course.Section.get(id : Integer, sy : String, cn : String, sn : String)
+GET         /admin_portal/students/:id/semesters/:sy/:cn/:sn                                 controllers.root.admin_portal.students.student.semesters.semester.course.Course.get(id : Integer, sy : String, cn : String, sn : String)
 
 # /admin_portal/students/{id}/payments
 GET         /admin_portal/students/:id/payments                                              controllers.root.admin_portal.students.student.payments.Payments.get(id : Integer)

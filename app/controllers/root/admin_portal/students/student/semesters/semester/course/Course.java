@@ -8,7 +8,7 @@ import views.html.helpers.*;
 
 import java.sql.SQLException;
 
-public class Section extends Controller {
+public class Course extends Controller {
 
     public static String url(final int studentId, final String seasonAndYear,
                              final String courseNum, final String sectionNum) {

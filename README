@@ -6,3 +6,9 @@ http://cs338f13p3.herokuapp.com/
 
 for compiling locally:  
 "play clean compile stage"
+
+to run locally:  
+"play run"
+
+Marcellin, please put your stylesheets in /public/stylesheets/ and your
+images (if you use any) in /public/images/

@@ -11,11 +11,9 @@ import models.course.Semester;
 import models.database.dao.concrete.CourseOfferingRepository;
 import models.database.dao.concrete.CourseRepository;
 import models.database.dao.concrete.SemesterRepository;
-import models.database.dao.relationships.CoursesTakenRepository;
-import models.database.dao.relationships.CoursesTeachingRepository;
+import models.database.dao.relationships.CoursesTakingRepository;
 import models.course.CourseOffering;
 import models.course.Semester.Season;
-import models.person.Professor;
 import models.person.Student;
 
 public class CourseOfferingService {
@@ -112,20 +110,20 @@ public class CourseOfferingService {
 	// true = added, false = not added
 	public static boolean addStudent(final int studentId, final int courseOfferingId) throws SQLException {
 
-		if (CoursesTakenRepository.getInstance().findNumberOfStudentsTakingCourse(courseOfferingId) >= 10) {
+		if (CoursesTakingRepository.getInstance().findNumberOfStudentsTakingCourse(courseOfferingId) >= 10) {
 			return false;
 		} else {
-			CoursesTakenRepository.getInstance().add(studentId, courseOfferingId);
+			CoursesTakingRepository.getInstance().add(studentId, courseOfferingId);
 			return true;
 		}
 	}
 
 	public static boolean dropStudent(final int studentId, final int courseOfferingId) throws SQLException {
 
-		if (CoursesTakenRepository.getInstance().findNumberOfStudentsTakingCourse(courseOfferingId) <= 3) {
+		if (CoursesTakingRepository.getInstance().findNumberOfStudentsTakingCourse(courseOfferingId) <= 3) {
 			return false;
 		} else {
-			CoursesTakenRepository.getInstance().delete(studentId, courseOfferingId);
+			CoursesTakingRepository.getInstance().delete(studentId, courseOfferingId);
 			return true;
 		}
 	}
@@ -144,11 +142,6 @@ public class CourseOfferingService {
 		}
 	}
 	*/
-
-	public static Iterator<Student> getRoster(final int courseOfferingId) throws SQLException {
-
-		return CoursesTakenRepository.getInstance().getStudentsTakingCourse(courseOfferingId);
-	}
 
 	public static boolean allCoursesInSameSemester(int[] courseIdsToCheck) throws SQLException {
 

@@ -24,9 +24,8 @@ public class Student extends Controller {
         final String context = Student.url(studentId);
 
         Map<String,String> links = new HashMap<String,String>();
+        links.put("Courses Taking/Taken", context + "/semesters");
         links.put("Payment History", context + "/payments");
-        links.put("Courses Taking/Taken", context +
-                "/semesters");
 
         return ok(student.render(
                 StudentRepository.getInstance().findById(studentId), context,

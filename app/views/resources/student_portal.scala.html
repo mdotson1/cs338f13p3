@@ -1,0 +1,21 @@
+@(student : models.person.Student, namesAndURLs : Map[String,String], backUri : String)
+
+@import helpers.text.multi_link
+@import helpers.text.back_link
+@import helpers.text.h1
+@import helpers.tables.student_table;
+@import scala.collection.Iterator
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+    </head>
+    <body>
+        @h1("Welcome to the Student Portal")
+        @student_table(Iterator.single(student), null, true, true, true, true, true, true, true, true, true, false)
+        @multi_link(namesAndURLs)
+
+        @back_link(backUri)
+    </body>
+</html>

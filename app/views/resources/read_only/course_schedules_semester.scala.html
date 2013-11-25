@@ -13,7 +13,7 @@
         @h1("Course Schedule for " + sem)
 
         @for(dept <- departments) {
-            @link(url + "../../../../public/" + dept, dept)
+            @link(url + "/" + dept, dept)
         }
 
         @back_link(backUri)

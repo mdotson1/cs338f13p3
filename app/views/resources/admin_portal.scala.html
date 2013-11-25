@@ -1,0 +1,18 @@
+@(namesAndURLs : Map[String,String], backUri : String)
+
+@import helpers.text.multi_link
+@import helpers.text.back_link
+@import helpers.text.h1
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+    </head>
+    <body>
+        @h1("Welcome to the Administrator Portal")
+        @multi_link(namesAndURLs)
+
+        @back_link(backUri)
+    </body>
+</html>

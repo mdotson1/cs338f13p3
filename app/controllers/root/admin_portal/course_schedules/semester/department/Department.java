@@ -36,8 +36,7 @@ public class Department extends Controller {
     private static Result render(final String dept, final String seasonAndYear,
                                  final boolean create) throws SQLException {
 
-        final String context = Department.url(seasonAndYear,
-                dept);
+        final String context = Department.url(seasonAndYear, dept);
         final Form<CourseOffering> form;
 
         final String[] split = seasonAndYear.split(" ");

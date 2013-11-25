@@ -13,7 +13,7 @@
         @h1("Course Schedules")
 
         @for(semester <- semesters) {
-            @link(url + "../../../../public/" + semester.getSeason + " " + semester.getYear, semester.getSeason + " " + semester.getYear)
+            @link(url + "/" + semester.getSeason + "%20" + semester.getYear, semester.getSeason + " " + semester.getYear)
         }
 
         @back_link(backUri)

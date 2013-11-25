@@ -16,11 +16,14 @@ public class Registrar {
 		
 		return CourseOfferingService.getCoursesInSemester(s, year);
 	}
-	
+
+    /*
 	public static Iterator<Student> getRosterForCourse(final int courseOfferingId) throws SQLException {
 		
+
 		return CourseOfferingService.getRoster(courseOfferingId);
 	}
+	*/
 
     /*
 	public static boolean assignProfessorToCourse(final int courseOfferingId, 

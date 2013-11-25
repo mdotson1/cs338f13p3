@@ -15,7 +15,7 @@
         @h1("Course Schedule for " + sem)
 
         @for(dept <- departments) {
-            @link(url + "../../../../public/" + dept, dept)
+            @link(url + "/" + dept, dept)
         }
 
         @p("If department not listed, please add a course with that department")

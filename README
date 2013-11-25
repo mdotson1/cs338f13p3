@@ -10,5 +10,8 @@ for compiling locally:
 to run locally:  
 "play run"
 
+to generate intellij files:  
+"play idea"
+
 Marcellin, please put your stylesheets in /public/stylesheets/ and your
 images (if you use any) in /public/images/

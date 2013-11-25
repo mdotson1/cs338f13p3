@@ -1,5 +1,7 @@
 package models.course;
 
+import play.data.validation.Constraints;
+
 public class Semester {
 
     public enum Season {

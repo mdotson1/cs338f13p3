@@ -63,7 +63,7 @@ public class Semester extends Controller {
         try {
             return render(seasonAndYear, false);
         } catch (SQLException e) {
-            return ok(debug.render("2" + e.toString()));
+            return ok(debug.render(e.toString()));
         }
     }
 
@@ -72,7 +72,7 @@ public class Semester extends Controller {
         try {
             return render(seasonAndYear, true);
         } catch (SQLException e) {
-            return ok(debug.render("2" + e.toString()));
+            return ok(debug.render(e.toString()));
         }
     }
 }

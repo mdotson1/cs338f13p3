@@ -1,0 +1,3 @@
+@(payments : Iterator[models.person.Payment], url : String, form : Form[models.person.Payment], studentId : Int, backUri : String, post : play.api.mvc.Call)
+
+@resources.admin.payment_list(payments, url, form, studentId, backUri, post)

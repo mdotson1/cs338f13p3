@@ -38,7 +38,7 @@ public class CoursesTeachingRepository
                 "professorId INT NOT NULL, " +
                 "courseOfferingId INT NOT NULL, " +
                 "PRIMARY KEY (professorId, courseOfferingId), "  +
-                "FOREIGN KEY (professorId) references Professor(student), " +
+                "FOREIGN KEY (professorId) references Professor(professorId), " +
                 "FOREIGN KEY (courseOfferingId) references CourseOffering(courseOfferingId) " +
                 ") Engine=InnoDB;";
         st.execute(createTableStatement);

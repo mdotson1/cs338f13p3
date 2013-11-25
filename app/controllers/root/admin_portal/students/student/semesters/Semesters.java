@@ -2,7 +2,7 @@ package controllers.root.admin_portal.students.student.semesters;
 
 import controllers.root.Resource;
 import models.database.dao.concrete.StudentRepository;
-import models.database.dao.relationships.CoursesTakenRepository;
+import models.database.dao.relationships.CoursesTakingRepository;
 import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.root.admin.students.student.semesters.*;
@@ -22,7 +22,7 @@ public class Semesters extends Controller {
 
         final String context = Semesters.url(studentId);
 
-        return ok(semesters.render(CoursesTakenRepository.getInstance().
+        return ok(semesters.render(CoursesTakingRepository.getInstance().
                 allSemestersStudentAttended(studentId), context,
                 Resource.BACK_LINK(context),
                 StudentRepository.getInstance().findById(studentId)));

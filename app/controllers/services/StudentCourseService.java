@@ -1,22 +1,45 @@
 package controllers.services;
 
 import java.sql.SQLException;
+import java.util.Iterator;
 
-import models.database.dao.relationships.CoursesTakenRepository;
+import models.course.CourseOffering;
+import models.course.Semester;
+import models.database.dao.concrete.CourseOfferingRepository;
+import models.database.dao.relationships.CoursesTakingRepository;
+import models.database.dao.relationships.CoursesTeachingRepository;
+import models.person.Professor;
+import models.person.Student;
 
 public class StudentCourseService {
+
+    public static Iterator<Student> studentsTakingCourse(final Semester.Season season,
+                                                           final short year,
+                                                           final String department,
+                                                           final String courseNum,
+                                                           final String sectionNum)
+            throws SQLException {
+
+        final CourseOffering co = CourseOfferingRepository.getInstance().
+                findBySectionSemester(season, year, department,
+                        Short.parseShort(courseNum), Short.parseShort(sectionNum));
+
+        return CoursesTakingRepository.getInstance().findStudentsTakingCourse(
+                co.getCourseOfferingId());
+    }
+
 	// true = enrolled in, false = not enrolled in
 	public static boolean enrollInCourse(final int studentId,
 			final int courseOfferingId) throws SQLException {
 
-		if (CoursesTakenRepository.getInstance().
+		if (CoursesTakingRepository.getInstance().
 				findNumberOfCoursesTakenByStudent(studentId) == 4) {
 			return false;
 		} else {
 			if (studentIsTakingCourse(studentId, courseOfferingId)) {
 				return false;
 			} else {
-				CoursesTakenRepository.getInstance().add(studentId, courseOfferingId);
+				CoursesTakingRepository.getInstance().add(studentId, courseOfferingId);
 				return true;
 			}
 		}
@@ -27,7 +50,7 @@ public class StudentCourseService {
 			final int courseOfferingId) throws SQLException {
 
 		if (studentIsTakingCourse(studentId, courseOfferingId)) {
-			CoursesTakenRepository.getInstance().delete(studentId, courseOfferingId);
+			CoursesTakingRepository.getInstance().delete(studentId, courseOfferingId);
 			return true;
 		} else {
 			return false;
@@ -38,6 +61,6 @@ public class StudentCourseService {
 	private static boolean studentIsTakingCourse(final int studentId,
 			final int courseOfferingId) throws SQLException {
 
-		return CoursesTakenRepository.getInstance().contains(studentId, courseOfferingId);
+		return CoursesTakingRepository.getInstance().contains(studentId, courseOfferingId);
 	}
 }

@@ -7,7 +7,7 @@ import java.util.Map;
 import models.database.dao.concrete.CourseRepository;
 import models.database.dao.concrete.PaymentRepository;
 import models.database.dao.concrete.StudentRepository;
-import models.database.dao.relationships.CoursesTakenRepository;
+import models.database.dao.relationships.CoursesTakingRepository;
 import models.database.dao.relationships.PaymentHistoryRepository;
 import models.course.Course;
 import models.course.CourseOffering;
@@ -41,7 +41,7 @@ public class StudentService {
 			Student student = students.next();
 			
 			int studentId = student.getId();
-			Iterator<CourseOffering> courses = CoursesTakenRepository.
+			Iterator<CourseOffering> courses = CoursesTakingRepository.
                     getInstance().getCoursesTakenByStudent(studentId);
 			
 			double currentBalance = student.getCurrentBalance();

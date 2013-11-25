@@ -1,4 +1,4 @@
-@(students : Iterator[models.person.Student], studentUrl : String, backUri : String, courseInfo : String)
+@(students : Iterator[models.person.Student], studentUrl : String, backUri : String, courseInfo : String, displayLink : Boolean)
 
 @import helpers.tables.student_table
 @import helpers.text.back_link
@@ -12,7 +12,7 @@
     <body>
         @h1("All Students Taking " + courseInfo)
 
-        @student_table(students, studentUrl, true, true, true, false, false, false, false, false, false, false)
+        @student_table(students, studentUrl, true, true, true, false, false, false, false, false, false, displayLink)
 
         @back_link(backUri)
 

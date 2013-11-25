@@ -1,0 +1,22 @@
+@(url : String, backUri : String, courseSchedulesUrl : String, regForm : Form[controllers.root.student_login.student_portal.registration.semester.Registration], post : play.api.mvc.Call)
+
+@import helpers.text.h2
+@import helpers.text.h3
+@import helpers.text.link
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+    </head>
+    <body>
+        @h2("Please Choose 4 Primary Choices and 2 Secondary Choices")
+
+        @link(courseSchedulesUrl, "Course Schedule")
+
+        @h3("Example: CS-313-1")
+        @helpers.forms.complex.registration_form(regForm, post)
+
+        @helpers.text.back_link(backUri)
+    </body>
+</html>

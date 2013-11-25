@@ -1,9 +1,3 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title></title>
-</head>
-<body>
+@(url : String, backUri : String, courseSchedulesUrl : String, regForm : Form[controllers.root.student_login.student_portal.registration.semester.Registration], post : play.api.mvc.Call)
 
-</body>
-</html>
+@resources.registration_semester(url, backUri, courseSchedulesUrl, regForm, post)

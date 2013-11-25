@@ -1,16 +1,16 @@
-package controllers.root.student_login.student_login.departments.department.faculty.professor.semesters;
+package controllers.root.student_login.student_portal.departments.department.faculty.professor.semesters;
 
 import play.mvc.Controller;
 import play.mvc.Result;
 
-import views.html.root.student_loginlogin.student_portal.departments.department.faculty.professor.semesters.*;
+import views.html.root.student_login.student_portal.departments.department.faculty.professor.semesters.*;
 import views.html.helpers.*;
 
 public class Semesters extends Controller {
 
     public static String url(final int studentId, final String department,
                              final int professorId) {
-        return controllers.root.student_login.student_login.departments.department.
+        return controllers.root.student_login.student_portal.departments.department.
                 faculty.professor.semesters.routes.Semesters.get(studentId,
                 department, professorId).url();
     }

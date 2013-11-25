@@ -1,4 +1,4 @@
-package controllers.root.student_login.student_login.course_schedules.semester;
+package controllers.root.student_login.student_portal.course_schedules.semester;
 
 import controllers.root.Resource;
 import models.database.dao.concrete.CourseOfferingRepository;
@@ -6,7 +6,7 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import models.course.Semester.Season;
 
-import views.html.root.student_loginlogin.student_portal.course_schedules.semester.*;
+import views.html.root.student_login.student_portal.course_schedules.semester.*;
 import views.html.helpers.*;
 
 import java.sql.SQLException;
@@ -15,7 +15,7 @@ import java.util.Iterator;
 public class Semester extends Controller {
 
     public static String url(final int studentId, final String seasonAndYear) {
-        return controllers.root.student_login.student_login.course_schedules.
+        return controllers.root.student_login.student_portal.course_schedules.
                 semester.routes.Semester.get(studentId, seasonAndYear).url();
     }
 

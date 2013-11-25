@@ -3,13 +3,8 @@ package controllers.root.admin_portal.course_schedules.semester.department.cours
 import controllers.root.Resource;
 import controllers.root.admin_portal.departments.department.faculty.Faculty;
 import controllers.services.ProfessorCourseService;
-import models.course.CourseOffering;
 import models.course.Semester;
-import models.database.dao.concrete.CourseOfferingRepository;
-import models.database.dao.relationships.CoursesTeachingRepository;
 import models.person.Professor;
-import play.api.mvc.Call;
-import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.root.admin.course_schedules.semester.department.course.section.professors.*;

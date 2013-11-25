@@ -1,4 +1,4 @@
-package controllers.root.student_login.student_login.payments;
+package controllers.root.student_login.student_portal.payments;
 
 import controllers.root.Resource;
 import controllers.services.PaymentService;
@@ -10,7 +10,7 @@ import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
 
-import views.html.root.student_loginlogin.student_portal.payments.*;
+import views.html.root.student_login.student_portal.payments.*;
 import views.html.helpers.*;
 
 import java.sql.SQLException;
@@ -22,12 +22,12 @@ public class Payments extends Controller {
             Form.form(Payment.class);
 
     public static String url(final int studentId) {
-        return controllers.root.student_login.student_login.payments.routes.
+        return controllers.root.student_login.student_portal.payments.routes.
                 Payments.get(studentId).url();
     }
 
     private static Call postCall(final int studentId) {
-        return controllers.root.student_login.student_login.payments.routes.
+        return controllers.root.student_login.student_portal.payments.routes.
                 Payments.post(studentId);
     }
 

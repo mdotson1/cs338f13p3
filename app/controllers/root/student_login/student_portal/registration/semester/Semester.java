@@ -1,15 +1,15 @@
-package controllers.root.student_login.student_login.registration.semester;
+package controllers.root.student_login.student_portal.registration.semester;
 
 import play.mvc.Controller;
 import play.mvc.Result;
 
-import views.html.root.student_loginlogin.student_portal.registration.semester.*;
+import views.html.root.student_login.student_portal.registration.semester.*;
 import views.html.helpers.*;
 
 public class Semester extends Controller {
 
     public static String url(final int studentId, final String seasonAndYear) {
-        return controllers.root.student_login.student_login.registration.semester.
+        return controllers.root.student_login.student_portal.registration.semester.
                 routes.Semester.get(studentId, seasonAndYear).url();
     }
 

@@ -1,11 +1,11 @@
-package controllers.root.student_login.student_login.payments.payment;
+package controllers.root.student_login.student_portal.payments.payment;
 
 import controllers.root.Resource;
 import models.database.dao.concrete.PaymentRepository;
 import play.mvc.Controller;
 import play.mvc.Result;
 
-import views.html.root.student_loginlogin.student_portal.payments.payment.*;
+import views.html.root.student_login.student_portal.payments.payment.*;
 import views.html.helpers.*;
 
 import java.sql.SQLException;
@@ -13,7 +13,7 @@ import java.sql.SQLException;
 public class Payment extends Controller {
 
     public static String url(final int studentId, final int professorId) {
-        return controllers.root.student_login.student_login.payments.payment.routes.
+        return controllers.root.student_login.student_portal.payments.payment.routes.
                 Payment.get(studentId, professorId).url();
     }
 

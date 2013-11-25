@@ -1,9 +1,9 @@
-package controllers.root.student_login.student_login.departments.department.faculty.professor.semesters.semester.course;
+package controllers.root.student_login.student_portal.departments.department.faculty.professor.semesters.semester.course;
 
 import play.mvc.Controller;
 import play.mvc.Result;
 
-import views.html.root.student_loginlogin.student_portal.departments.department.faculty.professor.semesters.semester.course.*;
+import views.html.root.student_login.student_portal.departments.department.faculty.professor.semesters.semester.course.*;
 import views.html.helpers.*;
 
 public class Course extends Controller {
@@ -12,7 +12,7 @@ public class Course extends Controller {
                              final int professorId,
                              final String seasonAndYear, final String courseNum)
     {
-        return controllers.root.student_login.student_login.departments.department.
+        return controllers.root.student_login.student_portal.departments.department.
                 faculty.professor.semesters.semester.course.routes.Course.
                 get(studentId, department, professorId, seasonAndYear,
                         courseNum).url();

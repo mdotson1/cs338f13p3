@@ -1,14 +1,17 @@
 package controllers.root.admin_portal.students.student.semesters;
 
 import controllers.root.Resource;
+import models.course.Semester;
 import models.database.dao.concrete.StudentRepository;
 import models.database.dao.relationships.CoursesTakingRepository;
+import models.person.Student;
 import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.root.admin.students.student.semesters.*;
 import views.html.helpers.*;
 
 import java.sql.SQLException;
+import java.util.Iterator;
 
 public class Semesters extends Controller {
 
@@ -22,10 +25,13 @@ public class Semesters extends Controller {
 
         final String context = Semesters.url(studentId);
 
-        return ok(semesters.render(CoursesTakingRepository.getInstance().
-                allSemestersStudentAttended(studentId), context,
-                Resource.BACK_LINK(context),
-                StudentRepository.getInstance().findById(studentId)));
+        final Iterator<Semester> sems = CoursesTakingRepository.getInstance().
+                allSemestersStudentAttended(studentId);
+
+        final Student stu = StudentRepository.getInstance().findById(studentId);
+
+        return ok(semesters.render(sems, context, Resource.BACK_LINK(context),
+                stu));
     }
 
     public static Result get(final int studentId) {

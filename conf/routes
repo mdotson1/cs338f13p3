@@ -93,137 +93,137 @@ GET         /student_login                                                      
 POST        /student_login                                                                  controllers.root.student_login.StudentLogin.post()
 
 # /student_login/{id}
-GET         /student_login/:sid                                                             controllers.root.student_login.student_loginlogin.student_portalPortal.get(sid : Integer)
+GET         /student_login/:sid                                                             controllers.root.student_login.student_portal.StudentPortal.get(sid : Integer)
 
 # /student_login/{id}/registration
-GET         /student_login/:sid/registration                                                controllers.root.student_login.student_login.registration.Registration.get(sid : Integer)
+GET         /student_login/:sid/registration                                                controllers.root.student_login.student_portal.registration.Registration.get(sid : Integer)
 
 # /student_login/{id}/registration/:{sy}
-GET         /student_login/:sid/registration/:sy                                            controllers.root.student_login.student_login.registration.semester.Semester.get(sid : Integer, sy : String)
-POST        /student_login/:sid/registration/:sy                                            controllers.root.student_login.student_login.registration.semester.Semester.post(sid : Integer, sy : String)
+GET         /student_login/:sid/registration/:sy                                            controllers.root.student_login.student_portal.registration.semester.Semester.get(sid : Integer, sy : String)
+POST        /student_login/:sid/registration/:sy                                            controllers.root.student_login.student_portal.registration.semester.Semester.post(sid : Integer, sy : String)
 
 # /student_login/{id}/payments
-GET         /student_login/:sid/payments                                                    controllers.root.student_login.student_login.payments.Payments.get(sid : Integer)
-POST        /student_login/:sid/payments                                                    controllers.root.student_login.student_login.payments.Payments.post(sid : Integer)
+GET         /student_login/:sid/payments                                                    controllers.root.student_login.student_portal.payments.Payments.get(sid : Integer)
+POST        /student_login/:sid/payments                                                    controllers.root.student_login.student_portal.payments.Payments.post(sid : Integer)
 
 # /student_login/{id}/payments/{pid}
-GET         /student_login/:sid/payments/:pid                                               controllers.root.student_login.student_login.payments.payment.Payment.get(sid : Integer, pid : Integer)
+GET         /student_login/:sid/payments/:pid                                               controllers.root.student_login.student_portal.payments.payment.Payment.get(sid : Integer, pid : Integer)
 
 # /student_login/{id}/semesters
-GET         /student_login/:sid/semesters                                                   controllers.root.student_login.student_login.semesters.Semesters.get(sid : Integer)
+GET         /student_login/:sid/semesters                                                   controllers.root.student_login.student_portal.semesters.Semesters.get(sid : Integer)
 
 # /student_login/{id}/semesters/{sy}
-GET         /student_login/:sid/semesters/:sy                                               controllers.root.student_login.student_login.semesters.semester.Semester.get(sid : Integer, sy : String)
+GET         /student_login/:sid/semesters/:sy                                               controllers.root.student_login.student_portal.semesters.semester.Semester.get(sid : Integer, sy : String)
 
 # /student_login/{id}/semesters/{sy}/{dept-cn-sn}
-GET         /student_login/:sid/semesters/:sy/:dept_cn_sn                                   controllers.root.student_login.student_login.semesters.semester.course.Course.get(sid : Integer, sy : String, dept_cn_sn : String)
+GET         /student_login/:sid/semesters/:sy/:dept_cn_sn                                   controllers.root.student_login.student_portal.semesters.semester.course.Course.get(sid : Integer, sy : String, dept_cn_sn : String)
 
 # /student_login/{id}/course_schedules
-GET         /student_login/:sid/course_schedules                                            controllers.root.student_login.student_login.course_schedules.CourseSchedules.get(sid : Integer)
+GET         /student_login/:sid/course_schedules                                            controllers.root.student_login.student_portal.course_schedules.CourseSchedules.get(sid : Integer)
 
 # /student_login/{id}/course_schedules/{sy}
-GET         /student_login/:sid/course_schedules/:sy                                        controllers.root.student_login.student_login.course_schedules.semester.Semester.get(sid : Integer, sy : String)
+GET         /student_login/:sid/course_schedules/:sy                                        controllers.root.student_login.student_portal.course_schedules.semester.Semester.get(sid : Integer, sy : String)
 
 # /student_login/{id}/course_schedules/{sy}/{dept}
-GET         /student_login/:sid/course_schedules/:sy/:dept                                  controllers.root.student_login.student_login.course_schedules.semester.department.Department.get(sid : Integer, sy : String, dept : String)
+GET         /student_login/:sid/course_schedules/:sy/:dept                                  controllers.root.student_login.student_portal.course_schedules.semester.department.Department.get(sid : Integer, sy : String, dept : String)
 
 # /student_login/{id}/course_schedules/{sy}/{dept}/{cn}
-GET         /student_login/:sid/course_schedules/:sy/:dept/:cn                              controllers.root.student_login.student_login.course_schedules.semester.department.course.Course.get(sid : Integer, sy : String, dept : String, cn : String)
+GET         /student_login/:sid/course_schedules/:sy/:dept/:cn                              controllers.root.student_login.student_portal.course_schedules.semester.department.course.Course.get(sid : Integer, sy : String, dept : String, cn : String)
 
 # /student_login/{id}/course_schedules/{sy}/{dept}/{cn}/{sn}
-GET         /student_login/:sid/course_schedules/:sy/:dept/:cn/:sn                          controllers.root.student_login.student_login.course_schedules.semester.department.course.section.Section.get(sid : Integer, sy : String, dept : String, cn : String, sn : String)
+GET         /student_login/:sid/course_schedules/:sy/:dept/:cn/:sn                          controllers.root.student_login.student_portal.course_schedules.semester.department.course.section.Section.get(sid : Integer, sy : String, dept : String, cn : String, sn : String)
 
 # /student_login/{id}/course_schedules/{sy}/{dept}/{cn}/{sn}/professors
-GET         /student_login/:sid/course_schedules/:sy/:dept/:cn/:sn/professors               controllers.root.student_login.student_login.course_schedules.semester.department.course.section.professors.Professors.get(sid : Integer, sy : String, dept : String, cn : String, sn : String)
+GET         /student_login/:sid/course_schedules/:sy/:dept/:cn/:sn/professors               controllers.root.student_login.student_portal.course_schedules.semester.department.course.section.professors.Professors.get(sid : Integer, sy : String, dept : String, cn : String, sn : String)
 
 # /student_login/{id}/departments
-GET         /student_login/:sid/departments                                                 controllers.root.student_login.student_login.departments.Departments.get(sid : Integer)
+GET         /student_login/:sid/departments                                                 controllers.root.student_login.student_portal.departments.Departments.get(sid : Integer)
 
 # /student_login/{id}/departments/{dept}
-GET         /student_login/:sid/departments/:dept                                           controllers.root.student_login.student_login.departments.department.Department.get(sid : Integer, dept : String)
+GET         /student_login/:sid/departments/:dept                                           controllers.root.student_login.student_portal.departments.department.Department.get(sid : Integer, dept : String)
 
 # /student_login/{id}/departments/{dept}/courses
-GET         /student_login/:sid/departments/:dept/courses                                   controllers.root.student_login.student_login.departments.department.courses.Courses.get(sid : Integer, dept : String)
+GET         /student_login/:sid/departments/:dept/courses                                   controllers.root.student_login.student_portal.departments.department.courses.Courses.get(sid : Integer, dept : String)
 
 # /student_login/{id}/departments/{dept}/courses/{cn}
-GET         /student_login/:sid/departments/:dept/courses/:cn                               controllers.root.student_login.student_login.departments.department.courses.course.Course.get(sid : Integer, dept : String, cn : String)
+GET         /student_login/:sid/departments/:dept/courses/:cn                               controllers.root.student_login.student_portal.departments.department.courses.course.Course.get(sid : Integer, dept : String, cn : String)
 
 # /student_login/{id}/departments/{dept}/faculty
-GET         /student_login/:sid/departments/:dept/faculty                                   controllers.root.student_login.student_login.departments.department.faculty.Faculty.get(sid : Integer, dept : String)
+GET         /student_login/:sid/departments/:dept/faculty                                   controllers.root.student_login.student_portal.departments.department.faculty.Faculty.get(sid : Integer, dept : String)
 
 # /student_login/{id}/departments/{dept}/faculty/{id}
-GET         /student_login/:sid/departments/:dept/faculty/:id                               controllers.root.student_login.student_login.departments.department.faculty.professor.Professor.get(sid : Integer, dept : String, id : Integer)
+GET         /student_login/:sid/departments/:dept/faculty/:id                               controllers.root.student_login.student_portal.departments.department.faculty.professor.Professor.get(sid : Integer, dept : String, id : Integer)
 
 # /student_login/{id}/departments/{dept}/faculty/{id}/semesters
-GET         /student_login/:sid/departments/:dept/faculty/:id/semesters                     controllers.root.student_login.student_login.departments.department.faculty.professor.semesters.Semesters.get(sid : Integer, dept : String, id : Integer)
+GET         /student_login/:sid/departments/:dept/faculty/:id/semesters                     controllers.root.student_login.student_portal.departments.department.faculty.professor.semesters.Semesters.get(sid : Integer, dept : String, id : Integer)
 
 # /student_login/{id}/departments/{dept}/faculty/{id}/semesters/{sy}
-GET         /student_login/:sid/departments/:dept/faculty/:id/semesters/:sy                 controllers.root.student_login.student_login.departments.department.faculty.professor.semesters.semester.Semester.get(sid : Integer, dept : String, id : Integer, sy : String)
+GET         /student_login/:sid/departments/:dept/faculty/:id/semesters/:sy                 controllers.root.student_login.student_portal.departments.department.faculty.professor.semesters.semester.Semester.get(sid : Integer, dept : String, id : Integer, sy : String)
 
 # /student_login/{id}/departments/{dept}/faculty/{id}/semesters/{sy}/{cn_sn}
-GET         /student_login/:sid/departments/:dept/faculty/:id/semesters/:sy/:cn_sn           controllers.root.student_login.student_login.departments.department.faculty.professor.semesters.semester.course.Course.get(sid : Integer, dept : String, id : Integer, sy : String, cn_sn : String)
+GET         /student_login/:sid/departments/:dept/faculty/:id/semesters/:sy/:cn_sn           controllers.root.student_login.student_portal.departments.department.faculty.professor.semesters.semester.course.Course.get(sid : Integer, dept : String, id : Integer, sy : String, cn_sn : String)
 
-# /professor_portal
-GET         /professor_portal                                                                controllers.root.professor_portal.ProfessorPortal.get()
-POST        /professor_portal                                                                controllers.root.professor_portal.ProfessorPortal.post()
+# /professor_login
+GET         /professor_login                                                                controllers.root.professor_login.ProfessorLogin.get()
+POST        /professor_login                                                                controllers.root.professor_login.ProfessorLogin.post()
 
-# /professor_portal/{id}
-GET         /professor_portal/:pid                                                           controllers.root.professor_portal.professor.Professor.get(pid : Integer)
+# /professor_login/{id}
+GET         /professor_login/:pid                                                           controllers.root.professor_login.professor_portal.ProfessorPortal.get(pid : Integer)
 
-# /professor_portal/{id}/course_schedules
-GET         /professor_portal/:pid/course_schedules                                          controllers.root.professor_portal.professor.course_schedules.CourseSchedules.get(pid : Integer)
+# /professor_login/{id}/course_schedules
+GET         /professor_login/:pid/course_schedules                                          controllers.root.professor_login.professor_portal.course_schedules.CourseSchedules.get(pid : Integer)
 
-# /professor_portal/{id}/course_schedules/{sy}
-GET         /professor_portal/:pid/course_schedules/:sy                                      controllers.root.professor_portal.professor.course_schedules.semester.Semester.get(pid : Integer, sy : String)
+# /professor_login/{id}/course_schedules/{sy}
+GET         /professor_login/:pid/course_schedules/:sy                                      controllers.root.professor_login.professor_portal.course_schedules.semester.Semester.get(pid : Integer, sy : String)
 
-# /professor_portal/{id}/course_schedules/{sy}/{dept}
-GET         /professor_portal/:pid/course_schedules/:sy/:dept                                controllers.root.professor_portal.professor.course_schedules.semester.department.Department.get(pid : Integer, sy : String, dept : String)
+# /professor_login/{id}/course_schedules/{sy}/{dept}
+GET         /professor_login/:pid/course_schedules/:sy/:dept                                controllers.root.professor_login.professor_portal.course_schedules.semester.department.Department.get(pid : Integer, sy : String, dept : String)
 
-# /professor_portal/{id}/course_schedules/{sy}/{dept}/{cn}
-GET         /professor_portal/:pid/course_schedules/:sy/:dept/:cn                            controllers.root.professor_portal.professor.course_schedules.semester.department.course.Course.get(pid : Integer, sy : String, dept : String, cn : String)
+# /professor_login/{id}/course_schedules/{sy}/{dept}/{cn}
+GET         /professor_login/:pid/course_schedules/:sy/:dept/:cn                            controllers.root.professor_login.professor_portal.course_schedules.semester.department.course.Course.get(pid : Integer, sy : String, dept : String, cn : String)
 
-# /professor_portal/{id}/course_schedules/{sy}/{dept}/{cn}/{sn}
-GET         /professor_portal/:pid/course_schedules/:sy/:dept/:cn/:sn                        controllers.root.professor_portal.professor.course_schedules.semester.department.course.section.Section.get(pid : Integer, sy : String, dept : String, cn : String, sn : String)
+# /professor_login/{id}/course_schedules/{sy}/{dept}/{cn}/{sn}
+GET         /professor_login/:pid/course_schedules/:sy/:dept/:cn/:sn                        controllers.root.professor_login.professor_portal.course_schedules.semester.department.course.section.Section.get(pid : Integer, sy : String, dept : String, cn : String, sn : String)
 
-# /professor_portal/{id}/course_schedules/{sy}/{dept}/{cn}/{sn}/professors
-GET         /professor_portal/:pid/course_schedules/:sy/:dept/:cn/:sn/professors             controllers.root.professor_portal.professor.course_schedules.semester.department.course.section.professors.Professors.get(pid : Integer, sy : String, dept : String, cn : String, sn : String)
-POST        /professor_portal/:pid/course_schedules/:sy/:dept/:cn/:sn/professors             controllers.root.professor_portal.professor.course_schedules.semester.department.course.section.professors.Professors.post(pid : Integer, sy : String, dept : String, cn : String, sn : String)
+# /professor_login/{id}/course_schedules/{sy}/{dept}/{cn}/{sn}/professors
+GET         /professor_login/:pid/course_schedules/:sy/:dept/:cn/:sn/professors             controllers.root.professor_login.professor_portal.course_schedules.semester.department.course.section.professors.Professors.get(pid : Integer, sy : String, dept : String, cn : String, sn : String)
+POST        /professor_login/:pid/course_schedules/:sy/:dept/:cn/:sn/professors             controllers.root.professor_login.professor_portal.course_schedules.semester.department.course.section.professors.Professors.post(pid : Integer, sy : String, dept : String, cn : String, sn : String)
 
-# /professor_portal/{id}/course_schedules/{sy}/{dept}/{cn}/{sn}/students
-GET         /professor_portal/:pid/course_schedules/:sy/:dept/:cn/:sn/students               controllers.root.professor_portal.professor.course_schedules.semester.department.course.section.students.Students.get(pid : Integer, sy : String, dept : String, cn : String, sn : String)
+# /professor_login/{id}/course_schedules/{sy}/{dept}/{cn}/{sn}/students
+GET         /professor_login/:pid/course_schedules/:sy/:dept/:cn/:sn/students               controllers.root.professor_login.professor_portal.course_schedules.semester.department.course.section.students.Students.get(pid : Integer, sy : String, dept : String, cn : String, sn : String)
 
-# /professor_portal/{id}/departments
-GET         /professor_portal/:pid/departments                                               controllers.root.professor_portal.professor.departments.Departments.get(pid : Integer)
+# /professor_login/{id}/departments
+GET         /professor_login/:pid/departments                                               controllers.root.professor_login.professor_portal.departments.Departments.get(pid : Integer)
 
-# /professor_portal/{id}/departments/{dept}
-GET         /professor_portal/:pid/departments/:dept                                         controllers.root.professor_portal.professor.departments.department.Department.get(pid : Integer, dept : String)
+# /professor_login/{id}/departments/{dept}
+GET         /professor_login/:pid/departments/:dept                                         controllers.root.professor_login.professor_portal.departments.department.Department.get(pid : Integer, dept : String)
 
-# /professor_portal/{id}/departments/{dept}/courses
-GET         /professor_portal/:pid/departments/:dept/courses                                 controllers.root.professor_portal.professor.departments.department.courses.Courses.get(pid : Integer, dept : String)
+# /professor_login/{id}/departments/{dept}/courses
+GET         /professor_login/:pid/departments/:dept/courses                                 controllers.root.professor_login.professor_portal.departments.department.courses.Courses.get(pid : Integer, dept : String)
 
-# /professor_portal/{id}/departments/{dept}/courses/{cn}
-GET         /professor_portal/:pid/departments/:dept/courses/:cn                             controllers.root.professor_portal.professor.departments.department.courses.course.Course.get(pid : Integer, dept : String, cn : String)
+# /professor_login/{id}/departments/{dept}/courses/{cn}
+GET         /professor_login/:pid/departments/:dept/courses/:cn                             controllers.root.professor_login.professor_portal.departments.department.courses.course.Course.get(pid : Integer, dept : String, cn : String)
 
-# /professor_portal/{id}/departments/{dept}/faculty
-GET         /professor_portal/:pid/departments/:dept/faculty                                 controllers.root.professor_portal.professor.departments.department.faculty.Faculty.get(pid : Integer, dept : String)
+# /professor_login/{id}/departments/{dept}/faculty
+GET         /professor_login/:pid/departments/:dept/faculty                                 controllers.root.professor_login.professor_portal.departments.department.faculty.Faculty.get(pid : Integer, dept : String)
 
-# /professor_portal/{id}/departments/{dept}/faculty/{id}
-GET         /professor_portal/:pid/departments/:dept/faculty/:id                             controllers.root.professor_portal.professor.departments.department.faculty.professor.Professor.get(pid : Integer, dept : String, id : Integer)
+# /professor_login/{id}/departments/{dept}/faculty/{id}
+GET         /professor_login/:pid/departments/:dept/faculty/:id                             controllers.root.professor_login.professor_portal.departments.department.faculty.professor.Professor.get(pid : Integer, dept : String, id : Integer)
 
-# /professor_portal/{id}/departments/{dept}/faculty/{id}/semesters
-GET         /professor_portal/:pid/departments/:dept/faculty/:id/semesters                   controllers.root.professor_portal.professor.departments.department.faculty.professor.semesters.Semesters.get(pid : Integer, dept : String, id : Integer)
+# /professor_login/{id}/departments/{dept}/faculty/{id}/semesters
+GET         /professor_login/:pid/departments/:dept/faculty/:id/semesters                   controllers.root.professor_login.professor_portal.departments.department.faculty.professor.semesters.Semesters.get(pid : Integer, dept : String, id : Integer)
 
-# /professor_portal/{id}/departments/{dept}/faculty/{id}/semesters/{sy}
-GET         /professor_portal/:pid/departments/:dept/faculty/:id/semesters/:sy               controllers.root.professor_portal.professor.departments.department.faculty.professor.semesters.semester.Semester.get(pid : Integer, dept : String, id : Integer, sy : String)
+# /professor_login/{id}/departments/{dept}/faculty/{id}/semesters/{sy}
+GET         /professor_login/:pid/departments/:dept/faculty/:id/semesters/:sy               controllers.root.professor_login.professor_portal.departments.department.faculty.professor.semesters.semester.Semester.get(pid : Integer, dept : String, id : Integer, sy : String)
 
-# /professor_portal/{id}n/departments/{dept}/faculty/{id}/semesters/{sy}/{cn-sn}
-GET         /professor_portal/:pid/departments/:dept/faculty/:id/semesters/:sy/:cn_sn        controllers.root.professor_portal.professor.departments.department.faculty.professor.semesters.semester.course.Course.get(pid : Integer, dept : String, id : Integer, sy : String, cn_sn : String)
+# /professor_login/{id}n/departments/{dept}/faculty/{id}/semesters/{sy}/{cn-sn}
+GET         /professor_login/:pid/departments/:dept/faculty/:id/semesters/:sy/:cn_sn        controllers.root.professor_login.professor_portal.departments.department.faculty.professor.semesters.semester.course.Course.get(pid : Integer, dept : String, id : Integer, sy : String, cn_sn : String)
 
-# /professor_portal/{id}/semesters
-GET         /professor_portal/:pid/semesters                                                 controllers.root.professor_portal.professor.semesters.Semesters.get(pid : Integer)
+# /professor_login/{id}/semesters
+GET         /professor_login/:pid/semesters                                                 controllers.root.professor_login.professor_portal.semesters.Semesters.get(pid : Integer)
 
-# /professor_portal/{id}/semesters/:sy
-GET         /professor_portal/:pid/semesters/:sy                                             controllers.root.professor_portal.professor.semesters.semester.Semester.get(pid : Integer, sy : String)
+# /professor_login/{id}/semesters/:sy
+GET         /professor_login/:pid/semesters/:sy                                             controllers.root.professor_login.professor_portal.semesters.semester.Semester.get(pid : Integer, sy : String)
 
-# /professor_portal/{id}/semesters/{sy}/{dept-cn-sn}
-GET         /professor_portal/:pid/semesters/:sy/:dept_cn_sn                                 controllers.root.professor_portal.professor.semesters.semester.course.Course.get(pid : Integer, sy : String, dept_cn_sn : String)
+# /professor_login/{id}/semesters/{sy}/{dept-cn-sn}
+GET         /professor_login/:pid/semesters/:sy/:dept_cn_sn                                 controllers.root.professor_login.professor_portal.semesters.semester.course.Course.get(pid : Integer, sy : String, dept_cn_sn : String)

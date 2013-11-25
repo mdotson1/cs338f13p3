@@ -1,4 +1,4 @@
-package controllers.root.student_login.student_login;
+package controllers.root.student_login.student_portal;
 
 import controllers.root.Resource;
 import models.database.dao.concrete.StudentRepository;
@@ -6,7 +6,7 @@ import models.person.Student;
 import play.mvc.Controller;
 import play.mvc.Result;
 
-import views.html.root.student_loginlogin.student_portal.*;
+import views.html.root.student_login.student_portal.*;
 import views.html.helpers.*;
 
 import java.sql.SQLException;
@@ -15,8 +15,8 @@ import java.util.Map;
 
 public class StudentPortal extends Controller {
     public static String url(final int studentId) {
-        return controllers.root.student_login.student_login.routes.Student.
-                get(studentId).url();
+        return controllers.root.student_login.student_portal.routes.
+                StudentPortal.get(studentId).url();
     }
 
     private static Result render(final int studentId) throws SQLException {

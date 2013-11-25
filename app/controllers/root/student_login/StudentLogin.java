@@ -1,7 +1,7 @@
 package controllers.root.student_login;
 
 import controllers.root.Resource;
-import controllers.root.student_login.student_loginlogin.student_portalPortal;
+import controllers.root.student_login.student_portal.StudentPortal;
 import models.person.UniversityPerson;
 import play.api.mvc.Call;
 import play.data.Form;
@@ -16,11 +16,11 @@ public class StudentLogin extends Controller {
             Form.form(UniversityPerson.class);
 
     private static Call postCall() {
-        return controllers.root.student_login.routes.StudentPortal.post();
+        return controllers.root.student_login.routes.StudentLogin.post();
     }
 
     public static String url() {
-        return controllers.root.student_login.routes.StudentPortal.get().url();
+        return controllers.root.student_login.routes.StudentLogin.get().url();
     }
 
     private static Result render() {
@@ -43,8 +43,7 @@ public class StudentLogin extends Controller {
         if (form.hasErrors()) {
             return badRequest();
         } else {
-            return redirect(StudentPortal.url(
-                    form.get().getId()));
+            return redirect(StudentPortal.url(form.get().getId()));
         }
     }
 }

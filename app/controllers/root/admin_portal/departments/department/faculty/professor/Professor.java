@@ -1,13 +1,16 @@
 package controllers.root.admin_portal.departments.department.faculty.professor;
 
 import controllers.root.Resource;
+import models.course.Semester;
 import models.database.dao.concrete.ProfessorRepository;
+import models.database.dao.relationships.CoursesTeachingRepository;
 import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.root.admin.departments.department.faculty.professor.*;
 import views.html.helpers.*;
 
 import java.sql.SQLException;
+import java.util.Iterator;
 
 public class Professor extends Controller {
 
@@ -21,9 +24,14 @@ public class Professor extends Controller {
 
         final String context = Professor.url(department, professorId);
 
-        return ok(professor.render(
-                ProfessorRepository.getInstance().findById(professorId),
-                context, null, Resource.BACK_LINK(context)));
+        final models.person.Professor prof = ProfessorRepository.getInstance().
+                findById(professorId);
+
+        final Iterator<Semester> sems = CoursesTeachingRepository.getInstance().
+                allSemestersProfessorTaughtIn(professorId);
+
+        return ok(professor.render(prof, context, null,
+                Resource.BACK_LINK(context)));
     }
 
     public static Result get(final String department, final int professorId) {

@@ -1,14 +1,14 @@
-package controllers.root.student_login.student_login.course_schedules.semester.department.course.section.professors;
+package controllers.root.student_login.student_portal.course_schedules.semester.department.course.section.professors;
 
 import controllers.root.Resource;
-import controllers.root.student_login.student_login.departments.department.faculty.Faculty;
+import controllers.root.student_login.student_portal.departments.department.faculty.Faculty;
 import controllers.services.ProfessorCourseService;
 import models.course.Semester;
 import models.person.Professor;
 import play.mvc.Controller;
 import play.mvc.Result;
 
-import views.html.root.student_loginlogin.student_portal.course_schedules.semester.department.course.section.professors.*;
+import views.html.root.student_login.student_portal.course_schedules.semester.department.course.section.professors.*;
 import views.html.helpers.*;
 
 import java.sql.SQLException;
@@ -19,7 +19,7 @@ public class Professors extends Controller {
     public static String url(final int studentId, final String seasonAndYear,
                              final String department, final String courseNum,
                              final String sectionNum) {
-        return controllers.root.student_login.student_login.course_schedules.
+        return controllers.root.student_login.student_portal.course_schedules.
                 semester.department.course.section.professors.routes.Professors.
                 get(studentId, seasonAndYear, department, courseNum,
                         sectionNum).url();

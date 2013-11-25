@@ -1,6 +1,6 @@
-@* 8 field params *@
+@* 9 field params *@
 
-@(studentForm : Form[models.person.Student], post : play.api.mvc.Call, lastName : Boolean, firstName : Boolean, dateOfBirth : Boolean, homeAddr : Boolean, workAddr : Boolean, homePhone : Boolean, workPhone : Boolean, cellPhone : Boolean)
+@(studentForm : Form[models.person.Student], post : play.api.mvc.Call, lastName : Boolean, firstName : Boolean, currentBalance : Boolean, dateOfBirth : Boolean, homeAddr : Boolean, workAddr : Boolean, homePhone : Boolean, workPhone : Boolean, cellPhone : Boolean)
 
 @import helper.inputText
 @import helper.form
@@ -12,6 +12,9 @@
     }
     @if(firstName) {
         @inputText(studentForm("First Name"))
+    }
+    @if(currentBalance) {
+        @inputText(studentForm("Current Balance"))
     }
     @if(dateOfBirth) {
         @inputText(studentForm("Date of Birth"))

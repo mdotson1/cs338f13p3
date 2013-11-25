@@ -1,4 +1,4 @@
-package controllers.root.student_login.student_login.course_schedules.semester.department;
+package controllers.root.student_login.student_portal.course_schedules.semester.department;
 
 import controllers.root.Resource;
 import models.course.Course;
@@ -7,7 +7,7 @@ import models.database.dao.concrete.CourseOfferingRepository;
 import play.mvc.Controller;
 import play.mvc.Result;
 
-import views.html.root.student_loginlogin.student_portal.course_schedules.semester.department.*;
+import views.html.root.student_login.student_portal.course_schedules.semester.department.*;
 import views.html.helpers.*;
 
 import java.sql.SQLException;
@@ -17,7 +17,7 @@ public class Department extends Controller {
 
     public static String url(final int studentId, final String seasonAndYear,
                              final String department) {
-        return controllers.root.student_login.student_login.course_schedules.
+        return controllers.root.student_login.student_portal.course_schedules.
                 semester.department.routes.Department.get(studentId,
                 seasonAndYear, department).url();
     }

@@ -1,6 +1,6 @@
-@* 9 boolean fields. 1 boolean display *@
+@* 10 boolean fields. 1 boolean display *@
 
-@(students : Iterator[models.person.Student], url : String, id : Boolean, lastName : Boolean, firstName : Boolean, dateOfBirth : Boolean, homeAddr : Boolean, workAddr : Boolean, homePhone : Boolean, workPhone : Boolean, cellPhone : Boolean, displayLinks : Boolean)
+@(students : Iterator[models.person.Student], url : String, id : Boolean, lastName : Boolean, firstName : Boolean, currentBalance : Boolean, dateOfBirth : Boolean, homeAddr : Boolean, workAddr : Boolean, homePhone : Boolean, workPhone : Boolean, cellPhone : Boolean, displayLinks : Boolean)
 
 @import helpers.text.th
 @import helpers.text.td
@@ -16,6 +16,9 @@
         }
         @if(firstName) {
             @th("First Name")
+        }
+        @if(currentBalance) {
+            @th("Current Balance")
         }
         @if(dateOfBirth) {
             @th("Date of Birth")
@@ -51,6 +54,9 @@
             }
             @if(firstName) {
                 @td(student.getContactInformation.getFirstName)
+            }
+            @if(currentBalance) {
+                @td(student.getCurrentBalance + "")
             }
             @if(dateOfBirth) {
                 @td(student.getDateOfBirth)

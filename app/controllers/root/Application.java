@@ -1,7 +1,7 @@
 package controllers.root;
 
 import controllers.root.admin_portal.AdminPortal;
-import controllers.root.professor_portal.ProfessorPortal;
+import controllers.root.professor_login.ProfessorLogin;
 import controllers.root.student_login.StudentLogin;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -26,7 +26,7 @@ public class Application extends Controller {
                 new LinkedHashMap<String, String>();
 
         loginsAndURLs.put("Login as a student", StudentLogin.url());
-        loginsAndURLs.put("Login as a professor", ProfessorPortal.url());
+        loginsAndURLs.put("Login as a professor", ProfessorLogin.url());
         loginsAndURLs.put("Login as an administrator", AdminPortal.url());
 
         return ok(root.render(loginsAndURLs));

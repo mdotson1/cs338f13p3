@@ -1,7 +1,7 @@
 package models.person;
 
 public class UniversityPerson extends Person {
-	
+
 	protected int id;
 
     // bean for play
@@ -15,11 +15,11 @@ public class UniversityPerson extends Person {
 		super(ci, dob);
 		this.id = id;
 	}
-	
+
 	public int getId() {
 		return id;
 	}
-	
+
 	public void setId(int id) {
 		this.id = id;
 	}

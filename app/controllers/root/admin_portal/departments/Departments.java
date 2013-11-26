@@ -37,9 +37,6 @@ public class Departments extends Controller {
 
             form = PROFESSOR_FORM.bindFromRequest();
 
-            if(form.hasErrors()) {
-                return badRequest();
-            }
             ProfessorService.createProfessor(form.data());
         } else {
             form = PROFESSOR_FORM;

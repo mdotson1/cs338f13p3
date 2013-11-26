@@ -1,8 +1,11 @@
 package controllers.root.admin_portal.students;
 
 import controllers.root.Resource;
+import static play.data.Form.*;
+
 import controllers.services.StudentService;
 import models.database.dao.concrete.StudentRepository;
+import models.forms.student.StudentForm1;
 import models.person.Student;
 import play.api.mvc.Call;
 import play.data.Form;
@@ -14,8 +17,6 @@ import views.html.helpers.*;
 import java.sql.SQLException;
 
 public class Students extends Controller {
-
-    private final static Form<Student> STUDENT_FORM = Form.form(Student.class);
 
     public static Call postCall() {
         return controllers.root.admin_portal.students.routes.Students.post();
@@ -30,21 +31,22 @@ public class Students extends Controller {
             throws SQLException {
 
         final String context = Students.url();
-        final Form<Student> form;
 
         if (create) {
 
-            form = STUDENT_FORM.bindFromRequest();
+            final Form<StudentForm1> form =
+                    form(StudentForm1.class).bindFromRequest();
 
-            if(form.hasErrors()) {
-                return badRequest();
+            if (form.hasErrors()) {
+                return badRequest(students.render(StudentRepository.
+                        getInstance().getAll(), context, form,
+                        Resource.BACK_LINK(context), postCall()));
             }
-            StudentService.createStudent(form.data());
-        } else {
-            form = STUDENT_FORM;
+
+            StudentRepository.getInstance().add(form.get().toStudent());
         }
         return ok(students.render(StudentRepository.getInstance().getAll(),
-                context, form, Resource.BACK_LINK(context), postCall()));
+                context, form(StudentForm1.class), Resource.BACK_LINK(context), postCall()));
     }
 
     public static Result get() {

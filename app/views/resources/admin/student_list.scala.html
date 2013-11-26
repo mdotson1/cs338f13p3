@@ -1,21 +1,25 @@
-@(students : Iterator[models.person.Student], url : String, studentForm : Form[models.person.Student], backUri : String, post : play.api.mvc.Call)
+@(students : Iterator[models.person.Student], url : String, studentForm : Form[models.forms.student.StudentForm1], backUri : String, post : play.api.mvc.Call)
 
 @import helpers.tables.student_table
-@import helpers.forms.entity.student_form
+@import helpers.forms.entity.student.student_form1
 @import helpers.text.back_link
 @import helpers.text.h1
+@import helpers.text.h2
 
 <!DOCTYPE html>
 <html>
     <head>
         <title></title>
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/student_form1.css")">
     </head>
     <body>
         @h1("All Students")
 
         @student_table(students, url, true, true, true, true, true, true, true, true, true, true, true)
 
-        @student_form(studentForm, post, true, true, true, false, true, true, true, true, true)
+        @h2("Enroll New Student")
+
+        @student_form1(studentForm, post)
 
         @back_link(backUri)
     </body>

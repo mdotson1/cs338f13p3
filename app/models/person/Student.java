@@ -1,7 +1,7 @@
 package models.person;
 
 public class Student extends UniversityPerson {
-	
+
 	private double currentBalance;
 
     // bean for play
@@ -26,19 +26,19 @@ public class Student extends UniversityPerson {
 		
 		this.currentBalance = currentBalance;
 	}
-	
+
 	public double getCurrentBalance() {
 		return currentBalance;
 	}
-	
+
 	public void setCurrentBalance(double balance) {
 		currentBalance = balance;
 	}
-	
+
 	public boolean equals(Student s) {
 		return this.getId() == s.getId();
 	}
-	
+
 	@Override
 	public String toString() {
 		String retVal = "student: " + id +

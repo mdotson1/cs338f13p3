@@ -30,14 +30,14 @@ public class StudentRepository implements ConcreteIntKeyRepository<Student> {
 	private void createStudentTable(final Statement st) throws SQLException {
 		final String createTableStatement = "CREATE TABLE Student(" +
 				"studentId INT NOT NULL AUTO_INCREMENT, " +
-				"dateOfBirth VARCHAR(10) NOT NULL, " +
-				"homeAddress VARCHAR(200) NOT NULL, " +
-				"workAddress VARCHAR(200), " + 
+				"dateOfBirth CHAR(10) NOT NULL, " +
+				"homeAddress VARCHAR(100) NOT NULL, " +
+				"workAddress VARCHAR(100), " +
 				"lastName VARCHAR(30) NOT NULL, " +
 				"firstName VARCHAR(20) NOT NULL, " +
-				"workPhone CHAR(13), " +
-				"homePhone CHAR(13), " +
-				"cellPhone CHAR(13), " +
+				"workPhone CHAR(10), " +
+				"homePhone CHAR(10), " +
+				"cellPhone CHAR(10), " +
 				"currentBalance DOUBLE NOT NULL, " +
 				"PRIMARY KEY ( studentId ) " +
 				") Engine=InnoDB;";

@@ -1,0 +1,42 @@
+@(studentForm : Form[models.forms.student.StudentForm1], post : play.api.mvc.Call)
+
+@import helper.inputText
+@import helper.form
+
+@form(action = post, args = 'id -> "student_form_1") {
+
+    @inputText(
+        field = studentForm("firstName"),
+        args = '_label -> "First Name", 'size -> 20
+    )
+    @inputText(
+        field = studentForm("lastName"),
+        args = '_label -> "Last Name", 'size -> 30
+    )
+    @inputText(
+        field = studentForm("dateOfBirth"),
+        args = '_label -> "Date of Birth", 'size -> 10
+    )
+    @inputText(
+        field = studentForm("homeAddr"),
+        args = '_label -> "Home Address", 'size -> 100
+    )
+    @inputText(
+        field = studentForm("workAddr"),
+        args = '_label -> "Work Address", 'size -> 100
+    )
+    @inputText(
+        field = studentForm("homePhone"),
+        args = '_label -> "Home Phone", 'size -> 10
+    )
+    @inputText(
+        field = studentForm("workPhone"),
+        args = '_label -> "Work Phone", 'size -> 10
+    )
+    @inputText(
+        field = studentForm("cellPhone"),
+        args = '_label -> "Cell Phone", 'size -> 10
+    )
+
+    <input type="submit" value="Create">
+}

@@ -3,7 +3,7 @@ package models.person;
 
 // place in database under person
 public class ContactInformation {
-	
+
 	private String homeAddress;
 	private String workAddress;
 	private String firstName;
@@ -23,35 +23,35 @@ public class ContactInformation {
 		this.homePhone = homePhone;
 		this.cellPhone = cellPhone;
 	}
-	
+
 	public String getHomeAddress() {
 		return homeAddress;
 	}
-	
+
 	public void setHomeAddress(final String homeAddr) {
 		this.homeAddress = homeAddr;
 	}
-	
+
 	public String getWorkAddress() {
 		return workAddress;
 	}
-	
+
 	public void setWorkAddress(final String workAddr) {
 		this.workAddress = workAddr;
 	}
-	
+
 	public String getFirstName() {
 		return firstName;
 	}
-	
+
 	public void setFirstName(String fName) {
 		firstName = fName;
 	}
-	
+
 	public String getLastName() {
 		return lastName;
 	}
-	
+
 	public void setLastName(String lName) {
 		lastName = lName;
 	}

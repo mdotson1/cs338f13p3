@@ -8,4 +8,8 @@ public class FormUtils {
             "19[0-9][0-9]|200[0-9]|201[0-2]"; //year
 
     public static final String PHONE_REGEX = "[0-9]{10}";
+
+    public static final String LATIN_CHARACTERS_REGEX = "\\p{Alpha}+";
+
+    public static final String DEPARTMENT_REGEX = "[A-Z]{2,4}";
 }

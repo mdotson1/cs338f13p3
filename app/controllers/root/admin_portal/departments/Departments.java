@@ -3,6 +3,7 @@ package controllers.root.admin_portal.departments;
 import controllers.root.Resource;
 import controllers.services.ProfessorService;
 import models.database.dao.concrete.ProfessorRepository;
+import models.forms.professor.ProfessorForm1;
 import models.person.Professor;
 import play.api.mvc.Call;
 import play.data.Form;
@@ -13,10 +14,9 @@ import views.html.helpers.*;
 
 import java.sql.SQLException;
 
-public class Departments extends Controller {
+import static play.data.Form.form;
 
-    private final static Form<Professor> PROFESSOR_FORM =
-            Form.form(Professor.class);
+public class Departments extends Controller {
 
     public static Call postCall() {
         return controllers.root.admin_portal.departments.routes.Departments.post();
@@ -31,19 +31,23 @@ public class Departments extends Controller {
             throws SQLException {
 
         final String context = Departments.url();
-        final Form<Professor> form;
 
         if (create) {
 
-            form = PROFESSOR_FORM.bindFromRequest();
+            final Form<ProfessorForm1> form =
+                    form(ProfessorForm1.class).bindFromRequest();
 
-            ProfessorService.createProfessor(form.data());
-        } else {
-            form = PROFESSOR_FORM;
+            if (form.hasErrors()) {
+                return badRequest(departments.render(ProfessorRepository.
+                        getInstance().allDepartments(), context, form,
+                        Resource.BACK_LINK(context), postCall()));
+            }
+
+            ProfessorRepository.getInstance().add(form.get().toProfessor());
         }
-        return ok(departments.render(
-                ProfessorRepository.getInstance().allDepartments(), context,
-                form, Resource.BACK_LINK(context), postCall()));
+        return ok(departments.render(ProfessorRepository.getInstance().
+                allDepartments(), context, form(ProfessorForm1.class),
+                Resource.BACK_LINK(context), postCall()));
     }
 
     public static Result get() {

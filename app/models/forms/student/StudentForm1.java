@@ -10,12 +10,12 @@ public class StudentForm1 {
     @Required
     @MinLength(message="Must be at least 2 letters", value=2)
     @MaxLength(message="Cannot be longer than 30 letters", value=30)
-    @Pattern(value="\\p{Alpha}+", message="Last name can only be latin alphabetic characters")
+    @Pattern(value=FormUtils.LATIN_CHARACTERS_REGEX, message="Last name can only be latin alphabetic characters")
     public String lastName;
     @Required
     @MinLength(message="Must be at least 2 letters", value=2)
     @MaxLength(message="Cannot be longer than 20 letters", value=20)
-    @Pattern(value="\\p{Alpha}+", message="Last name can only be latin alphabetic characters")
+    @Pattern(value=FormUtils.LATIN_CHARACTERS_REGEX, message="Last name can only be latin alphabetic characters")
     public String firstName;
     @Required
     @Pattern(value= FormUtils.DATE_REGEX, message="Please enter date as mm/dd/yyyy")

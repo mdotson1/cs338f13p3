@@ -1,4 +1,4 @@
-@(studentForm : Form[models.forms.student.StudentForm1], post : play.api.mvc.Call)
+@(professorForm : Form[models.forms.professor.ProfessorForm1], post : play.api.mvc.Call)
 
 @import helper.inputText
 @import helper.form
@@ -6,35 +6,39 @@
 @form(action = post) {
 
     @inputText(
-        field = studentForm("firstName"),
+        field = professorForm("firstName"),
         args = '_label -> "First Name", 'size -> 20
     )
     @inputText(
-        field = studentForm("lastName"),
+        field = professorForm("lastName"),
         args = '_label -> "Last Name", 'size -> 30
     )
     @inputText(
-        field = studentForm("dateOfBirth"),
+        field = professorForm("department"),
+        args = '_label -> "Department", 'size -> 4
+    )
+    @inputText(
+        field = professorForm("dateOfBirth"),
         args = '_label -> "Date of Birth", 'size -> 10
     )
     @inputText(
-        field = studentForm("homeAddr"),
+        field = professorForm("homeAddr"),
         args = '_label -> "Home Address", 'size -> 100
     )
     @inputText(
-        field = studentForm("workAddr"),
+        field = professorForm("workAddr"),
         args = '_label -> "Work Address", 'size -> 100
     )
     @inputText(
-        field = studentForm("homePhone"),
+        field = professorForm("homePhone"),
         args = '_label -> "Home Phone", 'size -> 10
     )
     @inputText(
-        field = studentForm("workPhone"),
+        field = professorForm("workPhone"),
         args = '_label -> "Work Phone", 'size -> 10
     )
     @inputText(
-        field = studentForm("cellPhone"),
+        field = professorForm("cellPhone"),
         args = '_label -> "Cell Phone", 'size -> 10
     )
 

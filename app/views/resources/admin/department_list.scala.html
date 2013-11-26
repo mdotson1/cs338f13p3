@@ -1,15 +1,16 @@
-@(departments : Iterator[String], url : String, professorForm : Form[models.person.Professor], backUri : String, post : play.api.mvc.Call)
+@(departments : Iterator[String], url : String, professorForm : Form[models.forms.professor.ProfessorForm1], backUri : String, post : play.api.mvc.Call)
 
 @import helpers.text.p
 @import helpers.text.h1
 @import helpers.text.back_link
 @import helpers.text.link
-@import helpers.forms.entity.professor_form
+@import helpers.forms.entity.professor.professor_form1
 
 <!DOCTYPE html>
 <html>
     <head>
         <title></title>
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/forms.css")">
     </head>
     <body>
         @h1("All Departments")
@@ -20,7 +21,7 @@
 
         @p("Don't see the department you're looking for? Please create a faculty member entry with that department first.")
 
-        @professor_form(professorForm, post, true, true, true, true, true, true, true, true, true)
+        @professor_form1(professorForm, post)
 
         @back_link(backUri)
     </body>

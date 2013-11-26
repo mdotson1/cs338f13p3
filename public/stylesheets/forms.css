@@ -1,17 +1,17 @@
-#student_form_1 dd {
+form dd {
     display: inline-block;
 }
 
-#student_form_1 dd.info {
+form dd.info {
     display: none;
 }
 
-#student_form_1 dd.error {
+form dd.error {
     margin-left: 10px;
     font-size: 12px;
     color: #c00;
 }
 
-#student_form_1 label {
+form label {
     font-size: 14px;
 }

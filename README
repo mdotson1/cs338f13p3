@@ -4,17 +4,37 @@ Michael Dotson and Marcellin fom Tchassem
 app URL:  
 http://cs339f13p3.herokuapp.com/
 
-Warning, there is no form validation (to use helpers, one must use PUBLIC         variables, and I refuse to rewrite my model (it would be dozens of hours of
-  work).
-
-for compiling locally:  
-"play clean compile stage"
-
-to run locally:  
-"play run"
-
-to generate intellij files:  
-"play idea"
-
-Marcellin, please put your stylesheets in /public/stylesheets/ and your
-images (if you use any) in /public/images/
+Project layout:  
+app  
+-- controllers  
+---- root - the root page "/"  
+------ admin_portal - "/admin_portal"  
+-------- Controller for each view under admin_portal  
+------ professor_login - "/professor_login"  
+-------- Controller for each view under professor_login  
+------ student_login - "/student_login  
+-------- Controller for each view under student_login  
+-- models  
+---- course (Course related model files)  
+---- database (Database files)  
+---- forms (Classes used to validate forms)  
+---- person (Person related model files)  
+-- views  
+---- helpers  
+------ forms  
+-------- complex (any non entity form)  
+-------- entity (any forms based on the model objects)  
+------ tables  
+-------- tables to display model objects  
+------ text  
+-------- helpers for displaying html formatting  
+---- multiuse_templates  
+------ any templates you can use for different model objects  
+---- resources  
+------ admin  
+-------- pages only administrations should use  
+------ read_only  
+-------- pages others should use  
+------ other files that do not have both admin and read_only versions  
+---- root
+------ views for the controllers (one view per controller)

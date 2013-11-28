@@ -12,4 +12,6 @@ public class FormUtils {
     public static final String LATIN_CHARACTERS_REGEX = "\\p{Alpha}+";
 
     public static final String DEPARTMENT_REGEX = "[A-Z]{2,4}";
+
+    public static final String MONEY_REGEX = "\\d{0,4}(?:.\\d{2})?";
 }

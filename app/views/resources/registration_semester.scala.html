@@ -1,13 +1,16 @@
-@(url : String, backUri : String, courseSchedulesUrl : String, regForm : Form[controllers.root.student_login.student_portal.registration.semester.Registration], post : play.api.mvc.Call)
+@(url : String, backUri : String, courseSchedulesUrl : String, regForm : Form[models.forms.registration.RegistrationForm1], post : play.api.mvc.Call, displaySuccess : Boolean, errors : Iterator[String])
 
 @import helpers.text.h2
 @import helpers.text.h3
+@import helpers.text.h2_color
 @import helpers.text.link
+@import helpers.text.css
 
 <!DOCTYPE html>
 <html>
     <head>
         <title></title>
+        @css("forms")
     </head>
     <body>
         @h2("Please Choose 4 Primary Choices and 2 Secondary Choices")
@@ -15,7 +18,10 @@
         @link(courseSchedulesUrl, "Course Schedule")
 
         @h3("Example: CS-313-1")
-        @helpers.forms.complex.registration_form(regForm, post)
+        @if(displaySuccess) {
+            h2_color("Success!","green")
+        }
+        @helpers.forms.complex.registration_form1(regForm, post)
 
         @helpers.text.back_link(backUri)
     </body>

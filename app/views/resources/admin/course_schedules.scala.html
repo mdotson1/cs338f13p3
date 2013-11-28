@@ -1,15 +1,17 @@
-@(semesters : Iterator[models.course.Semester], url : String, semesterForm : Form[models.course.Semester], backUri : String, post : play.api.mvc.Call)
+@(semesters : Iterator[models.course.Semester], url : String, semesterForm : Form[models.forms.semester.SemesterForm1], backUri : String, post : play.api.mvc.Call)
 
 @import helpers.text.p
 @import helpers.text.h1
 @import helpers.text.back_link
 @import helpers.text.link
-@import helpers.forms.entity
+@import helpers.text.css
+@import helpers.forms.entity.semester.semester_form1
 
 <!DOCTYPE html>
 <html>
     <head>
         <title></title>
+        @css("forms")
     </head>
     <body>
         @h1("Course Schedules")
@@ -20,7 +22,7 @@
 
         @p("Don't see the semester you're looking for? Please add a semester")
 
-        @entity.semester_form(semesterForm, post, true, true)
+        @semester_form1(semesterForm, post)
         @back_link(backUri)
     </body>
 </html>

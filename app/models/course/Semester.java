@@ -2,10 +2,13 @@ package models.course;
 
 import play.data.validation.Constraints;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 public class Semester {
 
     public enum Season {
-        Fall, Winter, Summer, Spring
+        Spring, Summer, Fall, Winter
     }
 
     private Season season;

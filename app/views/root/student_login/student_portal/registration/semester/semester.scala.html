@@ -1,3 +1,3 @@
-@(url : String, backUri : String, courseSchedulesUrl : String, regForm : Form[controllers.root.student_login.student_portal.registration.semester.Registration], post : play.api.mvc.Call)
+@(url : String, backUri : String, courseSchedulesUrl : String, regForm : Form[models.forms.registration.RegistrationForm1], post : play.api.mvc.Call, displaySuccess : Boolean, errors : Iterator[String])
 
-@resources.registration_semester(url, backUri, courseSchedulesUrl, regForm, post)
+@resources.registration_semester(url, backUri, courseSchedulesUrl, regForm, post, displaySuccess, errors)

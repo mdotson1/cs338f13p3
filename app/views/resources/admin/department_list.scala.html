@@ -4,13 +4,14 @@
 @import helpers.text.h1
 @import helpers.text.back_link
 @import helpers.text.link
+@import helpers.text.css
 @import helpers.forms.entity.professor.professor_form1
 
 <!DOCTYPE html>
 <html>
     <head>
         <title></title>
-        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/forms.css")">
+        @css("forms")
     </head>
     <body>
         @h1("All Departments")

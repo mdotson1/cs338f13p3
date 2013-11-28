@@ -10,7 +10,6 @@ import models.database.dao.relationships.CoursesTakingRepository;
 import models.database.dao.relationships.PaymentHistoryRepository;
 import models.course.Course;
 import models.course.CourseOffering;
-import models.person.ContactInformation;
 import models.person.Payment;
 import models.person.Student;
 

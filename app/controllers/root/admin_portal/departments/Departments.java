@@ -1,10 +1,8 @@
 package controllers.root.admin_portal.departments;
 
 import controllers.root.Resource;
-import controllers.services.ProfessorService;
 import models.database.dao.concrete.ProfessorRepository;
 import models.forms.professor.ProfessorForm1;
-import models.person.Professor;
 import play.api.mvc.Call;
 import play.data.Form;
 import play.mvc.Controller;

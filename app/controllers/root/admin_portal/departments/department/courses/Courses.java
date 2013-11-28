@@ -4,6 +4,7 @@ import controllers.root.Resource;
 import controllers.services.CourseService;
 import models.course.Course;
 import models.database.dao.concrete.CourseRepository;
+import models.forms.course.CourseForm1;
 import play.api.mvc.Call;
 import play.data.Form;
 import play.mvc.Controller;
@@ -12,10 +13,11 @@ import views.html.root.admin.departments.department.courses.*;
 import views.html.helpers.*;
 
 import java.sql.SQLException;
+import java.util.Iterator;
+
+import static play.data.Form.form;
 
 public class Courses extends Controller {
-
-    private final static Form<Course> COURSE_FORM = Form.form(Course.class);
 
     private static Call postCall(final String dept) {
         return controllers.root.admin_portal.departments.department.courses.routes.
@@ -27,26 +29,32 @@ public class Courses extends Controller {
                 Courses.get(dept).url();
     }
 
+    private static Iterator<Course> courses(final String dept)
+            throws SQLException {
+        return CourseRepository.getInstance().getAllByDepartment(dept);
+    }
+
     private static Result render(final boolean create, final String dept)
             throws SQLException {
 
         final String context = Courses.url(dept);
-        final Form<Course> form;
 
         if (create) {
 
-            form = COURSE_FORM.bindFromRequest();
+            final Form<CourseForm1> form =
+                    form(CourseForm1.class).bindFromRequest();
 
-            if(form.hasErrors()) {
-                return badRequest();
+            if (form.hasErrors()) {
+                return badRequest(courses.render(Courses.courses(dept),
+                        context, form, dept, Resource.BACK_LINK(context),
+                        postCall(dept)));
             }
-            CourseService.createCourse(form.data(), dept);
-        } else {
-            form = COURSE_FORM;
+
+            CourseRepository.getInstance().add(form.get().toCourse(dept));
         }
-        return ok(courses.render(
-                CourseRepository.getInstance().getAllByDepartment(dept), context,
-                form, dept, Resource.BACK_LINK(context), postCall(dept)));
+        return ok(courses.render(Courses.courses(dept), context,
+                form(CourseForm1.class), dept, Resource.BACK_LINK(context),
+                postCall(dept)));
     }
 
     public static Result get(final String dept) {

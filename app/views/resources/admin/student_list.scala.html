@@ -5,12 +5,13 @@
 @import helpers.text.back_link
 @import helpers.text.h1
 @import helpers.text.h2
+@import views.html.helpers.text.css
 
 <!DOCTYPE html>
 <html>
     <head>
         <title></title>
-        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/forms.css")">
+        @css("forms")
     </head>
     <body>
         @h1("All Students")

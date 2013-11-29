@@ -68,6 +68,6 @@ public class CourseOffering {
 
 	@Override
 	public String toString() {
-		return "student: " + courseOfferingId;
+		return "id: " + courseOfferingId;
 	}
 }

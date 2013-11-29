@@ -15,9 +15,6 @@ import java.util.Iterator;
 
 public class Students extends Controller {
 
-    private static final Form<Student> ENROLL_STUDENT_FORM =
-            new Form<Student>(Student.class);
-
     public static String url(final String seasonAndYear,
                              final String department, final String courseNum,
                              final String sectionNum) {

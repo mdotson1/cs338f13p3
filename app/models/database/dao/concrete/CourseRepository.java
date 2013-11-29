@@ -30,7 +30,7 @@ public class CourseRepository {
 
 	}
 
-	private void createCourseTable(final Statement st) throws SQLException {
+	private static void createCourseTable(final Statement st) throws SQLException {
 		final String createTableStatement = "CREATE TABLE Course(" +
 				"department VARCHAR(20) NOT NULL, " +
 				"courseNumber SMALLINT NOT NULL, " +
@@ -42,13 +42,14 @@ public class CourseRepository {
 		st.execute(createTableStatement);
 	}
 
-	public void databaseCreationCheck(final DatabaseMetaData dbm,
+	public static void databaseCreationCheck(final DatabaseMetaData dbm,
 			final Statement st) throws SQLException {
 		final ResultSet tables = dbm.getTables(null, null, "Course", null);
 		if (!tables.next()) {
 			// Table does not exist
 			createCourseTable(st);
 		}
+        tables.close();
 	}
 
     public Iterator<Course> getAll() throws SQLException {
@@ -74,6 +75,11 @@ public class CourseRepository {
 
             courseList.add(course);
         }
+
+        c.close();
+        courseRS.close();
+        st.close();
+
         return courseList.iterator();
     }
 
@@ -102,6 +108,11 @@ public class CourseRepository {
 
             courseList.add(course);
         }
+
+        c.close();
+        courseRS.close();
+        st.close();
+
         return courseList.iterator();
     }
 
@@ -118,6 +129,9 @@ public class CourseRepository {
 				obj.getCourseDescription() + "');";
 
 		st.execute(insertStudentStatement);
+
+        c.close();
+        st.close();
 	}
 
     public Iterator<String> allDepartments() throws SQLException {
@@ -137,6 +151,11 @@ public class CourseRepository {
 
             departmentList.add(departmentRS.getString("department"));
         }
+
+        c.close();
+        departmentRS.close();
+        st.close();
+
         return departmentList.iterator();
     }
 
@@ -152,14 +171,19 @@ public class CourseRepository {
                 "cost, courseDescription FROM Course WHERE courseNumber = " +
                 courseNumber + " AND department = '"+ department + "';";
 
-		final ResultSet CourseRes = st.executeQuery(SelectCourseQuery);
+		final ResultSet courseRes = st.executeQuery(SelectCourseQuery);
 
 		Course course = null;
 
-		while(CourseRes.next()){
-			course = new Course(CourseRes.getString("department"), CourseRes.getShort("courseNumber"),
-					CourseRes.getDouble("cost"), CourseRes.getString("courseDescription"));
+		while(courseRes.next()){
+			course = new Course(courseRes.getString("department"), courseRes.getShort("courseNumber"),
+                    courseRes.getDouble("cost"), courseRes.getString("courseDescription"));
 		}
+
+        c.close();
+        courseRes.close();
+        st.close();
+
 		return course;
 	}
 
@@ -174,7 +198,12 @@ public class CourseRepository {
 		final String deleteCourseQuery = "DELETE FROM Course WHERE courseNumber = "+ courseNumber +
 				" AND department = '"+ department + "';";
 
-		return st.execute(deleteCourseQuery);
+        final boolean result = st.execute(deleteCourseQuery);
+
+        c.close();
+        st.close();
+
+		return result;
 
 	}
 }

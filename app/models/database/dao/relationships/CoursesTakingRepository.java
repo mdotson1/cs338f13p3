@@ -35,9 +35,9 @@ public class CoursesTakingRepository
 
     }
 
-    private void createCoursesTakenTable(final Statement st)
+    private void createCoursesTakingTable(final Statement st)
             throws SQLException {
-        final String createTableStatement = "CREATE TABLE CoursesTaken(" +
+        final String createTableStatement = "CREATE TABLE CoursesTaking(" +
                 "studentId INT NOT NULL, " +
                 "courseOfferingId INT NOT NULL, " +
                 "PRIMARY KEY (studentId, courseOfferingId), " +
@@ -49,15 +49,17 @@ public class CoursesTakingRepository
 
     private void databaseCreationCheck(final DatabaseMetaData dbm,
                                        final Statement st) throws SQLException {
-        final ResultSet tables = dbm.getTables(null, null, "CoursesTaken",
+        final ResultSet tables = dbm.getTables(null, null, "CoursesTaking",
                 null);
 
-        CourseOfferingRepository.getInstance().databaseCreationCheck(dbm, st);
+        CourseOfferingRepository.databaseCreationCheck(dbm, st);
+        StudentRepository.databaseCreationCheck(dbm, st);
 
         if (!tables.next()) {
             // Table does not exist
-            createCoursesTakenTable(st);
+            createCoursesTakingTable(st);
         }
+        tables.close();
     }
 
     @Override
@@ -69,18 +71,22 @@ public class CoursesTakingRepository
         databaseCreationCheck(c.getMetaData(), st);
 
         final ResultSet courseRes = st.executeQuery("SELECT studentId, " +
-                "courseOfferingId FROM CoursesTaken WHERE studentId =	" +
+                "courseOfferingId FROM CoursesTaking WHERE studentId =	" +
                 studentId + " AND courseOfferingId = " + courseId + ";");
 
         if(!courseRes.next()){
 
-            String insertCourseTakingQuery = "INSERT INTO CoursesTaken(" +
+            String insertCourseTakingQuery = "INSERT INTO CoursesTaking(" +
                     "studentId, courseOfferingId) VALUES (" + studentId + ", " +
                     courseId + ");";
 
             st.executeUpdate(insertCourseTakingQuery,
                     Statement.RETURN_GENERATED_KEYS);
         }
+
+        c.close();
+        courseRes.close();
+        st.close();
     }
 
     public Iterator<Student> findStudentsTakingCourse(final int courseOfferingId)
@@ -92,7 +98,7 @@ public class CoursesTakingRepository
         databaseCreationCheck(c.getMetaData(), st);
 
         final String selectCourseTakingQuery = "SELECT studentId "+
-                "FROM CoursesTaken " +
+                "FROM CoursesTaking " +
                 "WHERE courseOfferingId = " + courseOfferingId + ";";
 
 
@@ -101,14 +107,19 @@ public class CoursesTakingRepository
 
         final Collection<Student> studentList = new ArrayList<Student>();
 
-        while(courseTakingRes.next())
+        while(courseTakingRes.next()) {
             studentList.add(StudentRepository.getInstance().findById(
                     courseTakingRes.getInt("studentId")));
+        }
+
+        c.close();
+        courseTakingRes.close();
+        st.close();
 
         return studentList.iterator();
     }
 
-    public int findNumberOfCoursesTakenByStudent(final int studentId)
+    public int findNumberOfCoursesTakingByStudent(final int studentId)
             throws SQLException {
 
         final Connection c = DBHelper.getConnection();
@@ -117,18 +128,21 @@ public class CoursesTakingRepository
         databaseCreationCheck(c.getMetaData(), st);
 
         final String SelectCourseTakingQuery = "SELECT courseOfferingId " +
-                "FROM CoursesTaken "+
+                "FROM CoursesTaking "+
                 "WHERE studentId = "+ studentId + ";";
 
-
-        final ResultSet CourseTakingRes =
+        final ResultSet courseTakingRes =
                 st.executeQuery(SelectCourseTakingQuery);
 
         int courseNum = 0;
 
-        while(CourseTakingRes.next()) {
+        while(courseTakingRes.next()) {
             courseNum++;
         }
+
+        c.close();
+        courseTakingRes.close();
+        st.close();
 
         return courseNum;
     }
@@ -143,7 +157,7 @@ public class CoursesTakingRepository
         databaseCreationCheck(c.getMetaData(), st);
 
         final String selectCourseTakingQuery = "SELECT studentId "+
-                "FROM CoursesTaken "+
+                "FROM CoursesTaking "+
                 "WHERE courseOfferingId = "+ courseOfferingId + ";";
 
 
@@ -155,6 +169,10 @@ public class CoursesTakingRepository
         while(courseTakingRes.next()) {
             studentNum++;
         }
+
+        c.close();
+        courseTakingRes.close();
+        st.close();
 
         return studentNum;
 
@@ -174,17 +192,18 @@ public class CoursesTakingRepository
         final Collection<Semester> semesterList = new ArrayList<Semester>();
 
         Iterator<CourseOffering> coursesTaking =
-                getCoursesTakenByStudent(studentId);
+                getCoursesTakingByStudent(studentId);
 
         while (coursesTaking.hasNext()) {
             CourseOffering course = coursesTaking.next();
 
             semesterList.add(course.getSemester());
         }
+
         return semesterList.iterator();
     }
 
-    public Iterator<CourseOffering> getCoursesTakenByStudent(
+    public Iterator<CourseOffering> getCoursesTakingByStudent(
             final int studentId) throws SQLException {
 
         final Connection c = DBHelper.getConnection();
@@ -192,21 +211,24 @@ public class CoursesTakingRepository
 
         databaseCreationCheck(c.getMetaData(), st);
 
-        final String SelectCourseTakingQuery = "SELECT courseOfferingId "+
-                "FROM CoursesTaken "+
-                "WHERE studentId = "+ studentId + ";";
+        final String SelectCourseTakingQuery = "SELECT courseOfferingId " +
+                "FROM CoursesTaking " + "WHERE studentId = " + studentId + ";";
 
-        final ResultSet CourseTakingRes =
+        final ResultSet courseTakingRes =
                 st.executeQuery(SelectCourseTakingQuery);
 
         final Collection<CourseOffering> courseOfferingList =
                 new ArrayList<CourseOffering>();
 
-        while(CourseTakingRes.next()){
+        while(courseTakingRes.next()){
             courseOfferingList.add(CourseOfferingRepository.
                     getInstance().findById(
-                    CourseTakingRes.getInt("courseOfferingId")));
+                    courseTakingRes.getInt("courseOfferingId")));
         }
+
+        c.close();
+        courseTakingRes.close();
+        st.close();
 
         return courseOfferingList.iterator();
     }
@@ -221,7 +243,7 @@ public class CoursesTakingRepository
         databaseCreationCheck(c.getMetaData(), st);
 
         final String selectCourseTakingQuery = "SELECT studentId, " +
-                "courseOfferingId FROM CoursesTaken WHERE studentId = " +
+                "courseOfferingId FROM CoursesTaking WHERE studentId = " +
                 studentId + " AND courseOfferingId = " + courseOfferingId + ";";
 
         final ResultSet courseTakingRes =
@@ -236,6 +258,10 @@ public class CoursesTakingRepository
             pair.setSecond(CourseOfferingRepository.getInstance().
                     findById(courseTakingRes.getInt("courseOfferingId")));
         }
+        c.close();
+        courseTakingRes.close();
+        st.close();
+
         return pair;
     }
 
@@ -249,10 +275,15 @@ public class CoursesTakingRepository
 
         databaseCreationCheck(c.getMetaData(), st);
 
-        final String deleteCourseTakingQuery = "DELETE FROM CoursesTaken " +
+        final String deleteCourseTakingQuery = "DELETE FROM CoursesTaking " +
                 "WHERE studentId = " + studentId + " AND courseOfferingId = " +
                 courseOfferingId + ";";
 
-        return st.execute(deleteCourseTakingQuery);
+        final boolean result = st.execute(deleteCourseTakingQuery);
+
+        c.close();
+        st.close();
+
+        return result;
     }
 }

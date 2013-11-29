@@ -2,6 +2,7 @@
 
 @import helpers.text.h2
 @import helpers.text.h3
+@import helpers.text.h1_color
 @import helpers.text.h2_color
 @import helpers.text.link
 @import helpers.text.css
@@ -19,7 +20,12 @@
 
         @h3("Example: CS-313-1")
         @if(displaySuccess) {
-            h2_color("Success!","green")
+            @h1_color("Success!","green")
+        }
+        @if(errors !=  null) {
+            @for(error <- errors) {
+                @h2_color(error, "red")
+            }
         }
         @helpers.forms.complex.registration_form1(regForm, post)
 

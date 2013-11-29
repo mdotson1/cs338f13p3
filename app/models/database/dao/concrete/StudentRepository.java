@@ -23,11 +23,11 @@ public class StudentRepository implements ConcreteIntKeyRepository<Student> {
 		return SingletonHolder.INSTANCE;
 	}
 	
-	private  StudentRepository() {
+	private StudentRepository() {
 		
 	}
 	
-	private void createStudentTable(final Statement st) throws SQLException {
+	private static void createStudentTable(final Statement st) throws SQLException {
 		final String createTableStatement = "CREATE TABLE Student(" +
 				"studentId INT NOT NULL AUTO_INCREMENT, " +
 				"dateOfBirth CHAR(10) NOT NULL, " +
@@ -44,13 +44,14 @@ public class StudentRepository implements ConcreteIntKeyRepository<Student> {
 		st.execute(createTableStatement);
 	}
 	
-	private void databaseCreationCheck(final DatabaseMetaData dbm,
+	public static void databaseCreationCheck(final DatabaseMetaData dbm,
 			final Statement st) throws SQLException {
 		final ResultSet tables = dbm.getTables(null, null, "Student", null);
 		if (!tables.next()) {
 			// Table does not exist
 			createStudentTable(st);
 		}
+        tables.close();
 	}
 
 	@Override
@@ -75,8 +76,15 @@ public class StudentRepository implements ConcreteIntKeyRepository<Student> {
 		st.executeUpdate(insertStudentStatement, Statement.RETURN_GENERATED_KEYS);
 		ResultSet rs = st.getGeneratedKeys();
 		if (rs.next()) {
-			return rs.getInt(1);
+            final int result = rs.getInt(1);
+            c.close();
+            rs.close();
+            st.close();
+			return result;
         } else {
+            c.close();
+            rs.close();
+            st.close();
             throw new SQLException("Creating Student failed, no generated key obtained.");
         }
 	}
@@ -112,6 +120,11 @@ public class StudentRepository implements ConcreteIntKeyRepository<Student> {
                     studentRS.getString("dateOfBirth"),
 						studentRS.getDouble("currentBalance"));
 		}
+
+        c.close();
+        studentRS.close();
+        st.close();
+
 		return student;
 	}
 	
@@ -120,13 +133,15 @@ public class StudentRepository implements ConcreteIntKeyRepository<Student> {
 		final Statement st = c.createStatement();
 		
 		databaseCreationCheck(c.getMetaData(), st);
-		
 
 		final String updateBalanceStatement = "UPDATE Student SET " +
                 "currentBalance=" + newBalance + " WHERE studentId=" +
                 studentId + ";";
 
 		st.execute(updateBalanceStatement);
+
+        c.close();
+        st.close();
 	}
 
 	@Override
@@ -143,12 +158,9 @@ public class StudentRepository implements ConcreteIntKeyRepository<Student> {
 		final ResultSet studentRS = st.executeQuery(selectStudentsQuery);   
 
 		final Collection<Student> studentList = new ArrayList<Student>();
-
-		Student student = null;
-		ContactInformation contactInformation = null;
 		
 		while ( studentRS.next() ) {
-			contactInformation = new ContactInformation(
+			final ContactInformation ci = new ContactInformation(
                     studentRS.getString("homeAddress"),
 					studentRS.getString("workAddress"),
                     studentRS.getString("lastName"),
@@ -157,13 +169,18 @@ public class StudentRepository implements ConcreteIntKeyRepository<Student> {
 					studentRS.getString("homePhone"),
                     studentRS.getString("cellPhone"));
 			
-			student = new Student(contactInformation,
+			final Student student = new Student(ci,
                     studentRS.getInt("studentId"),
 					studentRS.getString("dateOfBirth"),
                     studentRS.getDouble("currentBalance"));
 			
 			studentList.add(student);
 		}
+
+        c.close();
+        studentRS.close();
+        st.close();
+
 		return studentList.iterator();
 	}
 
@@ -177,7 +194,12 @@ public class StudentRepository implements ConcreteIntKeyRepository<Student> {
 		final String deleteStudentQuery = "DELETE FROM Student WHERE " +
                 "studentId = " + id + ";";
 
-		return st.execute(deleteStudentQuery);
+        final boolean result = st.execute(deleteStudentQuery);
+
+        c.close();
+        st.close();
+
+		return result;
 	}
 
 	@Override

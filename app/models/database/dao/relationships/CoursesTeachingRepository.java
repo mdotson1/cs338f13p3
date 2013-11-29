@@ -48,6 +48,9 @@ public class CoursesTeachingRepository
     private void databaseCreationCheck(DatabaseMetaData dbm, Statement st)
             throws SQLException {
 
+        ProfessorRepository.databaseCreationCheck(dbm, st);
+        CourseOfferingRepository.databaseCreationCheck(dbm, st);
+
         final ResultSet tables = dbm.getTables(null, null, "CoursesTeaching",
                 null);
         if (!tables.next()) {
@@ -71,6 +74,9 @@ public class CoursesTeachingRepository
 
         st.executeUpdate(insertCourseTeachingQuery,
                 Statement.RETURN_GENERATED_KEYS);
+
+        c.close();
+        st.close();
     }
 
     // return all courses taught by professor
@@ -85,17 +91,21 @@ public class CoursesTeachingRepository
         final String SelectCourseTeachingQuery = "SELECT courseOfferingId "+
                 "FROM CoursesTeaching WHERE professorId = " + professorId + ";";
 
-        final ResultSet CourseTeachingRes = st.executeQuery(
+        final ResultSet courseTeachingRes = st.executeQuery(
                 SelectCourseTeachingQuery);
 
         final Collection<CourseOffering> courseOfferingList =
                 new ArrayList<CourseOffering>();
 
-        while(CourseTeachingRes.next()) {
+        while(courseTeachingRes.next()) {
             courseOfferingList.add(CourseOfferingRepository.
                     getInstance().findById(
-                    CourseTeachingRes.getInt("courseOfferingId")));
+                    courseTeachingRes.getInt("courseOfferingId")));
         }
+
+        c.close();
+        courseTeachingRes.close();
+        st.close();
 
         return courseOfferingList.iterator();
     }
@@ -109,7 +119,7 @@ public class CoursesTeachingRepository
 
         databaseCreationCheck(c.getMetaData(), st);
 
-        final String selectCourseTeachingQuery = "SELECT courseOfferingId "+
+        final String selectCourseTeachingQuery = "SELECT courseOfferingId " +
                 "FROM CoursesTeaching WHERE professorId = " + professorId + ";";
 
         final ResultSet courseOfferingIdsRS = st.executeQuery(
@@ -126,6 +136,10 @@ public class CoursesTeachingRepository
                 semesterList.add(sem);
             }
         }
+
+        c.close();
+        courseOfferingIdsRS.close();
+        st.close();
 
         return semesterList.iterator();
     }
@@ -156,6 +170,10 @@ public class CoursesTeachingRepository
             professorList.add(professor);
         }
 
+        c.close();
+        courseTeachingRes.close();
+        st.close();
+
         return professorList.iterator();
     }
 
@@ -174,6 +192,11 @@ public class CoursesTeachingRepository
                 " WHERE professorId = "+ professorId + " AND " +
                 "courseOfferingId = " + courseOfferingId + ";";
 
-        return st.execute(deleteCourseTeachingQuery);
+        final boolean result = st.execute(deleteCourseTeachingQuery);
+
+        c.close();
+        st.close();
+
+        return result;
     }
 }

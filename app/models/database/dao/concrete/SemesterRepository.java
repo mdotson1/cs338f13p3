@@ -21,7 +21,7 @@ public class SemesterRepository {
         return SingletonHolder.INSTANCE;
     }
 
-    private void createSemesterTable(final Statement st) throws SQLException {
+    private static void createSemesterTable(final Statement st) throws SQLException {
         String createTableStatement = "CREATE TABLE Semester(" +
                 "season VARCHAR(6) NOT NULL," +
                 "year SMALLINT NOT NULL," +
@@ -31,13 +31,14 @@ public class SemesterRepository {
         st.execute(createTableStatement);
     }
 
-    public void databaseCreationCheck(DatabaseMetaData dbm, Statement st)
+    public static  void databaseCreationCheck(DatabaseMetaData dbm, Statement st)
             throws SQLException {
         final ResultSet tables = dbm.getTables(null, null, "Semester", null);
         if (!tables.next()) {
             // Table does not exist
             createSemesterTable(st);
         }
+        tables.close();
     }
 
     public void add(final Semester obj) throws SQLException {
@@ -51,6 +52,9 @@ public class SemesterRepository {
                 ");";
 
         st.executeUpdate(insertSemesterStatement);
+
+        c.close();
+        st.close();
     }
 
     public Semester findById(final Season season, final short year)
@@ -74,6 +78,11 @@ public class SemesterRepository {
                     semesterRes.getString("season")),
                     semesterRes.getShort("year"));
         }
+
+        c.close();
+        semesterRes.close();
+        st.close();
+
         return semester;
     }
 
@@ -88,7 +97,12 @@ public class SemesterRepository {
         final String deleteCourseOfferingQuery = "DELETE FROM Semester WHERE " +
                 "season = '" + season.toString() + "' AND year = " + year + ";";
 
-        return st.execute(deleteCourseOfferingQuery);
+        final boolean result = st.execute(deleteCourseOfferingQuery);
+
+        c.close();
+        st.close();
+
+        return result;
     }
 
     public Iterator<Semester> getAll() throws SQLException {
@@ -110,6 +124,11 @@ public class SemesterRepository {
                     semesterRes.getShort("year"));
             semesterList.add(semester);
         }
+
+        c.close();
+        semesterRes.close();
+        st.close();
+
         return semesterList.iterator();
     }
 }

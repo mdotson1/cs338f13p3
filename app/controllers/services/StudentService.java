@@ -17,6 +17,7 @@ public class StudentService {
 
     private StudentService() { } // impossible to instantiate a service
 
+    /*
     public static void billStudents() throws SQLException {
 
         Iterator<Student> students = StudentRepository.getInstance().getAll();
@@ -27,7 +28,7 @@ public class StudentService {
 
             int studentId = student.getId();
             Iterator<CourseOffering> courses = CoursesTakingRepository.
-                    getInstance().getCoursesTakenByStudent(studentId);
+                    getInstance().getCoursesTakingByStudent(studentId);
 
             double currentBalance = student.getCurrentBalance();
             while (courses.hasNext()) {
@@ -42,6 +43,7 @@ public class StudentService {
                     currentBalance);
         }
     }
+    */
 
     // true if paid, false if not (possibly doesn't accept checks, for example
     public static boolean payBalance(final int studentId, final int paymentId)

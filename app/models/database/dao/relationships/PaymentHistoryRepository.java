@@ -12,6 +12,7 @@ import java.util.List;
 
 import models.database.connection.DBHelper;
 import models.database.dao.concrete.PaymentRepository;
+import models.database.dao.concrete.StudentRepository;
 import models.database.repository.TwoIntKeyRelationshipRepository;
 import models.person.Payment;
 import models.person.Student;
@@ -48,7 +49,8 @@ public class PaymentHistoryRepository
     private void databaseCreationCheck(final DatabaseMetaData dbm,
                                        final Statement st) throws SQLException {
 
-        PaymentRepository.getInstance().databaseCreationCheck(dbm, st);
+        PaymentRepository.databaseCreationCheck(dbm, st);
+        StudentRepository.databaseCreationCheck(dbm, st);
 
         final ResultSet historyTable = dbm.getTables(null, null,
                 "PaymentHistory", null);
@@ -56,6 +58,7 @@ public class PaymentHistoryRepository
             // Table does not exist
             createPaymentHistoryTable(st);
         }
+        historyTable.close();
     }
 
     @Override
@@ -67,11 +70,11 @@ public class PaymentHistoryRepository
 
         databaseCreationCheck(c.getMetaData(), st);
 
-        final ResultSet CourseRes = st.executeQuery("SELECT studentId, " +
+        final ResultSet courseRes = st.executeQuery("SELECT studentId, " +
                 "paymentId FROM PaymentHistory WHERE studentId = " + studentId +
                 " AND paymentId = " + paymentId+ ";");
 
-        if(!CourseRes.next()){
+        if(!courseRes.next()){
 
             final String insertStudentStatement = "INSERT INTO PaymentHistory(" +
                     "studentId, paymentId) VALUES(" + studentId +  ", " +
@@ -79,6 +82,10 @@ public class PaymentHistoryRepository
 
             st.execute(insertStudentStatement);
         }
+
+        c.close();
+        courseRes.close();
+        st.close();
     }
 
     public Iterator<Payment> findAllPaymentsByStudent(final int studentId)
@@ -101,6 +108,11 @@ public class PaymentHistoryRepository
             allPayments.add(PaymentRepository.getInstance().
                     findById(paymentHistoryRS.getInt("paymentId")));
         }
+
+        c.close();
+        paymentHistoryRS.close();
+        st.close();
+
         return allPayments.iterator();
     }
 
@@ -115,7 +127,12 @@ public class PaymentHistoryRepository
         final String deleteStudentQuery = "DELETE FROM PaymentHistory WHERE " +
                 "studentId = " + oneId + " AND paymentId = " + manyId + ";";
 
-        return st.execute(deleteStudentQuery);
+        final boolean result = st.execute(deleteStudentQuery);
+
+        c.close();
+        st.close();
+
+        return result;
     }
 
 }

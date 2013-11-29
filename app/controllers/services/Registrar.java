@@ -80,7 +80,8 @@ public class Registrar {
 		}
 	}
 	*/
-	
+
+    /*
 	public static boolean enrollStudentInCourse(final int studentId, 
 			final int courseOfferingId) throws SQLException {
 		
@@ -101,6 +102,7 @@ public class Registrar {
 			return false;
 		}
 	}
+	*/
 
 	public static boolean dropStudentFromCourse(final int studentId, 
 			final int courseOfferingId) throws SQLException {

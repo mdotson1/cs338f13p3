@@ -28,12 +28,13 @@ public class StudentCourseService {
                 co.getCourseOfferingId());
     }
 
+    /*
 	// true = enrolled in, false = not enrolled in
 	public static boolean enrollInCourse(final int studentId,
 			final int courseOfferingId) throws SQLException {
 
 		if (CoursesTakingRepository.getInstance().
-				findNumberOfCoursesTakenByStudent(studentId) == 4) {
+				findNumberOfCoursesTakingByStudent(studentId) == 4) {
 			return false;
 		} else {
 			if (studentIsTakingCourse(studentId, courseOfferingId)) {
@@ -44,6 +45,7 @@ public class StudentCourseService {
 			}
 		}
 	}
+	*/
 
 	// true = dropped, false = not dropped
 	public static boolean dropCourse(final int studentId,

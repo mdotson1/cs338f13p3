@@ -27,7 +27,7 @@ public class PaymentRepository implements ConcreteIntKeyRepository<Payment> {
 		
 	}
 	
-	private void createPaymentTable(final Statement st) throws SQLException {
+	private static void createPaymentTable(final Statement st) throws SQLException {
 		final String createTableStatement = "CREATE TABLE Payment(" +
 				"paymentId INT NOT NULL AUTO_INCREMENT, " +
 				"paymentType VARCHAR(10) NOT NULL, " +
@@ -37,16 +37,15 @@ public class PaymentRepository implements ConcreteIntKeyRepository<Payment> {
 		st.execute(createTableStatement);
 	}
 	
-	public void databaseCreationCheck(final DatabaseMetaData dbm,
+	public static void databaseCreationCheck(final DatabaseMetaData dbm,
 			final Statement st) throws SQLException {
 		final ResultSet tables = dbm.getTables(null, null, "Payment", null);
-
-
 
 		if (!tables.next()) {
 			// Table does not exist
 			createPaymentTable(st);
 		}
+        tables.close();
 	}
 	
 	@Override
@@ -62,10 +61,17 @@ public class PaymentRepository implements ConcreteIntKeyRepository<Payment> {
 				"', " + obj.getPaymentAmount() + ");";
 
 		st.executeUpdate(insertPaymentStatement, Statement.RETURN_GENERATED_KEYS);
-		ResultSet rs = st.getGeneratedKeys();
+		final ResultSet rs = st.getGeneratedKeys();
 		if (rs.next()) {
-			return rs.getInt(1);
+            final int retval = rs.getInt(1);
+            c.close();
+            rs.close();
+            st.close();
+			return retval;
         } else {
+            c.close();
+            rs.close();
+            st.close();
             throw new SQLException("Creating payment failed, no generated key obtained.");
         }
 	}
@@ -82,14 +88,18 @@ public class PaymentRepository implements ConcreteIntKeyRepository<Payment> {
 										"FROM Payment WHERE paymentId = "+ id + ";";
 				
 
-		final ResultSet PaymentRes = st.executeQuery(SelectCourseQuery);
+		final ResultSet paymentRes = st.executeQuery(SelectCourseQuery);
 
 		Payment payment = null;
 
-		while(PaymentRes.next()){
-			payment = new Payment(PaymentRes.getInt("paymentId"), PaymentRes.getString("paymentType"),
-							PaymentRes.getDouble("paymentAmount"));
+		while(paymentRes.next()){
+			payment = new Payment(paymentRes.getInt("paymentId"), paymentRes.getString("paymentType"),
+							paymentRes.getDouble("paymentAmount"));
 		}
+
+        c.close();
+        paymentRes.close();
+        st.close();
 		
 		return payment;
 	}
@@ -104,7 +114,12 @@ public class PaymentRepository implements ConcreteIntKeyRepository<Payment> {
 		
 		final String deletePaymentQuery = "DELETE FROM Payment WHERE paymentId = " + id + ";";
 
-		return st.execute(deletePaymentQuery);
+        final boolean retval = st.execute(deletePaymentQuery);
+
+        c.close();
+        st.close();
+
+		return retval;
 	}
 
 	@Override
@@ -127,17 +142,21 @@ public class PaymentRepository implements ConcreteIntKeyRepository<Payment> {
 		final String SelectCourseQuery = "SELECT paymentId, paymentType, paymentAmount " +
 											"FROM Payment;";
 
-		final ResultSet PaymentRes = st.executeQuery(SelectCourseQuery);
+		final ResultSet paymentRes = st.executeQuery(SelectCourseQuery);
 
 		Payment payment = null;
 		
 		final Collection<Payment> paymentList = new ArrayList<Payment>();
 
-		while(PaymentRes.next()){
-			payment = new Payment(PaymentRes.getInt("paymentId"), PaymentRes.getString("paymentType"),
-								PaymentRes.getDouble("paymentAmount"));
+		while(paymentRes.next()){
+			payment = new Payment(paymentRes.getInt("paymentId"), paymentRes.getString("paymentType"),
+								paymentRes.getDouble("paymentAmount"));
 			paymentList.add(payment);
 		}
+
+        c.close();
+        paymentRes.close();
+        st.close();
 		
 		return paymentList.iterator();
 	}

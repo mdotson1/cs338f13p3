@@ -1,9 +1,10 @@
 package controllers.root.student_login.student_portal.payments;
 
 import controllers.root.Resource;
-import controllers.services.PaymentService;
-import controllers.services.StudentPaymentService;
+import controllers.services.StudentService;
+import models.database.dao.concrete.PaymentRepository;
 import models.database.dao.relationships.PaymentHistoryRepository;
+import models.forms.payment.PaymentForm1;
 import models.person.Payment;
 import play.api.mvc.Call;
 import play.data.Form;
@@ -17,9 +18,6 @@ import java.sql.SQLException;
 import java.util.Iterator;
 
 public class Payments extends Controller {
-
-    private final static Form<Payment> PAYMENT_FORM =
-            Form.form(Payment.class);
 
     public static String url(final int studentId) {
         return controllers.root.student_login.student_portal.payments.routes.
@@ -35,24 +33,33 @@ public class Payments extends Controller {
             throws SQLException {
 
         final String context = Payments.url(studentId);
-        final Form<Payment> form;
 
         if (create) {
 
-            form = PAYMENT_FORM.bindFromRequest();
+            final Form<PaymentForm1> form = Form.form(PaymentForm1.class).
+                    bindFromRequest();
+
+            final Iterator<Payment> paymentsByStudent =
+                    PaymentHistoryRepository.getInstance().
+                            findAllPaymentsByStudent(studentId);
 
             if(form.hasErrors()) {
-                return badRequest();
+                return badRequest(payments.render(paymentsByStudent, context,
+                        form, studentId, Resource.BACK_LINK(context),
+                        Payments.postCall(studentId)));
             }
-            final int paymentId = PaymentService.createPayment(form.data());
-            StudentPaymentService.payBalance(studentId, paymentId);
-        } else {
-            form = PAYMENT_FORM;
+
+            final int paymentId = PaymentRepository.getInstance().
+                    add(form.get().toPayment());
+
+            StudentService.payBalance(studentId, paymentId);
         }
+
         final Iterator<Payment> paymentsByStudent = PaymentHistoryRepository.
                 getInstance().findAllPaymentsByStudent(studentId);
 
-        return ok(payments.render(paymentsByStudent, context, form, studentId,
+        return ok(payments.render(paymentsByStudent, context,
+                Form.form(PaymentForm1.class), studentId,
                 Resource.BACK_LINK(context), Payments.postCall(studentId)));
     }
 

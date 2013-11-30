@@ -1,6 +1,8 @@
 package controllers.root.professor_login.professor_portal.course_schedules.semester.department.course.section.professors;
 
 import controllers.root.Resource;
+import controllers.root.professor_login.professor_portal.departments.department.faculty.Faculty;
+import controllers.services.ProfessorCourseService;
 import models.course.CourseOffering;
 import models.database.dao.concrete.CourseOfferingRepository;
 import models.database.dao.relationships.CoursesTeachingRepository;
@@ -55,17 +57,22 @@ public class Professors extends Controller {
         final CourseOffering co = CourseOfferingRepository.getInstance().find(
                 department, Short.parseShort(courseNum),
                 Short.parseShort(sectionNum), season, year);
-        final Iterator<Professor> profs = CoursesTeachingRepository.getInstance().
-                findProfessorsForCourse(co.getCourseOfferingId());
+
+        final String courseInfo = department + "-" + courseNum + "-" + sectionNum;
+        final String professorUrl = Faculty.url(professorId, department);
 
         if (create) {
             CoursesTeachingRepository.getInstance().add(professorId,
                     co.getCourseOfferingId());
         }
 
-        return ok(professors.render(profs, context, Resource.BACK_LINK(context),
-                postCall(professorId, seasonAndYear, department, courseNum,
-                        sectionNum), department + "-" + courseNum));
+        final Iterator<Professor> profs = ProfessorCourseService.
+                professorsTeachingCourse(season, year, department, courseNum,
+                        sectionNum);
+
+        return ok(professors.render(profs, professorUrl,
+                Resource.BACK_LINK(context), postCall(professorId,
+                seasonAndYear, department, courseNum, sectionNum), courseInfo));
     }
 
     public static Result get(final int professorId, final String seasonAndYear,

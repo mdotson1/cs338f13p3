@@ -83,7 +83,7 @@ GET         /admin_portal/students/:id/semesters                                
 GET         /admin_portal/students/:id/semesters/:sy                                        controllers.root.admin_portal.students.student.semesters.semester.Semester.get(id : Integer, sy : String)
 
 # /admin_portal/students/{id}/semesters/{sy}/{cn}/{sn}
-GET         /admin_portal/students/:id/semesters/:sy/:cn/:sn                                controllers.root.admin_portal.students.student.semesters.semester.course.Course.get(id : Integer, sy : String, cn : String, sn : String)
+GET         /admin_portal/students/:id/semesters/:sy/:dept_cn_sn                            controllers.root.admin_portal.students.student.semesters.semester.course.Course.get(id : Integer, sy : String, dept_cn_sn : String)
 
 # /admin_portal/students/{id}/payments
 GET         /admin_portal/students/:id/payments                                             controllers.root.admin_portal.students.student.payments.Payments.get(id : Integer)

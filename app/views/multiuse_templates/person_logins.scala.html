@@ -1,6 +1,7 @@
-@(url : String, backUri : String, post : play.api.mvc.Call, personForm : Form[models.person.UniversityPerson])
+@(url : String, backUri : String, post : play.api.mvc.Call, personForm : Form[models.person.UniversityPerson], loginFailed : Boolean)
 
 @import helpers.text.h3
+@import helpers.text.h2_color
 @import helpers.text.back_link
 
 <!DOCTYPE html>
@@ -10,7 +11,9 @@
     </head>
     <body>
         @h3("Please Log in to Continue")
-
+        @if(loginFailed) {
+            @h2_color("Login Failed. Please try again.", "red")
+        }
         @helper.form(post) {
             @helper.inputText(personForm("Id"))
             <input type="submit" value="Login">

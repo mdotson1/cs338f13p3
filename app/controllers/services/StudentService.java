@@ -53,11 +53,24 @@ public class StudentService {
 
         Student s = StudentRepository.getInstance().findById(studentId);
 
-        double newBalance = s.getCurrentBalance() + p.getPaymentAmount();
+        double newBalance = s.getCurrentBalance() - p.getPaymentAmount();
         StudentRepository.getInstance().updateBalance(studentId, newBalance);
 
         PaymentHistoryRepository.getInstance().add(studentId, paymentId);
 
         return true;
+    }
+
+    public static void chargeStudentForCourse(final CourseOffering co,
+                                              final int studentId)
+            throws SQLException {
+
+        final double cost = co.getCourse().getCost();
+
+        final Student s = StudentRepository.getInstance().findById(studentId);
+
+        StudentRepository.getInstance().updateBalance(studentId,
+                s.getCurrentBalance() + cost);
+
     }
 }

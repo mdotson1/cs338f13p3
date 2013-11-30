@@ -39,4 +39,18 @@ public class Semester {
     public void setYear(short year) {
         this.year = year;
     }
+
+    @Override
+    public boolean equals(final Object obj) {
+        if (obj instanceof Semester) {
+            final Semester sem = (Semester) obj;
+            if (sem.getSeason() == season && sem.getYear() == year) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
 }

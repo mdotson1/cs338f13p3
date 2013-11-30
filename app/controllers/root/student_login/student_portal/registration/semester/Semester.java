@@ -1,7 +1,10 @@
 package controllers.root.student_login.student_portal.registration.semester;
 
 import controllers.root.Resource;
+import controllers.services.StudentCourseService;
+import controllers.services.StudentService;
 import models.course.CourseOffering;
+import models.database.dao.concrete.CourseOfferingRepository;
 import models.database.dao.relationships.CoursesTakingRepository;
 import models.forms.registration.RegistrationForm1;
 import play.api.mvc.Call;
@@ -42,8 +45,13 @@ public class Semester extends Controller {
         final int MAX_COURSES = 4;
         for (int i = 1; i <= cos.size(); i++) {
             if (coursesEnrolled < MAX_COURSES) {
+
+                final CourseOffering co =  cos.get(i);
+
+                StudentService.chargeStudentForCourse(co, studentId);
+
                 CoursesTakingRepository.getInstance().add(studentId,
-                        cos.get(i).getCourseOfferingId());
+                        co.getCourseOfferingId());
                 coursesEnrolled++;
             }
         }
@@ -97,6 +105,21 @@ public class Semester extends Controller {
                 student_portal.course_schedules.semester.Semester.
                 url(studentId, seasonAndYear);
 
+        final int numCourses = CoursesTakingRepository.getInstance().
+                findNumberOfCoursesTakingByStudent(studentId, season, year);
+
+        if (numCourses > 0) {
+            final List<String> errors = new ArrayList<String>();
+
+            errors.add("You've already registered for this semester!");
+
+            return badRequest(semester.render(context,
+                    Resource.BACK_LINK(context), courseSchedules,
+                    Form.form(RegistrationForm1.class),
+                    postCall(studentId, seasonAndYear), false,
+                    errors.iterator()));
+        }
+
         if (create) {
 
             final Form<RegistrationForm1> form =
@@ -111,20 +134,13 @@ public class Semester extends Controller {
             final Map<Integer,CourseOffering> cos = form.get().
                     toCourseOfferings(season, year);
 
-            System.out.println("cos size before errors: " + cos.size());
-
             final List<String> errors = Semester.errorCheck(cos);
-
-            System.out.println("errors?: " + (errors.size() > 0));
 
             if (errors.size() > 0) {
                 return ok(semester.render(context, Resource.BACK_LINK(context),
-                        courseSchedules, Form.form(RegistrationForm1.class),
-                        postCall(studentId, seasonAndYear), false,
-                        errors.iterator()));
+                        courseSchedules, form, postCall(studentId,
+                        seasonAndYear), false, errors.iterator()));
             }
-
-            System.out.println("lets register! cos size: " + cos.size());
 
             registerCourses(cos, studentId);
 

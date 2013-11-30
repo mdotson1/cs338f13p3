@@ -27,11 +27,13 @@ public class PaymentRepository implements ConcreteIntKeyRepository<Payment> {
 		
 	}
 	
-	private static void createPaymentTable(final Statement st) throws SQLException {
+	private static void createPaymentTable(final Statement st)
+            throws SQLException {
+
 		final String createTableStatement = "CREATE TABLE Payment(" +
 				"paymentId INT NOT NULL AUTO_INCREMENT, " +
-				"paymentType VARCHAR(10) NOT NULL, " +
-				"paymentAmount INT NOT NULL, " +
+				"paymentType VARCHAR(20) NOT NULL, " +
+				"paymentAmount DOUBLE NOT NULL, " +
 				"PRIMARY KEY (paymentId) " + 
 				") Engine=InnoDB;";
 		st.execute(createTableStatement);

@@ -13,8 +13,8 @@ import java.sql.SQLException;
 public class Payment extends Controller {
 
     public static String url(final int studentId, final int professorId) {
-        return controllers.root.student_login.student_portal.payments.payment.routes.
-                Payment.get(studentId, professorId).url();
+        return controllers.root.student_login.student_portal.payments.payment.
+                routes.Payment.get(studentId, professorId).url();
     }
 
     private static Result render(final int studentId, final int paymentId)

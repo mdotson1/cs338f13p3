@@ -8,7 +8,9 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 
+import models.course.Course;
 import models.course.Semester;
 import models.database.connection.DBHelper;
 import models.database.dao.concrete.CourseOfferingRepository;
@@ -17,6 +19,7 @@ import models.database.repository.Pair;
 import models.database.repository.TwoIntKeyRelationshipRepository;
 import models.course.CourseOffering;
 import models.person.Student;
+import models.course.Semester.Season;
 
 public class CoursesTakingRepository
         implements TwoIntKeyRelationshipRepository<Student,CourseOffering> {
@@ -119,7 +122,9 @@ public class CoursesTakingRepository
         return studentList.iterator();
     }
 
-    public int findNumberOfCoursesTakingByStudent(final int studentId)
+    public int findNumberOfCoursesTakingByStudent(final int studentId,
+                                                  final Season season,
+                                                  final short year)
             throws SQLException {
 
         final Connection c = DBHelper.getConnection();
@@ -134,17 +139,23 @@ public class CoursesTakingRepository
         final ResultSet courseTakingRes =
                 st.executeQuery(SelectCourseTakingQuery);
 
-        int courseNum = 0;
+        final Collection<CourseOffering> allCoursesTaking =
+                new ArrayList<CourseOffering>();
 
         while(courseTakingRes.next()) {
-            courseNum++;
+            final CourseOffering co = CourseOfferingRepository.getInstance().
+                    findById(courseTakingRes.getInt("courseOfferingId"));
+            final Semester sem = co.getSemester();
+            if (sem.getSeason().equals(season) && sem.getYear() == year) {
+                allCoursesTaking.add(co);
+            }
         }
 
         c.close();
         courseTakingRes.close();
         st.close();
 
-        return courseNum;
+        return allCoursesTaking.size();
     }
 
     // return the number of students taking a section
@@ -189,18 +200,55 @@ public class CoursesTakingRepository
     public Iterator<Semester> allSemestersStudentAttended(final int studentId)
             throws SQLException {
 
-        final Collection<Semester> semesterList = new ArrayList<Semester>();
+        final List<Semester> semesterList = new ArrayList<Semester>();
 
-        Iterator<CourseOffering> coursesTaking =
+        final Iterator<CourseOffering> coursesTaking =
                 getCoursesTakingByStudent(studentId);
 
         while (coursesTaking.hasNext()) {
-            CourseOffering course = coursesTaking.next();
+            final CourseOffering course = coursesTaking.next();
 
-            semesterList.add(course.getSemester());
+            final Semester sem = course.getSemester();
+
+            System.out.println(semesterList.contains(sem));
+            if (!semesterList.contains(sem)) {
+                semesterList.add(sem);
+            }
         }
 
         return semesterList.iterator();
+    }
+
+    public Iterator<CourseOffering> getCoursesTakingByStudentForSemester(
+            final int studentId, final Season season, final short year)
+            throws SQLException {
+
+        final Connection c = DBHelper.getConnection();
+        final Statement st = c.createStatement();
+
+        databaseCreationCheck(c.getMetaData(), st);
+
+        final String SelectCourseTakingQuery = "SELECT courseOfferingId " +
+                "FROM CoursesTaking " + "WHERE studentId = " + studentId + ";";
+
+        final ResultSet courseTakingRes =
+                st.executeQuery(SelectCourseTakingQuery);
+
+        final Collection<CourseOffering> courseList =
+                new ArrayList<CourseOffering>();
+
+        while(courseTakingRes.next()){
+            final CourseOffering co = CourseOfferingRepository.getInstance().
+                    findById(courseTakingRes.getInt("courseOfferingId"));
+
+            courseList.add(co);
+        }
+
+        c.close();
+        courseTakingRes.close();
+        st.close();
+
+        return courseList.iterator();
     }
 
     public Iterator<CourseOffering> getCoursesTakingByStudent(

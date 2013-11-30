@@ -2,6 +2,8 @@ package controllers.root.professor_login;
 
 import controllers.root.Resource;
 import controllers.root.professor_login.professor_portal.ProfessorPortal;
+import models.database.dao.concrete.ProfessorRepository;
+import models.person.Professor;
 import models.person.UniversityPerson;
 import play.api.mvc.Call;
 import play.data.Form;
@@ -9,6 +11,8 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.root.professor_login.*;
 import views.html.helpers.*;
+
+import java.sql.SQLException;
 
 public class ProfessorLogin extends Controller {
 
@@ -24,27 +28,43 @@ public class ProfessorLogin extends Controller {
                 url();
     }
 
-    private static Result render() {
+    private static Result render(final boolean create) {
         final String context = ProfessorLogin.url();
 
+        if (create) {
+            final Form<UniversityPerson> form = PROFESSOR_FORM.bindFromRequest();
+
+            if (form.hasErrors()) {
+                return badRequest(professor_login.render(context,
+                        Resource.BACK_LINK(context), postCall(),
+                        PROFESSOR_FORM, true));
+            }
+
+            try {
+                final Professor p = ProfessorRepository.getInstance().
+                        findById(form.get().getId());
+
+                if (p == null) {
+                    return badRequest(professor_login.render(context,
+                            Resource.BACK_LINK(context), postCall(),
+                            PROFESSOR_FORM, true));
+                } else {
+                    return redirect(ProfessorPortal.url(form.get().getId()));
+                }
+            } catch (SQLException e) {
+                return ok(debug.render(e.toString()));
+            }
+        }
+
         return ok(professor_login.render(context, Resource.BACK_LINK(context),
-                postCall(), PROFESSOR_FORM));
+                postCall(), PROFESSOR_FORM, false));
     }
 
     public static Result get() {
-        return render();
+        return render(false);
     }
 
     public static Result post() {
-
-        final Form<UniversityPerson> form = PROFESSOR_FORM.bindFromRequest();
-
-        UniversityPerson p = form.get();
-
-        if (form.hasErrors()) {
-            return badRequest();
-        } else {
-            return redirect(ProfessorPortal.url(form.get().getId()));
-        }
+        return render(true);
     }
 }

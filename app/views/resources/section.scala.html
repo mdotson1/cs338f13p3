@@ -10,7 +10,9 @@
     <body>
         @helpers.tables.course_offering_table(Iterator.single(co), url, true, true, true, false)
 
-        @helpers.text.multi_link(namesAndURLs)
+        @if(namesAndURLs != null) {
+            @helpers.text.multi_link(namesAndURLs)
+        }
 
         @helpers.text.back_link(backUri)
     </body>

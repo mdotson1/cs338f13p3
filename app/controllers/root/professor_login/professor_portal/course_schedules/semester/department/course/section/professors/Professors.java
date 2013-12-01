@@ -2,7 +2,6 @@ package controllers.root.professor_login.professor_portal.course_schedules.semes
 
 import controllers.root.Resource;
 import controllers.root.professor_login.professor_portal.departments.department.faculty.Faculty;
-import controllers.services.ProfessorCourseService;
 import models.course.CourseOffering;
 import models.database.dao.concrete.CourseOfferingRepository;
 import models.database.dao.relationships.CoursesTeachingRepository;
@@ -66,9 +65,8 @@ public class Professors extends Controller {
                     co.getCourseOfferingId());
         }
 
-        final Iterator<Professor> profs = ProfessorCourseService.
-                professorsTeachingCourse(season, year, department, courseNum,
-                        sectionNum);
+        final Iterator<Professor> profs = CoursesTeachingRepository.
+                getInstance().findProfessorsForCourse(co.getCourseOfferingId());
 
         return ok(professors.render(profs, professorUrl,
                 Resource.BACK_LINK(context), postCall(professorId,

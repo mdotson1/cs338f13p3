@@ -8,9 +8,11 @@ import java.sql.Statement;
 import java.util.*;
 
 import models.course.Semester;
+import models.course.Semester.*;
 import models.database.connection.DBHelper;
 import models.database.dao.concrete.CourseOfferingRepository;
 import models.database.dao.concrete.ProfessorRepository;
+import models.database.dao.concrete.SemesterRepository;
 import models.database.repository.TwoIntKeyRelationshipRepository;
 import models.course.CourseOffering;
 import models.person.Professor;
@@ -177,6 +179,43 @@ public class CoursesTeachingRepository
         return professorList.iterator();
     }
 
+    public Iterator<CourseOffering> getCoursesTaughtByProfessorForSemester(
+            final int professorId, final Season season, final short year)
+            throws SQLException {
+
+        final Connection c = DBHelper.getConnection();
+        final Statement st = c.createStatement();
+
+        databaseCreationCheck(c.getMetaData(), st);
+
+        final String SelectCourseTakingQuery = "SELECT courseOfferingId " +
+                "FROM CoursesTeaching " + "WHERE professorId = " + professorId +
+                ";";
+
+        final ResultSet courseTakingRes =
+                st.executeQuery(SelectCourseTakingQuery);
+
+        final Collection<CourseOffering> courseList =
+                new ArrayList<CourseOffering>();
+
+        while(courseTakingRes.next()){
+            final CourseOffering co = CourseOfferingRepository.getInstance().
+                    findById(courseTakingRes.getInt("courseOfferingId"));
+
+            final Semester sem = SemesterRepository.getInstance().findById(
+                    season, year);
+
+            if (co.getSemester().equals(sem)) {
+                courseList.add(co);
+            }
+        }
+
+        c.close();
+        courseTakingRes.close();
+        st.close();
+
+        return courseList.iterator();
+    }
 
     @Override
     // returns true if something was deleted

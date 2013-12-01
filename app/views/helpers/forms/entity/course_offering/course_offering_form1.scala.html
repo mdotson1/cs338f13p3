@@ -1,0 +1,21 @@
+@(coForm : Form[models.forms.course_offering.CourseOfferingForm1], post : play.api.mvc.Call)
+
+@import helper.inputText
+@import helper.form
+
+@form(post) {
+
+    @inputText(
+        field = coForm("department"),
+        args = '_label -> "Department", 'size -> 4
+    )
+    @inputText(
+        field = coForm("courseNumber"),
+        args = '_label -> "Course Number", 'size -> 3
+    )
+    @inputText(
+        field = coForm("sectionNumber"),
+        args = '_label -> "Section Number", 'size -> 3
+    )
+    <input type="submit" value="Create">
+}

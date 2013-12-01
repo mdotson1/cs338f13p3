@@ -1,7 +1,6 @@
 package controllers.root.admin_portal.departments.department.courses;
 
 import controllers.root.Resource;
-import controllers.services.CourseService;
 import models.course.Course;
 import models.database.dao.concrete.CourseRepository;
 import models.forms.course.CourseForm1;

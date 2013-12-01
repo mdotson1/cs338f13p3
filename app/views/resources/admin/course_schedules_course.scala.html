@@ -1,18 +1,20 @@
-@(cos : Iterator[models.course.CourseOffering], url : String, backUri : String, coForm : Form[models.course.CourseOffering], post : play.api.mvc.Call)
+@(cos : Iterator[models.course.CourseOffering], url : String, backUri : String, coForm : Form[models.forms.course_offering.CourseOfferingForm3], post : play.api.mvc.Call)
 
 @import helpers.tables.course_offering_table
-@import helpers.forms.entity.course_offering_form
+@import helpers.forms.entity.course_offering.course_offering_form3
 @import helpers.text.back_link
+@import helpers.text.css
 
 <!DOCTYPE html>
 <html>
     <head>
         <title></title>
+        @css("forms")
     </head>
     <body>
         @course_offering_table(cos, url, true, true, true, true)
 
-        @course_offering_form(coForm, post, false, false, true)
+        @course_offering_form3(coForm, post)
 
         @back_link(backUri)
     </body>

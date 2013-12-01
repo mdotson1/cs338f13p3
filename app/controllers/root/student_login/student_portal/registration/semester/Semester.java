@@ -1,12 +1,11 @@
 package controllers.root.student_login.student_portal.registration.semester;
 
 import controllers.root.Resource;
-import controllers.services.StudentCourseService;
-import controllers.services.StudentService;
 import models.course.CourseOffering;
-import models.database.dao.concrete.CourseOfferingRepository;
+import models.database.dao.concrete.StudentRepository;
 import models.database.dao.relationships.CoursesTakingRepository;
 import models.forms.registration.RegistrationForm1;
+import models.person.Student;
 import play.api.mvc.Call;
 import play.data.Form;
 import play.mvc.Controller;
@@ -18,7 +17,6 @@ import views.html.helpers.*;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -48,7 +46,13 @@ public class Semester extends Controller {
 
                 final CourseOffering co =  cos.get(i);
 
-                StudentService.chargeStudentForCourse(co, studentId);
+                final double cost = co.getCourse().getCost();
+
+                final Student s = StudentRepository.getInstance().
+                        findById(studentId);
+
+                StudentRepository.getInstance().updateBalance(studentId,
+                        s.getCurrentBalance() + cost);
 
                 CoursesTakingRepository.getInstance().add(studentId,
                         co.getCourseOfferingId());

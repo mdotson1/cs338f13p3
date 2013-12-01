@@ -1,15 +1,17 @@
-@(professors : Iterator[models.person.Professor], url : String, professorForm : Form[models.person.Professor], backUri : String, dept : String, post : play.api.mvc.Call)
+@(professors : Iterator[models.person.Professor], url : String, professorForm : Form[models.forms.professor.ProfessorForm2], backUri : String, dept : String, post : play.api.mvc.Call)
 
 @import helpers.text.back_link
 @import helpers.text.h1
 @import helpers.text.h2
 @import helpers.tables.professor_table
-@import helpers.forms.entity.professor_form
+@import helpers.forms.entity.professor.professor_form2
+@import helpers.text.css
 
 <!DOCTYPE html>
 <html>
     <head>
         <title></title>
+        @css("forms")
     </head>
     <body>
         @h1("All Professors in the " + dept + " Department")
@@ -17,7 +19,7 @@
         @professor_table(professors, url, true, true, true, false, true, true, true, true, true, true, true)
 
         @h2("Add New Professor")
-        @professor_form(professorForm, post, true, true, true, true, true, true, true, true, true)
+        @professor_form2(professorForm, post)
 
         @back_link(backUri)
     </body>

@@ -4,6 +4,7 @@
 
 @import helpers.tables.professor_table
 @import helpers.text.back_link
+@import helpers.text.link
 @import helpers.text.h1
 @import helpers.text.h2
 @import scala.collection.Iterator
@@ -17,6 +18,9 @@
         @h1("Information for " + professor.getContactInformation.getLastName + ", " + professor.getContactInformation.getFirstName)
         @professor_table(Iterator.single(professor), url, true, true, true, true, true, true, true, true, true, true, false)
         @h2("Explore Course Offerings Taught by This Professor")
-        @helpers.text.back_link(backUri)
+        @for(semester <- semesters) {
+            @link(url + "/" + semester.getSeason + "%20" + semester.getYear, semester.getSeason + " " + semester.getYear)
+        }
+        @back_link(backUri)
     </body>
 </html>

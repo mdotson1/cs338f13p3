@@ -1,9 +1,8 @@
 package controllers.root.admin_portal.course_schedules.semester;
 
 import controllers.root.Resource;
-import controllers.services.CourseOfferingService;
-import models.course.CourseOffering;
 import models.database.dao.concrete.CourseOfferingRepository;
+import models.forms.course_offering.CourseOfferingForm1;
 import play.api.mvc.Call;
 import play.data.Form;
 import play.mvc.Controller;
@@ -15,9 +14,6 @@ import models.course.Semester.Season;
 import java.sql.SQLException;
 
 public class Semester extends Controller {
-
-    private final static Form<CourseOffering> CO_FORM =
-            Form.form(CourseOffering.class);
 
     private static Call postCall(final String seasonAndYear) {
         return controllers.root.admin_portal.course_schedules.semester.routes.
@@ -33,7 +29,6 @@ public class Semester extends Controller {
                                  final boolean create) throws SQLException {
 
         final String context = Semester.url(seasonAndYear);
-        final Form<CourseOffering> form;
 
         final String[] split = seasonAndYear.split(" ");
         final Season season = Season.valueOf(split[0]);
@@ -41,21 +36,22 @@ public class Semester extends Controller {
 
         if (create) {
 
-            form = CO_FORM.bindFromRequest();
+            final Form<CourseOfferingForm1> form =
+                    Form.form(CourseOfferingForm1.class).bindFromRequest();
 
             if(form.hasErrors()) {
-                return badRequest();
+                return badRequest(semester.render(CourseOfferingRepository.
+                        getInstance().departmentsOfferingCoursesBySemester(
+                        season,year), context, Resource.BACK_LINK(context),
+                        seasonAndYear, form, postCall(seasonAndYear)));
             }
-            CourseOfferingService.createCourseOffering(form.data(),
-                    season, year);
-        } else {
-            form = CO_FORM;
+            CourseOfferingRepository.getInstance().add(
+                    form.get().toCourseOffering(season, year));
         }
-
         return ok(semester.render(CourseOfferingRepository.
                 getInstance().departmentsOfferingCoursesBySemester(season,
                 year), context, Resource.BACK_LINK(context), seasonAndYear,
-                form, postCall(seasonAndYear)));
+                Form.form(CourseOfferingForm1.class), postCall(seasonAndYear)));
     }
 
     public static Result get(final String seasonAndYear) {

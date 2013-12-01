@@ -1,3 +1,3 @@
-@(courses : Iterator[models.course.Course], url : String, backUri : String, seasonAndYear : String, department : String, coForm : Form[models.course.CourseOffering], post : play.api.mvc.Call)
+@(courses : Iterator[models.course.Course], url : String, backUri : String, seasonAndYear : String, department : String, coForm : Form[models.forms.course_offering.CourseOfferingForm2], post : play.api.mvc.Call)
 
 @resources.admin.course_schedules_department(courses, url, backUri, seasonAndYear, department, coForm, post)

@@ -1,10 +1,9 @@
 package controllers.root.admin_portal.course_schedules.semester.department.course;
 
 import controllers.root.Resource;
-import controllers.services.CourseOfferingService;
-import models.course.CourseOffering;
 import models.course.Semester;
 import models.database.dao.concrete.CourseOfferingRepository;
+import models.forms.course_offering.CourseOfferingForm3;
 import play.api.mvc.Call;
 import play.data.Form;
 import play.mvc.Controller;
@@ -15,9 +14,6 @@ import views.html.helpers.*;
 import java.sql.SQLException;
 
 public class Course extends Controller {
-
-    private final static Form<CourseOffering> CO_FORM =
-            Form.form(CourseOffering.class);
 
     private static Call postCall(final String seasonAndYear,
                                 final String department, final String courseNum)
@@ -39,7 +35,6 @@ public class Course extends Controller {
             throws SQLException {
 
         final String context = Course.url(seasonAndYear, department, courseNum);
-        final Form<CourseOffering> form;
 
         final String[] split = seasonAndYear.split(" ");
         final Semester.Season season = Semester.Season.valueOf(split[0]);
@@ -47,22 +42,31 @@ public class Course extends Controller {
 
         if (create) {
 
-            form = CO_FORM.bindFromRequest();
+            final Form<CourseOfferingForm3> form =
+                    Form.form(CourseOfferingForm3.class).bindFromRequest();
 
             if(form.hasErrors()) {
-                return badRequest();
+                return badRequest(course.render(CourseOfferingRepository.
+                        getInstance().findAllSections(season, year, department,
+                        Short.parseShort(courseNum)), context,
+                        Resource.BACK_LINK(context), form,
+                        postCall(seasonAndYear, department, courseNum)));
             }
-            CourseOfferingService.createCourseOffering(form.data(),
-                    season, year, department, Short.parseShort(courseNum));
-        } else {
-            form = CO_FORM;
+            System.out.println(form.get().
+                    toCourseOffering(department, Short.parseShort(courseNum),
+                            season, year));
+
+            CourseOfferingRepository.getInstance().add(form.get().
+                    toCourseOffering(department, Short.parseShort(courseNum),
+                            season, year));
         }
 
-        return ok(course.render(
-                CourseOfferingRepository.getInstance().findAllSections(season,
-                        year, department, Short.parseShort(courseNum)), context,
-                Resource.BACK_LINK(context), form, postCall(seasonAndYear,
-                department, courseNum)));
+        return ok(course.render(CourseOfferingRepository.getInstance().
+                findAllSections(season, year, department,
+                        Short.parseShort(courseNum)), context,
+                Resource.BACK_LINK(context), Form.form(
+                CourseOfferingForm3.class), postCall(seasonAndYear, department,
+                courseNum)));
     }
 
     public static Result get(final String seasonAndYear,

@@ -14,6 +14,7 @@ import models.course.Course;
 import models.course.Semester;
 import models.database.connection.DBHelper;
 import models.database.dao.concrete.CourseOfferingRepository;
+import models.database.dao.concrete.SemesterRepository;
 import models.database.dao.concrete.StudentRepository;
 import models.database.repository.Pair;
 import models.database.repository.TwoIntKeyRelationshipRepository;
@@ -241,7 +242,12 @@ public class CoursesTakingRepository
             final CourseOffering co = CourseOfferingRepository.getInstance().
                     findById(courseTakingRes.getInt("courseOfferingId"));
 
-            courseList.add(co);
+            final Semester sem = SemesterRepository.getInstance().findById(
+                    season, year);
+
+            if (co.getSemester().equals(sem)) {
+                courseList.add(co);
+            }
         }
 
         c.close();

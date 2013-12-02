@@ -1,11 +1,10 @@
-University Registration System by  
-Michael Dotson and Marcellin fom Tchassem  
+# University Registration System by  
+# Michael Dotson and Marcellin fom Tchassem  
 
-app URL:  
+## app URL:  
 http://cs338f13p3.herokuapp.com/
 
-Project layout:
----------------
+## Project layout:
 app  
 -- controllers  
 ---- root - the root page "/". The layout of the website matches the layout of
@@ -41,8 +40,7 @@ this package
 ---- root - This again follows the layout of the website.  
 ------ views for the controllers (one view per page/controller)  
 
-How to create things:
----------------------
+### How to create things:
 Students:  
 http://cs338f13p3.herokuapp.com/admin_portal/students  
 Departments:  
@@ -57,20 +55,19 @@ http://cs338f13p3.herokuapp.com/admin_portal/course_schedules
 Course Offerings: 
 http://cs338f13p3.herokuapp.com/admin_portal/course_schedules/{SEMESTER}  
 
-How to register for courses:  
+### How to register for courses:  
 http://cs338f13p3.herokuapp.com/student_login/{ID}/registration/{SEMESTER}  
 
-How to teach a course:  
+### How to teach a course:  
 http://cs338f13p3.herokuapp.com/professor_login/{ID}/course_schedules/{SEMESTER}/{DEPARTMENT}/{COURSE_NUMBER}/{SECTION_NUMBER}  
 
-How to get a class roster:  
+### How to get a class roster:  
 http://cs338f13p3.herokuapp.com/professor_login/{ID}/course_schedules/{SEMESTER}/{DEPARTMENT}/{COURSE_NUMBER}/{SECTION_NUMBER}/students/  
 
-Pay for classes: 
- http://cs338f13p3.herokuapp.com/student_login/{ID}/payments  
+### How to pay for classes: 
+http://cs338f13p3.herokuapp.com/student_login/{ID}/payments  
 
-Application overview:
----------------------
+## Application overview:
 The idea for our application was to create a RESTful website. This website
 would follow all the principles of REST and be stateless. RESTful websites are
 scalable and allow for caching, while single page websites do not. As a result,
@@ -82,8 +79,7 @@ effect on scalability for anyone who uses the services in the same general area,
 because everything is cached. Unfortunately, a RESTful approach takes much more 
 time to implement. As a result, we were unable to implement a few requirements.
 
-Unable to implement:
---------------------
+## Unable to implement:
 *   Course prerequisites. A simple addition, but not necessary for
 functionality, because the prerequisites were only guidelines (did not prevent
 student from registering. With a little more time, this functionality would

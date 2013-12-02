@@ -1,9 +1,11 @@
-@(departments : Iterator[String], url : String, backUri : String, sem : String, coForm : Form[models.forms.course_offering.CourseOfferingForm1], post : play.api.mvc.Call)
+@(departments : Iterator[String], url : String, backUri : String, sem : String, coForm : Form[models.forms.course_offering.CourseOfferingForm1], post : play.api.mvc.Call, nameAndURL : Map[String,String], errorMsg : String)
 
 @import helpers.text.p
 @import helpers.text.h1
+@import helpers.text.h3
+@import helpers.text.h2_color_link
 @import helpers.text.back_link
-@import helpers.text.link
+@import helpers.text.p_link
 @import helpers.forms.entity.course_offering.course_offering_form1
 @import helpers.text.css
 
@@ -16,8 +18,15 @@
     <body>
         @h1("Course Schedule for " + sem)
 
+        @if(nameAndURL != null) {
+            @for(pair <- nameAndURL) {
+                @h2_color_link(pair, "red", errorMsg)
+            }
+        }
+
+        @h3("Departments:")
         @for(dept <- departments) {
-            @link(url + "/" + dept, dept)
+            @p_link(url + "/" + dept, dept)
         }
 
         @p("If department not listed, please add a course with that department")

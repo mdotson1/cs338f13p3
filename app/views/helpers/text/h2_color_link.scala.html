@@ -1,0 +1,8 @@
+@(pair : (String,String), color : String, message : String)
+
+<h2 style="color:@color">
+
+    @message
+    @helpers.text.link(pair._1, pair._2)
+
+</h2>

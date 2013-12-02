@@ -1,10 +1,14 @@
 package controllers.root.admin_portal.course_schedules.semester;
 
 import controllers.root.Resource;
+import controllers.root.admin_portal.departments.Departments;
+import controllers.root.admin_portal.departments.department.courses.Courses;
 import models.course.Course;
 import models.course.CourseOffering;
 import models.database.dao.concrete.CourseOfferingRepository;
 import models.database.dao.concrete.CourseRepository;
+import models.database.dao.concrete.ProfessorRepository;
+import models.database.repository.Pair;
 import models.forms.course_offering.CourseOfferingForm1;
 import play.api.mvc.Call;
 import play.data.Form;
@@ -15,6 +19,9 @@ import views.html.helpers.*;
 import models.course.Semester.Season;
 
 import java.sql.SQLException;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 public class Semester extends Controller {
 
@@ -46,23 +53,61 @@ public class Semester extends Controller {
                 return badRequest(semester.render(CourseOfferingRepository.
                         getInstance().departmentsOfferingCoursesBySemester(
                         season,year), context, Resource.BACK_LINK(context),
-                        seasonAndYear, form, postCall(seasonAndYear)));
+                        seasonAndYear, form, postCall(seasonAndYear), null,
+                        null));
             }
 
             final CourseOffering co = form.get().toCourseOffering(season, year);
 
-            final Course c = CourseRepository.getInstance().findById(
-                    co.getCourse().getDepartment(),
-                    co.getCourse().getCourseNumber());
-
-            if (c != null) {
+            if (co.getCourse() != null) {
                 CourseOfferingRepository.getInstance().add(co);
+            } else {
+                final String dept = form.get().department;
+
+                // find if it is department or courseNumber that do not exist
+                final boolean exists = ProfessorRepository.getInstance().
+                        departmentExists(dept);
+
+                if (!exists) {
+                    final String errorMsg = "Department " + dept + " does not" +
+                            " exist. If you would like to create that " +
+                            "department, please click ";
+                    final String url = Departments.url();
+                    final Map<String, String> nameAndUrl =
+                            new LinkedHashMap<String, String>();
+                    nameAndUrl.put(url, "here");
+
+                    return badRequest(semester.render(CourseOfferingRepository.
+                            getInstance().departmentsOfferingCoursesBySemester(
+                            season,year), context, Resource.BACK_LINK(context),
+                            seasonAndYear, form, postCall(seasonAndYear),
+                            nameAndUrl, errorMsg));
+                } else {
+
+                    final short courseNumber = form.get().courseNumber;
+
+                    final String errorMsg = "Course number " + courseNumber +
+                            " does not exist. If you would like to create " +
+                            "that course, please click ";
+                    final String url = Courses.url(dept);
+
+                    final Map<String, String> nameAndUrl =
+                            new LinkedHashMap<String, String>();
+                    nameAndUrl.put(url, "here");
+
+                    return badRequest(semester.render(CourseOfferingRepository.
+                            getInstance().departmentsOfferingCoursesBySemester(
+                            season,year), context, Resource.BACK_LINK(context),
+                            seasonAndYear, form, postCall(seasonAndYear),
+                            nameAndUrl, errorMsg));
+                }
             }
         }
         return ok(semester.render(CourseOfferingRepository.
                 getInstance().departmentsOfferingCoursesBySemester(season,
                 year), context, Resource.BACK_LINK(context), seasonAndYear,
-                Form.form(CourseOfferingForm1.class), postCall(seasonAndYear)));
+                Form.form(CourseOfferingForm1.class), postCall(seasonAndYear),
+                null, null));
     }
 
     public static Result get(final String seasonAndYear) {

@@ -2,7 +2,7 @@
 
 @import helpers.text.h1
 @import helpers.text.back_link
-@import helpers.text.link
+@import helpers.text.p_link
 
 <!DOCTYPE html>
 <html>
@@ -13,7 +13,7 @@
         @h1("All Departments")
 
         @for(dept <- departments) {
-            @link(url + "/" + dept, dept)
+            @p_link(url + "/" + dept, dept)
         }
 
         @back_link(backUri)

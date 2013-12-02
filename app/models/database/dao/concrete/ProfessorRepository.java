@@ -91,6 +91,30 @@ public class ProfessorRepository implements ConcreteIntKeyRepository<Professor> 
         }
 	}
 
+    public boolean departmentExists(final String department) throws SQLException {
+        final Connection c = DBHelper.getConnection();
+        final Statement st = c.createStatement();
+
+        databaseCreationCheck(c.getMetaData(), st);
+
+        final String selectDepartmentQuery = "SELECT department FROM " +
+                "Professor GROUP BY department;";
+
+        final ResultSet deptRS = st.executeQuery(selectDepartmentQuery);
+
+        while (deptRS.next()) {
+            if (deptRS.getString("department").equals(department)) {
+                return true;
+            }
+        }
+
+        c.close();
+        deptRS.close();
+        st.close();
+
+        return false;
+    }
+
 	@Override
 	public Professor findById(final int id) throws SQLException {
 		

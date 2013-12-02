@@ -3,7 +3,7 @@
 @import helpers.text.p
 @import helpers.text.h1
 @import helpers.text.back_link
-@import helpers.text.link
+@import helpers.text.p_link
 @import helpers.text.css
 @import helpers.forms.entity.semester.semester_form1
 
@@ -17,7 +17,7 @@
         @h1("Course Schedules")
 
         @for(semester <- semesters) {
-            @link(url + "/" + semester.getSeason + "%20" + semester.getYear, semester.getSeason + " " + semester.getYear)
+            @p_link(url + "/" + semester.getSeason + "%20" + semester.getYear, semester.getSeason + " " + semester.getYear)
         }
 
         @p("Don't see the semester you're looking for? Please add a semester")

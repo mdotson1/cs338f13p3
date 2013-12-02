@@ -4,7 +4,7 @@
 @import helpers.text.h3
 @import helpers.text.h1_color
 @import helpers.text.h2_color
-@import helpers.text.link
+@import helpers.text.p_link
 @import helpers.text.css
 
 <!DOCTYPE html>
@@ -16,7 +16,7 @@
     <body>
         @h2("Please Choose 4 Primary Choices and 2 Secondary Choices")
 
-        @link(courseSchedulesUrl, "Course Schedule")
+        @p_link(courseSchedulesUrl, "Course Schedule")
 
         @h3("Example: CS-313-1")
         @if(messages !=  null) {

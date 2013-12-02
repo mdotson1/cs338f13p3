@@ -3,7 +3,7 @@
 @import helpers.text.p
 @import helpers.text.h1
 @import helpers.text.back_link
-@import helpers.text.link
+@import helpers.text.p_link
 @import helpers.text.css
 @import helpers.forms.entity.professor.professor_form1
 
@@ -17,7 +17,7 @@
         @h1("All Departments")
 
         @for(dept <- departments) {
-            @link(url + "/" + dept, dept)
+            @p_link(url + "/" + dept, dept)
         }
 
         @p("Don't see the department you're looking for? Please create a faculty member entry with that department first.")

@@ -111,7 +111,7 @@ public class Semester extends Controller {
 
         return errors;
     }
-    ProfessorForm1
+
     private static Result render(final int studentId,
                                  final String seasonAndYear,
                                  final boolean post) throws SQLException {

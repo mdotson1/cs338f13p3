@@ -52,9 +52,6 @@ public class Course extends Controller {
                         Resource.BACK_LINK(context), form,
                         postCall(seasonAndYear, department, courseNum)));
             }
-            System.out.println(form.get().
-                    toCourseOffering(department, Short.parseShort(courseNum),
-                            season, year));
 
             CourseOfferingRepository.getInstance().add(form.get().
                     toCourseOffering(department, Short.parseShort(courseNum),

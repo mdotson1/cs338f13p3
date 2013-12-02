@@ -35,14 +35,20 @@ public class Semester extends Controller {
     }
 
 
-    private static void registerCourses(
-            final Map<Integer,CourseOffering> cos, final int studentId)
+    private static List<String> registerCourses(
+            final Map<Integer,CourseOffering> cos, final int studentId,
+            final Season season, final short year)
             throws SQLException {
 
-        int coursesEnrolled = 0;
+        final List<String> enrolledCourses = new ArrayList<String>();
+
+        int numCoursesTaking = CoursesTakingRepository.
+                getInstance().findNumberOfCoursesTakingByStudent(
+                studentId, season, year);
+
         final int MAX_COURSES = 4;
         for (int i = 1; i <= cos.size(); i++) {
-            if (coursesEnrolled < MAX_COURSES) {
+            if (numCoursesTaking < MAX_COURSES) {
 
                 final CourseOffering co =  cos.get(i);
 
@@ -56,9 +62,14 @@ public class Semester extends Controller {
 
                 CoursesTakingRepository.getInstance().add(studentId,
                         co.getCourseOfferingId());
-                coursesEnrolled++;
+                numCoursesTaking++;
+                enrolledCourses.add("Successfully enrolled in " +
+                        co.getCourse().getDepartment() +
+                        co.getCourse().getCourseNumber() +
+                        co.getSectionNumber());
             }
         }
+        return enrolledCourses;
     }
 
     private static List<String> errorCheck(
@@ -71,22 +82,28 @@ public class Semester extends Controller {
             if (co == null) {
                 switch (i) {
                     case 1:
-                        errors.add("First primary choice has errors. Please check the course schedule.");
+                        errors.add("First primary choice has errors. " +
+                                "Please check the course schedule.");
                         break;
                     case 2:
-                        errors.add("Second primary choice has errors. Please check the course schedule.");
+                        errors.add("Second primary choice has errors. " +
+                                "Please check the course schedule.");
                         break;
                     case 3:
-                        errors.add("Third primary choice has errors. Please check the course schedule.");
+                        errors.add("Third primary choice has errors. " +
+                                "Please check the course schedule.");
                         break;
                     case 4:
-                        errors.add("Fourth primary choice has errors. Please check the course schedule.");
+                        errors.add("Fourth primary choice has errors. " +
+                                "Please check the course schedule.");
                         break;
                     case 5:
-                        errors.add("First secondary choice has errors. Please check the course schedule.");
+                        errors.add("First secondary choice has errors. " +
+                                "Please check the course schedule.");
                         break;
                     case 6:
-                        errors.add("Second secondary choice has errors. Please check the course schedule.");
+                        errors.add("Second secondary choice has errors. " +
+                                "Please check the course schedule.");
                         break;
                 }
             }
@@ -94,10 +111,10 @@ public class Semester extends Controller {
 
         return errors;
     }
-
+    ProfessorForm1
     private static Result render(final int studentId,
                                  final String seasonAndYear,
-                                 final boolean create) throws SQLException {
+                                 final boolean post) throws SQLException {
 
         final String[] split = seasonAndYear.split(" ");
         final Season season = Season.valueOf(split[0]);
@@ -124,11 +141,12 @@ public class Semester extends Controller {
                     errors.iterator()));
         }
 
-        if (create) {
+        if (post) {
 
             final Form<RegistrationForm1> form =
                     Form.form(RegistrationForm1.class).bindFromRequest();
 
+            // form syntax errors
             if(form.hasErrors()) {
                 return badRequest(semester.render(context,
                         Resource.BACK_LINK(context), courseSchedules,
@@ -140,18 +158,23 @@ public class Semester extends Controller {
 
             final List<String> errors = Semester.errorCheck(cos);
 
+            // some errors with the courses
             if (errors.size() > 0) {
                 return ok(semester.render(context, Resource.BACK_LINK(context),
                         courseSchedules, form, postCall(studentId,
                         seasonAndYear), false, errors.iterator()));
             }
 
-            registerCourses(cos, studentId);
+            final List<String> courses = registerCourses(cos, studentId, season,
+                    year);
 
+            // successful
             return ok(semester.render(context, Resource.BACK_LINK(context),
                     courseSchedules, Form.form(RegistrationForm1.class),
-                    postCall(studentId, seasonAndYear), true, null));
+                    postCall(studentId, seasonAndYear), true,
+                    courses.iterator()));
         }
+        // GET, not POST
         return ok(semester.render(context, Resource.BACK_LINK(context),
                 courseSchedules, Form.form(RegistrationForm1.class),
                 postCall(studentId, seasonAndYear), false, null));

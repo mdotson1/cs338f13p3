@@ -48,7 +48,7 @@ public class Section {
                 findById(professorId);
 
         return ok(section.render(co, context, Resource.BACK_LINK(context),
-                prof));
+                prof, seasonAndYear));
     }
 
     public static Result get(final String department, final int professorId,

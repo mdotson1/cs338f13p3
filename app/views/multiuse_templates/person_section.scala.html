@@ -4,7 +4,9 @@
 
 @import helpers.text.h1
 @import helpers.text.back_link
-@import helpers.text.link
+@import scala.Iterator;
+@import helpers.tables.course_offering_table
+
 
 <!DOCTYPE html>
 <html>
@@ -12,11 +14,9 @@
         <title></title>
     </head>
     <body>
-        @h1("All Courses for " + seasonAndYear + " for " + person.getContactInformation.getLastName + ", " + person.getContactInformation.getFirstName)
+        @h1("Course for " + seasonAndYear + " for " + person.getContactInformation.getLastName + ", " + person.getContactInformation.getFirstName)
 
-        @for(co <- cos) {
-            @link(url + "/" + co.getCourse.getDepartment + "-" + co.getCourse.getCourseNumber + "-" + co.getSectionNumber, co.getCourse.getDepartment + "-" + co.getCourse.getCourseNumber + "-" + co.getSectionNumber)
-        }
+        @course_offering_table(Iterator.single(co), url, true, true, true, false)
 
         @back_link(backUri)
     </body>

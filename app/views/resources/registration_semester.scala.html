@@ -1,4 +1,4 @@
-@(url : String, backUri : String, courseSchedulesUrl : String, regForm : Form[models.forms.registration.RegistrationForm1], post : play.api.mvc.Call, displaySuccess : Boolean, errors : Iterator[String])
+@(url : String, backUri : String, courseSchedulesUrl : String, regForm : Form[models.forms.registration.RegistrationForm1], post : play.api.mvc.Call, displaySuccess : Boolean, messages : Iterator[String])
 
 @import helpers.text.h2
 @import helpers.text.h3
@@ -19,12 +19,13 @@
         @link(courseSchedulesUrl, "Course Schedule")
 
         @h3("Example: CS-313-1")
-        @if(displaySuccess) {
-            @h1_color("Success!","green")
-        }
-        @if(errors !=  null) {
-            @for(error <- errors) {
-                @h2_color(error, "red")
+        @if(messages !=  null) {
+            @for(error <- messages) {
+                @if(displaySuccess) {
+                    @h2_color(error, "green")
+                } else {
+                    @h2_color(error, "red")
+                }
             }
         }
         @helpers.forms.complex.registration_form1(regForm, post)

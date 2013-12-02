@@ -19,7 +19,7 @@ public class StudentForm1 {
     @Pattern(value=FormUtils.LATIN_CHARACTERS_REGEX, message="Last name can only be latin alphabetic characters")
     public String firstName;
     @Required
-    @Pattern(value= FormUtils.DATE_REGEX, message="Please enter date as mm/dd/yyyy")
+    @Pattern(value= FormUtils.DATE_REGEX, message="Please enter date as mm/dd/yyyy between 01/01/1900 and 12/31/1999")
     public String dateOfBirth;
     @Required
     @MinLength(message="Must be at least 10 characters", value=10)

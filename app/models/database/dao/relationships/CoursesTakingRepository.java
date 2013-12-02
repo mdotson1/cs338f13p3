@@ -211,7 +211,6 @@ public class CoursesTakingRepository
 
             final Semester sem = course.getSemester();
 
-            System.out.println(semesterList.contains(sem));
             if (!semesterList.contains(sem)) {
                 semesterList.add(sem);
             }

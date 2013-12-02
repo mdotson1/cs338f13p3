@@ -3,9 +3,10 @@ package models.forms;
 public class FormUtils {
 
     public static final String DATE_REGEX =
-            "(0[1-9]|1[012])/" + // month
-            "(0[1-9]|1[0-9]|2[0-9]|3[01])/" + //day
-            "19[0-9][0-9]|200[0-9]|201[0-2]"; //year
+            "(0[1-9]|1[012])[/]" + // month
+            "(0[1-9]|1[0-9]|2[0-9]|3[01])[/]" + //day
+            "(19[0-9][0-9])"; //year
+
 
     public static final String PHONE_REGEX = "[0-9]{10}";
 

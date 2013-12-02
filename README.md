@@ -1,7 +1,6 @@
-# University Registration System by  
-# Michael Dotson and Marcellin fom Tchassem  
+# University Registration System by Michael Dotson and Marcellin fom Tchassem  
 
-## app URL:  
+## App URL:  
 http://cs338f13p3.herokuapp.com/
 
 ## Project layout:

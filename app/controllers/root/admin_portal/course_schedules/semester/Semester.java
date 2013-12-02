@@ -1,7 +1,10 @@
 package controllers.root.admin_portal.course_schedules.semester;
 
 import controllers.root.Resource;
+import models.course.Course;
+import models.course.CourseOffering;
 import models.database.dao.concrete.CourseOfferingRepository;
+import models.database.dao.concrete.CourseRepository;
 import models.forms.course_offering.CourseOfferingForm1;
 import play.api.mvc.Call;
 import play.data.Form;
@@ -45,8 +48,16 @@ public class Semester extends Controller {
                         season,year), context, Resource.BACK_LINK(context),
                         seasonAndYear, form, postCall(seasonAndYear)));
             }
-            CourseOfferingRepository.getInstance().add(
-                    form.get().toCourseOffering(season, year));
+
+            final CourseOffering co = form.get().toCourseOffering(season, year);
+
+            final Course c = CourseRepository.getInstance().findById(
+                    co.getCourse().getDepartment(),
+                    co.getCourse().getCourseNumber());
+
+            if (c != null) {
+                CourseOfferingRepository.getInstance().add(co);
+            }
         }
         return ok(semester.render(CourseOfferingRepository.
                 getInstance().departmentsOfferingCoursesBySemester(season,

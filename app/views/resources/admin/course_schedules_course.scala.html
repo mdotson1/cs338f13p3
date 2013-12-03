@@ -1,8 +1,9 @@
-@(cos : Iterator[models.course.CourseOffering], url : String, backUri : String, coForm : Form[models.forms.course_offering.CourseOfferingForm3], post : play.api.mvc.Call)
+@(cos : Iterator[models.course.CourseOffering], url : String, backUri : String, coForm : Form[models.forms.course_offering.CourseOfferingForm3], post : play.api.mvc.Call, exists : Boolean)
 
 @import helpers.tables.course_offering_table
 @import helpers.forms.entity.course_offering.course_offering_form3
 @import helpers.text.back_link
+@import helpers.text.h2_color
 @import helpers.text.css
 
 <!DOCTYPE html>
@@ -14,6 +15,9 @@
     <body>
         @course_offering_table(cos, url, true, true, true, true)
 
+        @if(exists) {
+            @h2_color("That section already exists", "red")
+        }
         @course_offering_form3(coForm, post)
 
         @back_link(backUri)

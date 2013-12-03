@@ -1,6 +1,7 @@
 package controllers.root.admin_portal.course_schedules.semester.department.course;
 
 import controllers.root.Resource;
+import models.course.CourseOffering;
 import models.course.Semester;
 import models.database.dao.concrete.CourseOfferingRepository;
 import models.forms.course_offering.CourseOfferingForm3;
@@ -39,6 +40,7 @@ public class Course extends Controller {
         final String[] split = seasonAndYear.split(" ");
         final Semester.Season season = Semester.Season.valueOf(split[0]);
         final short year = Short.parseShort(split[1]);
+        final short courseNumber = Short.parseShort(courseNum);
 
         if (create) {
 
@@ -48,14 +50,27 @@ public class Course extends Controller {
             if(form.hasErrors()) {
                 return badRequest(course.render(CourseOfferingRepository.
                         getInstance().findAllSections(season, year, department,
-                        Short.parseShort(courseNum)), context,
-                        Resource.BACK_LINK(context), form,
-                        postCall(seasonAndYear, department, courseNum)));
+                        courseNumber), context, Resource.BACK_LINK(context),
+                        form, postCall(seasonAndYear, department, courseNum),
+                        false));
             }
 
-            CourseOfferingRepository.getInstance().add(form.get().
-                    toCourseOffering(department, Short.parseShort(courseNum),
-                            season, year));
+            final CourseOffering co = form.get().toCourseOffering(department,
+                    Short.parseShort(courseNum), season, year);
+
+            final boolean contains = CourseOfferingRepository.getInstance().
+                    contains(department, courseNumber, co.getSectionNumber(),
+                            season, year);
+
+            if(contains) {
+                return badRequest(course.render(CourseOfferingRepository.
+                        getInstance().findAllSections(season, year, department,
+                        courseNumber), context, Resource.BACK_LINK(context),
+                        form, postCall(seasonAndYear, department, courseNum)),
+                        true);
+            } else {
+                CourseOfferingRepository.getInstance().add(co);
+            }
         }
 
         return ok(course.render(CourseOfferingRepository.getInstance().
@@ -63,7 +78,7 @@ public class Course extends Controller {
                         Short.parseShort(courseNum)), context,
                 Resource.BACK_LINK(context), Form.form(
                 CourseOfferingForm3.class), postCall(seasonAndYear, department,
-                courseNum)));
+                courseNum), false));
     }
 
     public static Result get(final String seasonAndYear,

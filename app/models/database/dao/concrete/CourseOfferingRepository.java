@@ -249,6 +249,17 @@ public class CourseOfferingRepository
 		return result;
 	}
 
+    public boolean contains(final String department, final short courseNum,
+                            final short sectionNum, final Season season,
+                            final short year) throws SQLException {
+        if (findBySectionSemester(season, year, department, courseNum,
+                sectionNum) == null) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
 	@Override
 	public boolean contains(final int id) throws SQLException {
 		if (findById(id) == null) {

@@ -13,7 +13,7 @@
         @h1("All Departments")
 
         @for(dept <- departments) {
-            @p_link(url + "/" + dept, dept)
+            @p_link(url + "/" + dept, dept + " Department")
         }
 
         @back_link(backUri)

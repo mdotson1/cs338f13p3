@@ -36,7 +36,10 @@ public class Faculty extends Controller {
                     Form.form(ProfessorForm2.class).bindFromRequest();
 
             if(form.hasErrors()) {
-                return badRequest();
+                return badRequest(faculty.render(ProfessorRepository.
+                        getInstance().getFaculty(department), context,
+                        form, Resource.BACK_LINK(context), department,
+                        postCall(department)));
             }
             ProfessorRepository.getInstance().add(form.get().
                     toProfessor(department));

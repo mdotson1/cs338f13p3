@@ -92,3 +92,14 @@ require extensive testing and time, which we did not have.
 functionality first (an agile approach). A next step would be to add mutability
 to the courses, professors, and students.  
 
+## In class demonstration:
+1.   Make a student: http://cs338f13p3.herokuapp.com/admin_portal/students  
+2.   Make a professor: http://cs338f13p3.herokuapp.com/admin_portal/departments
+3.   Make 6 courses: http://cs338f13p3.herokuapp.com/admin_portal/departments/CS/courses
+4.   Click course and then course schedule to be redirected.
+5.   Create a course schedule: http://cs338f13p3.herokuapp.com/admin_portal/course_schedules
+6.   Create the 6 courses with sections for that semester: http://cs338f13p3.herokuapp.com/admin_portal/course_schedules/{SEMESTER}
+7.   Register for courses: http://cs338f13p3.herokuapp.com/student_login/{ID}/registration/{SEMESTER}
+8.   Pay for courses: http://cs338f13p3.herokuapp.com/student_login/{ID}/payments
+9.   Professor registers for a coursehttp://cs338f13p3.herokuapp.com/professor_login/{ID}/course_schedules/{SEMESTER}/{DEPT}/{COURSENUM}/{SECTION}/professors
+10.  http://cs338f13p3.herokuapp.com/professor_login/{ID}/course_schedules/{SEMESTER}/{DEPT}/{COURSENUM}/{SECTION}/students

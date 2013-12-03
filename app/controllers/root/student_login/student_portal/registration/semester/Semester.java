@@ -64,8 +64,8 @@ public class Semester extends Controller {
                         co.getCourseOfferingId());
                 numCoursesTaking++;
                 enrolledCourses.add("Successfully enrolled in " +
-                        co.getCourse().getDepartment() +
-                        co.getCourse().getCourseNumber() +
+                        co.getCourse().getDepartment() + "-" +
+                        co.getCourse().getCourseNumber() + "-" +
                         co.getSectionNumber());
             }
         }

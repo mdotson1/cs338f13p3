@@ -1,0 +1,42 @@
+@(professorForm : Form[models.forms.professor.ProfessorForm2], post : play.api.mvc.Call)
+
+@import helper.inputText
+@import helper.form
+
+@form(action = post) {
+
+    @inputText(
+        field = professorForm("firstName"),
+        args = '_label -> "First Name", 'size -> 20
+    )
+    @inputText(
+        field = professorForm("lastName"),
+        args = '_label -> "Last Name", 'size -> 30
+    )
+    @inputText(
+        field = professorForm("dateOfBirth"),
+        args = '_label -> "Date of Birth", 'size -> 10
+    )
+    @inputText(
+        field = professorForm("homeAddr"),
+        args = '_label -> "Home Address", 'size -> 100
+    )
+    @inputText(
+        field = professorForm("workAddr"),
+        args = '_label -> "Work Address", 'size -> 100
+    )
+    @inputText(
+        field = professorForm("homePhone"),
+        args = '_label -> "Home Phone", 'size -> 10
+    )
+    @inputText(
+        field = professorForm("workPhone"),
+        args = '_label -> "Work Phone", 'size -> 10
+    )
+    @inputText(
+        field = professorForm("cellPhone"),
+        args = '_label -> "Cell Phone", 'size -> 10
+    )
+
+    <input type="submit" value="Enter">
+}

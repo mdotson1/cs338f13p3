@@ -30,7 +30,7 @@ public class Professor extends Controller {
         final Iterator<Semester> sems = CoursesTeachingRepository.getInstance().
                 allSemestersProfessorTaughtIn(professorId);
 
-        return ok(professor.render(prof, context, null,
+        return ok(professor.render(prof, context, sems,
                 Resource.BACK_LINK(context)));
     }
 

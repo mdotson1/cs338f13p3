@@ -2,8 +2,10 @@ package controllers.root.admin_portal.course_schedules.semester.department.cours
 
 import controllers.root.Resource;
 import controllers.root.admin_portal.departments.department.faculty.Faculty;
-import controllers.services.ProfessorCourseService;
+import models.course.CourseOffering;
 import models.course.Semester;
+import models.database.dao.concrete.CourseOfferingRepository;
+import models.database.dao.relationships.CoursesTeachingRepository;
 import models.person.Professor;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -35,8 +37,13 @@ public class Professors extends Controller {
         final Semester.Season season = Semester.Season.valueOf(split[0]);
         final short year = Short.parseShort(split[1]);
 
-        final Iterator<Professor> profs = ProfessorCourseService.professorsTeachingCourse(
-                season, year, department, courseNum, sectionNum);
+        final CourseOffering co = CourseOfferingRepository.getInstance().
+                findBySectionSemester(season, year, department,
+                        Short.parseShort(courseNum), Short.parseShort(sectionNum));
+
+        final Iterator<Professor> profs = CoursesTeachingRepository.
+                getInstance().findProfessorsForCourse(co.getCourseOfferingId());
+
         final String courseInfo = department + "-" + courseNum + "-" + sectionNum;
         final String professorUrl = Faculty.url(department);
 

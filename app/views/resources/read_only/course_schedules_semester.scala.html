@@ -1,8 +1,9 @@
 @(departments : Iterator[String], url : String, backUri : String, sem : String)
 
 @import helpers.text.h1
+@import helpers.text.h3
 @import helpers.text.back_link
-@import helpers.text.link
+@import helpers.text.p_link
 
 <!DOCTYPE html>
 <html>
@@ -12,8 +13,9 @@
     <body>
         @h1("Course Schedule for " + sem)
 
+        @h3("Departments:")
         @for(dept <- departments) {
-            @link(url + "/" + dept, dept)
+            @p_link(url + "/" + dept, dept)
         }
 
         @back_link(backUri)

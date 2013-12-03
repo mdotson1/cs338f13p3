@@ -1,9 +1,3 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title></title>
-</head>
-<body>
+@(semesters : Iterator[models.course.Semester], url : String, backUri : String, person : models.person.UniversityPerson)
 
-</body>
-</html>
+@multiuse_templates.person_semesters(semesters, url, backUri, person)

@@ -52,4 +52,16 @@ public class Course {
 	public void setCourseDescription(final String cd) {
 		courseDescription = cd;
 	}
+
+    @Override
+    public boolean equals(final Object obj) {
+        if (obj instanceof Course) {
+            final Course course = (Course) obj;
+            if (course.getCourseNumber() == courseNumber &&
+                course.getDepartment().equals(department)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

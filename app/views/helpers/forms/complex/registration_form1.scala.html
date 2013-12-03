@@ -1,0 +1,93 @@
+@(regForm : Form[models.forms.registration.RegistrationForm1], post : play.api.mvc.Call)
+
+@import helper._
+@import helpers.text.h3
+
+@helper.form(post) {
+
+    @h3("First Primary Choice")
+    @inputText(
+        field = regForm("firstChoiceDepartment"),
+        args = '_label -> "Department", 'size -> 4
+    )
+    @inputText(
+        field = regForm("firstChoiceCourseNum"),
+        args = '_label -> "Course Number", 'size -> 3
+    )
+    @inputText(
+        field = regForm("firstChoiceSectionNum"),
+        args = '_label -> "Section Number", 'size -> 3
+    )
+
+    @h3("Second Primary Choice")
+    @inputText(
+        field = regForm("secondChoiceDepartment"),
+        args = '_label -> "Department", 'size -> 4
+    )
+    @inputText(
+        field = regForm("secondChoiceCourseNum"),
+        args = '_label -> "Course Number", 'size -> 3
+    )
+    @inputText(
+        field = regForm("secondChoiceSectionNum"),
+        args = '_label -> "Section Number", 'size -> 3
+    )
+
+    @h3("Third Primary Choice")
+    @inputText(
+        field = regForm("thirdChoiceDepartment"),
+        args = '_label -> "Department", 'size -> 4
+    )
+    @inputText(
+        field = regForm("thirdChoiceCourseNum"),
+        args = '_label -> "Course Number", 'size -> 3
+    )
+    @inputText(
+        field = regForm("thirdChoiceSectionNum"),
+        args = '_label -> "Section Number", 'size -> 3
+    )
+
+    @h3("Fourth Primary Choice")
+    @inputText(
+        field = regForm("fourthChoiceDepartment"),
+        args = '_label -> "Department", 'size -> 4
+    )
+    @inputText(
+        field = regForm("fourthChoiceCourseNum"),
+        args = '_label -> "Course Number", 'size -> 3
+    )
+    @inputText(
+        field = regForm("fourthChoiceSectionNum"),
+        args = '_label -> "Section Number", 'size -> 3
+    )
+
+    @h3("First Secondary Choice")
+    @inputText(
+        field = regForm("fifthChoiceDepartment"),
+        args = '_label -> "Department", 'size -> 4
+    )
+    @inputText(
+        field = regForm("fifthChoiceCourseNum"),
+        args = '_label -> "Course Number", 'size -> 3
+    )
+    @inputText(
+        field = regForm("fifthChoiceSectionNum"),
+        args = '_label -> "Section Number", 'size -> 3
+    )
+
+    @h3("Second Secondary Choice")
+    @inputText(
+        field = regForm("sixthChoiceDepartment"),
+        args = '_label -> "Department", 'size -> 4
+    )
+    @inputText(
+        field = regForm("sixthChoiceCourseNum"),
+        args = '_label -> "Course Number", 'size -> 3
+    )
+    @inputText(
+        field = regForm("sixthChoiceSectionNum"),
+        args = '_label -> "Section Number", 'size -> 3
+    )
+
+    <input type="submit" value="Register">
+}

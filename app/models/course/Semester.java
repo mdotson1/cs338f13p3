@@ -2,10 +2,13 @@ package models.course;
 
 import play.data.validation.Constraints;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 public class Semester {
 
     public enum Season {
-        Fall, Winter, Summer, Spring
+        Spring, Summer, Fall, Winter
     }
 
     private Season season;
@@ -35,5 +38,19 @@ public class Semester {
 
     public void setYear(short year) {
         this.year = year;
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+        if (obj instanceof Semester) {
+            final Semester sem = (Semester) obj;
+            if (sem.getSeason() == season && sem.getYear() == year) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
     }
 }

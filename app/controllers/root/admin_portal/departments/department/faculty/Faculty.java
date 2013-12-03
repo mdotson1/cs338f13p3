@@ -1,9 +1,8 @@
 package controllers.root.admin_portal.departments.department.faculty;
 
 import controllers.root.Resource;
-import controllers.services.ProfessorService;
 import models.database.dao.concrete.ProfessorRepository;
-import models.person.Professor;
+import models.forms.professor.ProfessorForm2;
 import play.api.mvc.Call;
 import play.data.Form;
 import play.mvc.Controller;
@@ -14,9 +13,6 @@ import views.html.helpers.*;
 import java.sql.SQLException;
 
 public class Faculty extends Controller {
-
-    private final static Form<Professor> PROFESSOR_FORM =
-            Form.form(Professor.class);
 
     private static Call postCall(final String dept) {
         return controllers.root.admin_portal.departments.department.faculty.routes.
@@ -32,22 +28,27 @@ public class Faculty extends Controller {
             throws SQLException {
 
         final String context = Faculty.url(department);
-        final Form<Professor> form;
 
         if (create) {
 
-            form = PROFESSOR_FORM.bindFromRequest();
+
+            final Form<ProfessorForm2> form =
+                    Form.form(ProfessorForm2.class).bindFromRequest();
 
             if(form.hasErrors()) {
-                return badRequest();
+                return badRequest(faculty.render(ProfessorRepository.
+                        getInstance().getFaculty(department), context,
+                        form, Resource.BACK_LINK(context), department,
+                        postCall(department)));
             }
-            ProfessorService.createProfessor(form.data(), department);
-        } else {
-            form = PROFESSOR_FORM;
+            ProfessorRepository.getInstance().add(form.get().
+                    toProfessor(department));
         }
+
         return ok(faculty.render(ProfessorRepository.getInstance().
-                getFaculty(department), context, form,
-                Resource.BACK_LINK(context), department, postCall(department)));
+                getFaculty(department), context,
+                Form.form(ProfessorForm2.class), Resource.BACK_LINK(context),
+                department, postCall(department)));
     }
 
     public static Result get(final String department) {

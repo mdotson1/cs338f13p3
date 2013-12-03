@@ -1,0 +1,23 @@
+@* 2 boolean fields *@
+
+@(paymentForm : Form[models.forms.payment.PaymentForm1], post : play.api.mvc.Call)
+
+@import helper._
+
+@form(post) {
+
+    @select(
+        field = paymentForm("paymentType"),
+        options = options(
+            "Credit Card" -> "Credit Card",
+            "Debit Card" -> "Debit Card",
+            "Electronic Check" -> "Electronic Check"
+        ),
+        args = '_label -> "Payment Method"
+    )
+    @inputText(
+        field = paymentForm("paymentAmount"),
+        args = '_label -> "Amount (USD)", 'size -> 5
+    )
+    <input type="submit" value="Create">
+}

@@ -1,0 +1,23 @@
+@* used for both professors and students *@
+
+@(co : models.course.CourseOffering, url : String, backUri : String, person : models.person.UniversityPerson, seasonAndYear : String)
+
+@import helpers.text.h1
+@import helpers.text.back_link
+@import scala.Iterator;
+@import helpers.tables.course_offering_table
+
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+    </head>
+    <body>
+        @h1("Course for " + seasonAndYear + " for " + person.getContactInformation.getLastName + ", " + person.getContactInformation.getFirstName)
+
+        @course_offering_table(Iterator.single(co), url, true, true, true, false)
+
+        @back_link(backUri)
+    </body>
+</html>

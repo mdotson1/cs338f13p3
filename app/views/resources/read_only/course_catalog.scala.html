@@ -9,10 +9,12 @@
         <title></title>
     </head>
     <body>
-        @h1("All Courses Offered by the " + department + " Department")
+            @h1("All Courses Offered by the " + department + " Department")
 
-        @course_table(courses, url, false, true, true, true, true)
+            @course_table(courses, url, false, true, true, true, true)
 
-        @helpers.text.back_link(backUri)
+            @helpers.text.back_link(backUri)
+        </div>
+
     </body>
 </html>

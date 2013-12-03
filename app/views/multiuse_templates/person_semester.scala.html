@@ -1,0 +1,23 @@
+@* used for both professors and students *@
+
+@(cos : Iterator[models.course.CourseOffering], url : String, backUri : String, person : models.person.UniversityPerson, seasonAndYear : String)
+
+@import helpers.text.h1
+@import helpers.text.back_link
+@import helpers.text.p_link
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+    </head>
+    <body>
+        @h1("All Courses for " + seasonAndYear + " for " + person.getContactInformation.getLastName + ", " + person.getContactInformation.getFirstName)
+
+        @for(co <- cos) {
+            @p_link(url + "/" + co.getCourse.getDepartment + "-" + co.getCourse.getCourseNumber + "-" + co.getSectionNumber, co.getCourse.getDepartment + "-" + co.getCourse.getCourseNumber + "-" + co.getSectionNumber)
+        }
+
+        @back_link(backUri)
+    </body>
+</html>

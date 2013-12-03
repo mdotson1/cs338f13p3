@@ -58,16 +58,19 @@ public class CourseOfferingRepository
 		final ResultSet tables = dbm.getTables(null, null, "CourseOffering",
                 null);
 
-        CourseRepository.getInstance().databaseCreationCheck(dbm, st);
-        SemesterRepository.getInstance().databaseCreationCheck(dbm, st);
+        CourseRepository.databaseCreationCheck(dbm, st);
+        SemesterRepository.databaseCreationCheck(dbm, st);
 
 		if (!tables.next()) {
 			// Table does not exist
 			createCourseOfferingTable(st);
 		}
+
+        tables.close();
 	}
 
 	public int add(final CourseOffering obj) throws SQLException {
+
 		final Connection c = DBHelper.getConnection();
 		final Statement st = c.createStatement();
 
@@ -83,9 +86,17 @@ public class CourseOfferingRepository
 		st.executeUpdate(insertCourseOfferingStatement,
                 Statement.RETURN_GENERATED_KEYS);
 		ResultSet rs = st.getGeneratedKeys();
+
 		if (rs.next()) {
-			return rs.getInt(1);
+            final int retval = rs.getInt(1);
+            c.close();
+            rs.close();
+            st.close();
+			return retval;
 		} else {
+            c.close();
+            rs.close();
+            st.close();
 			throw new SQLException("Creating payment failed, no generated " +
                     "key obtained.");
 		}
@@ -128,6 +139,9 @@ public class CourseOfferingRepository
                     courseOffRes.getShort("sectionNumber"));
         }
         c.close();
+        courseOffRes.close();
+        st.close();
+
         return courseOffering;
     }
 
@@ -163,6 +177,11 @@ public class CourseOfferingRepository
                     courseOffRes.getShort("courseOfferingID"), course, sem,
                     courseOffRes.getShort("sectionNumber"));
         }
+
+        c.close();
+        courseOffRes.close();
+        st.close();
+
         return courseOffering;
     }
 
@@ -203,6 +222,11 @@ public class CourseOfferingRepository
                     courseOffRes.getShort("courseOfferingId"), course, sem,
                     courseOffRes.getShort("sectionNumber"));
 		}
+
+        c.close();
+        courseOffRes.close();
+        st.close();
+
 		return courseOffering;
 	}
 
@@ -217,8 +241,24 @@ public class CourseOfferingRepository
 		final String deleteCourseOfferingQuery = "DELETE FROM CourseOffering " +
                 "WHERE courseOfferingId = " + id +";";
 
-		return st.execute(deleteCourseOfferingQuery);
+        final boolean result = st.execute(deleteCourseOfferingQuery);
+
+        c.close();
+        st.close();
+
+		return result;
 	}
+
+    public boolean contains(final String department, final short courseNum,
+                            final short sectionNum, final Season season,
+                            final short year) throws SQLException {
+        if (findBySectionSemester(season, year, department, courseNum,
+                sectionNum) == null) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 
 	@Override
 	public boolean contains(final int id) throws SQLException {
@@ -253,6 +293,10 @@ public class CourseOfferingRepository
 
             courseList.add(course);
         }
+
+        c.close();
+        courseRes.close();
+        st.close();
 
         return courseList.iterator();
     }
@@ -297,6 +341,10 @@ public class CourseOfferingRepository
             courseOfferingList.add(courseOffering);
         }
 
+        c.close();
+        courseOffRes.close();
+        st.close();
+
         return courseOfferingList.iterator();
     }
 
@@ -327,6 +375,10 @@ public class CourseOfferingRepository
             courseList.add(course);
         }
 
+        c.close();
+        courseRes.close();
+        st.close();
+
         return courseList.iterator();
     }
 
@@ -349,7 +401,6 @@ public class CourseOfferingRepository
 		final Collection<CourseOffering> courseOfferingList =
                 new ArrayList<CourseOffering>();
 
-		CourseOffering courseOffering = null;
 
 		while(courseOffRes.next()){
 			CourseOffering course = CourseOfferingRepository.getInstance()
@@ -357,6 +408,10 @@ public class CourseOfferingRepository
 
 			courseOfferingList.add(course);
 		}
+
+        c.close();
+        courseOffRes.close();
+        st.close();
 
 		return courseOfferingList.iterator();
 	}
@@ -382,6 +437,10 @@ public class CourseOfferingRepository
         while(departmentRes.next()){
             departmentList.add(departmentRes.getString("department"));
         }
+
+        c.close();
+        departmentRes.close();
+        st.close();
 
         return departmentList.iterator();
     }
@@ -420,6 +479,10 @@ public class CourseOfferingRepository
 
 			courseOfferingList.add(courseOffering);
 		}
+
+        c.close();
+        courseOffRes.close();
+        st.close();
 
 		return courseOfferingList.iterator();
 	}

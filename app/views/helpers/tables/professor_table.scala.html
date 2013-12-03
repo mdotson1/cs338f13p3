@@ -55,6 +55,9 @@
             @if(firstName) {
                 @td(professor.getContactInformation.getFirstName)
             }
+            @if(department) {
+                @td(professor.getDepartment)
+            }
             @if(dateOfBirth) {
                 @td(professor.getDateOfBirth)
             }

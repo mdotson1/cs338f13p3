@@ -1,0 +1,22 @@
+@(semesterForm : Form[models.forms.semester.SemesterForm1], post : play.api.mvc.Call)
+
+@import helper._
+
+@form(post) {
+
+    @select(
+        field = semesterForm("season"),
+        options = options(
+            "Spring" -> "Spring",
+            "Summer" -> "Summer",
+            "Fall" -> "Fall",
+            "Winter" -> "Winter"
+        ),
+        args = '_label -> "Season"
+    )
+    @inputText(
+        field = semesterForm("year"),
+        args = '_label -> "Year", 'size -> 4
+    )
+    <input type="submit" value="Create">
+}

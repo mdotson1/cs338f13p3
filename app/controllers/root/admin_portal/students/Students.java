@@ -3,10 +3,8 @@ package controllers.root.admin_portal.students;
 import controllers.root.Resource;
 import static play.data.Form.*;
 
-import controllers.services.StudentService;
 import models.database.dao.concrete.StudentRepository;
 import models.forms.student.StudentForm1;
-import models.person.Student;
 import play.api.mvc.Call;
 import play.data.Form;
 import play.mvc.Controller;

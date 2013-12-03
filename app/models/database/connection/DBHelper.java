@@ -1,5 +1,8 @@
 package models.database.connection;
 
+import models.course.CourseOffering;
+import models.database.dao.concrete.CourseOfferingRepository;
+
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.sql.DriverManager;

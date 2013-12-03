@@ -1,9 +1,9 @@
 package controllers.root.admin_portal.course_schedules;
 
 import controllers.root.Resource;
-import controllers.services.SemesterService;
 import models.course.Semester;
 import models.database.dao.concrete.SemesterRepository;
+import models.forms.semester.SemesterForm1;
 import play.api.mvc.Call;
 import play.data.Form;
 import play.mvc.Controller;
@@ -14,10 +14,9 @@ import views.html.helpers.*;
 import java.sql.SQLException;
 import java.util.Iterator;
 
-public class CourseSchedules extends Controller {
+import static play.data.Form.form;
 
-    private final static Form<Semester> SEMESTER_FORM =
-            Form.form(Semester.class);
+public class CourseSchedules extends Controller {
 
     private static Call postCall() {
         return controllers.root.admin_portal.course_schedules.routes.
@@ -29,27 +28,31 @@ public class CourseSchedules extends Controller {
                 get().url();
     }
 
+    private static final Iterator<Semester> semesters() throws SQLException {
+        return SemesterRepository.getInstance().getAll();
+    }
+
     private static Result render(final boolean create) throws SQLException {
 
         final String context = CourseSchedules.url();
-        final Form<Semester> form;
 
         if (create) {
 
-            form = SEMESTER_FORM.bindFromRequest();
+            final Form<SemesterForm1> form =
+                    form(SemesterForm1.class).bindFromRequest();
 
-            if(form.hasErrors()) {
-                return badRequest();
+            if (form.hasErrors()) {
+                return badRequest(course_schedules.render(
+                        CourseSchedules.semesters(), context, form,
+                        Resource.BACK_LINK(context), postCall()));
             }
-            SemesterService.createSemester(form.data());
-        } else {
-            form = SEMESTER_FORM;
-        }
-        final Iterator<Semester> semesters = SemesterRepository.getInstance().
-                getAll();
 
-        return ok(course_schedules.render(semesters, context, form,
-                Resource.BACK_LINK(context), postCall()));
+            SemesterRepository.getInstance().add(form.get().toSemester());
+        }
+
+        return ok(course_schedules.render(CourseSchedules.semesters(), context,
+                form(SemesterForm1.class), Resource.BACK_LINK(context),
+                postCall()));
     }
 
     public static Result get() {

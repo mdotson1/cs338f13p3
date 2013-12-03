@@ -4,7 +4,7 @@
 
 @import helpers.text.h1
 @import helpers.text.back_link
-@import helpers.text.link
+@import helpers.text.p_link
 
 <!DOCTYPE html>
 <html>
@@ -15,7 +15,7 @@
         @h1("Course History for " + person.getContactInformation.getLastName + ", " + person.getContactInformation.getFirstName)
 
         @for(semester <- semesters) {
-            @link(url + "/" + semester.getSeason + " " + semester.getYear, semester.getSeason + " " + semester.getYear)
+            @p_link(url + "/" + semester.getSeason + "%20" + semester.getYear, semester.getSeason + " " + semester.getYear)
         }
 
         @back_link(backUri)

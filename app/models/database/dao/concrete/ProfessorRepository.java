@@ -28,7 +28,7 @@ public class ProfessorRepository implements ConcreteIntKeyRepository<Professor> 
 	}
 	
 	
-	private void createProfessorTable(final Statement st) throws SQLException {
+	private static void createProfessorTable(final Statement st) throws SQLException {
 		String createTableStatement = "CREATE TABLE Professor(" +
 				"professorId INT NOT NULL AUTO_INCREMENT," +
 				"dateOfBirth VARCHAR(10) NOT NULL," +
@@ -45,7 +45,7 @@ public class ProfessorRepository implements ConcreteIntKeyRepository<Professor> 
 		st.execute(createTableStatement);
 	}
 	
-	private void databaseCreationCheck(final DatabaseMetaData dbm, 
+	public static void databaseCreationCheck(final DatabaseMetaData dbm,
 			final Statement st) throws SQLException {
 		final ResultSet tables = dbm.getTables(null, null, "Professor", null);
 		if (!tables.next()) {
@@ -76,12 +76,44 @@ public class ProfessorRepository implements ConcreteIntKeyRepository<Professor> 
 		st.executeUpdate(insertProfessorStatement, Statement.RETURN_GENERATED_KEYS);
 		ResultSet rs = st.getGeneratedKeys();
 		if (rs.next()) {
-			return rs.getInt(1);
+            final int result = rs.getInt(1);
+            c.close();
+            rs.close();
+            st.close();
+
+			return result;
         } else {
+            c.close();
+            rs.close();
+            st.close();
             throw new SQLException("Creating Professor failed, no generated" +
                     " key obtained.");
         }
 	}
+
+    public boolean departmentExists(final String department) throws SQLException {
+        final Connection c = DBHelper.getConnection();
+        final Statement st = c.createStatement();
+
+        databaseCreationCheck(c.getMetaData(), st);
+
+        final String selectDepartmentQuery = "SELECT department FROM " +
+                "Professor GROUP BY department;";
+
+        final ResultSet deptRS = st.executeQuery(selectDepartmentQuery);
+
+        while (deptRS.next()) {
+            if (deptRS.getString("department").equals(department)) {
+                return true;
+            }
+        }
+
+        c.close();
+        deptRS.close();
+        st.close();
+
+        return false;
+    }
 
 	@Override
 	public Professor findById(final int id) throws SQLException {
@@ -115,6 +147,11 @@ public class ProfessorRepository implements ConcreteIntKeyRepository<Professor> 
                     professorRS.getString("dateOfBirth"),
 					professorRS.getString("department"));
 		}
+
+        c.close();
+        professorRS.close();
+        st.close();
+
 		return professor;
 	}
 
@@ -152,6 +189,11 @@ public class ProfessorRepository implements ConcreteIntKeyRepository<Professor> 
 			
 			profList.add(professor);
 		}
+
+        c.close();
+        professorRS.close();
+        st.close();
+
 		return profList.iterator();
 	}
 
@@ -190,6 +232,11 @@ public class ProfessorRepository implements ConcreteIntKeyRepository<Professor> 
 
             profList.add(professor);
         }
+
+        c.close();
+        professorRS.close();
+        st.close();
+
         return profList.iterator();
     }
 
@@ -208,6 +255,11 @@ public class ProfessorRepository implements ConcreteIntKeyRepository<Professor> 
         while ( departmentRS.next() ) {
             departmentList.add(departmentRS.getString("department"));
         }
+
+        c.close();
+        departmentRS.close();
+        st.close();
+
         return departmentList.iterator();
     }
 	
@@ -220,8 +272,12 @@ public class ProfessorRepository implements ConcreteIntKeyRepository<Professor> 
 
 		databaseCreationCheck(c.getMetaData(), st);
 
-		return st.execute("DELETE FROM Professor WHERE professorId = " + id +
-                ";");
+        final boolean result = st.execute("DELETE FROM Professor WHERE " +
+                "professorId = " + id + ";");
+        c.close();
+        st.close();
+
+		return result;
 		
 	}
 

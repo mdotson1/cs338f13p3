@@ -68,6 +68,11 @@ public class CourseOffering {
 
 	@Override
 	public String toString() {
-		return "student: " + courseOfferingId;
+		return "id: " + courseOfferingId +
+                "\ndept: " + course.getDepartment() +
+                "\ncourseNum: " + course.getCourseNumber() +
+                "\nseason: " + semester.getSeason().toString() +
+                "\nyear: " + semester.getYear() +
+                "\nsection: " + section;
 	}
 }

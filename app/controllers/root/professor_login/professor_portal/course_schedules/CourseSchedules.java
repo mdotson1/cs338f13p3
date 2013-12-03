@@ -2,6 +2,7 @@ package controllers.root.professor_login.professor_portal.course_schedules;
 
 import controllers.root.Resource;
 import models.course.Semester;
+import models.database.dao.concrete.SemesterRepository;
 import models.database.dao.relationships.CoursesTeachingRepository;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -23,8 +24,8 @@ public class CourseSchedules extends Controller {
 
         final String context = CourseSchedules.url(professorId);
 
-        final Iterator<Semester> semesters = CoursesTeachingRepository.
-                getInstance().allSemestersProfessorTaughtIn(professorId);
+        final Iterator<Semester> semesters = SemesterRepository.getInstance().
+                getAll();
 
         return ok(course_schedules.render(semesters, context,
                 Resource.BACK_LINK(context)));

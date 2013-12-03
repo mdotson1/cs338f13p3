@@ -8,9 +8,11 @@ import java.sql.Statement;
 import java.util.*;
 
 import models.course.Semester;
+import models.course.Semester.*;
 import models.database.connection.DBHelper;
 import models.database.dao.concrete.CourseOfferingRepository;
 import models.database.dao.concrete.ProfessorRepository;
+import models.database.dao.concrete.SemesterRepository;
 import models.database.repository.TwoIntKeyRelationshipRepository;
 import models.course.CourseOffering;
 import models.person.Professor;
@@ -48,6 +50,9 @@ public class CoursesTeachingRepository
     private void databaseCreationCheck(DatabaseMetaData dbm, Statement st)
             throws SQLException {
 
+        ProfessorRepository.databaseCreationCheck(dbm, st);
+        CourseOfferingRepository.databaseCreationCheck(dbm, st);
+
         final ResultSet tables = dbm.getTables(null, null, "CoursesTeaching",
                 null);
         if (!tables.next()) {
@@ -71,6 +76,9 @@ public class CoursesTeachingRepository
 
         st.executeUpdate(insertCourseTeachingQuery,
                 Statement.RETURN_GENERATED_KEYS);
+
+        c.close();
+        st.close();
     }
 
     // return all courses taught by professor
@@ -85,17 +93,21 @@ public class CoursesTeachingRepository
         final String SelectCourseTeachingQuery = "SELECT courseOfferingId "+
                 "FROM CoursesTeaching WHERE professorId = " + professorId + ";";
 
-        final ResultSet CourseTeachingRes = st.executeQuery(
+        final ResultSet courseTeachingRes = st.executeQuery(
                 SelectCourseTeachingQuery);
 
         final Collection<CourseOffering> courseOfferingList =
                 new ArrayList<CourseOffering>();
 
-        while(CourseTeachingRes.next()) {
+        while(courseTeachingRes.next()) {
             courseOfferingList.add(CourseOfferingRepository.
                     getInstance().findById(
-                    CourseTeachingRes.getInt("courseOfferingId")));
+                    courseTeachingRes.getInt("courseOfferingId")));
         }
+
+        c.close();
+        courseTeachingRes.close();
+        st.close();
 
         return courseOfferingList.iterator();
     }
@@ -109,7 +121,7 @@ public class CoursesTeachingRepository
 
         databaseCreationCheck(c.getMetaData(), st);
 
-        final String selectCourseTeachingQuery = "SELECT courseOfferingId "+
+        final String selectCourseTeachingQuery = "SELECT courseOfferingId " +
                 "FROM CoursesTeaching WHERE professorId = " + professorId + ";";
 
         final ResultSet courseOfferingIdsRS = st.executeQuery(
@@ -126,6 +138,10 @@ public class CoursesTeachingRepository
                 semesterList.add(sem);
             }
         }
+
+        c.close();
+        courseOfferingIdsRS.close();
+        st.close();
 
         return semesterList.iterator();
     }
@@ -156,9 +172,50 @@ public class CoursesTeachingRepository
             professorList.add(professor);
         }
 
+        c.close();
+        courseTeachingRes.close();
+        st.close();
+
         return professorList.iterator();
     }
 
+    public Iterator<CourseOffering> getCoursesTaughtByProfessorForSemester(
+            final int professorId, final Season season, final short year)
+            throws SQLException {
+
+        final Connection c = DBHelper.getConnection();
+        final Statement st = c.createStatement();
+
+        databaseCreationCheck(c.getMetaData(), st);
+
+        final String SelectCourseTakingQuery = "SELECT courseOfferingId " +
+                "FROM CoursesTeaching " + "WHERE professorId = " + professorId +
+                ";";
+
+        final ResultSet courseTakingRes =
+                st.executeQuery(SelectCourseTakingQuery);
+
+        final Collection<CourseOffering> courseList =
+                new ArrayList<CourseOffering>();
+
+        while(courseTakingRes.next()){
+            final CourseOffering co = CourseOfferingRepository.getInstance().
+                    findById(courseTakingRes.getInt("courseOfferingId"));
+
+            final Semester sem = SemesterRepository.getInstance().findById(
+                    season, year);
+
+            if (co.getSemester().equals(sem)) {
+                courseList.add(co);
+            }
+        }
+
+        c.close();
+        courseTakingRes.close();
+        st.close();
+
+        return courseList.iterator();
+    }
 
     @Override
     // returns true if something was deleted
@@ -174,6 +231,11 @@ public class CoursesTeachingRepository
                 " WHERE professorId = "+ professorId + " AND " +
                 "courseOfferingId = " + courseOfferingId + ";";
 
-        return st.execute(deleteCourseTeachingQuery);
+        final boolean result = st.execute(deleteCourseTeachingQuery);
+
+        c.close();
+        st.close();
+
+        return result;
     }
 }

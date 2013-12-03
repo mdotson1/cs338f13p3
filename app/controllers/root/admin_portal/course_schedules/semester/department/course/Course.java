@@ -66,8 +66,8 @@ public class Course extends Controller {
                 return badRequest(course.render(CourseOfferingRepository.
                         getInstance().findAllSections(season, year, department,
                         courseNumber), context, Resource.BACK_LINK(context),
-                        form, postCall(seasonAndYear, department, courseNum)),
-                        true);
+                        form, postCall(seasonAndYear, department, courseNum),
+                        true));
             } else {
                 CourseOfferingRepository.getInstance().add(co);
             }

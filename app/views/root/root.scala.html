@@ -1,11 +1,16 @@
 @(namesAndURLs : Map[String,String])
 
-<!DOCTYPE html>
+<!DOCTYPE HTML Frameset DTD>
 <html>
-    <head>
-        <title></title>
-    </head>
-    <body>
-        @helpers.text.multi_link(namesAndURLs)
-    </body>
+<style>
+</style>
+
+<frameset rows="25%, 75%">
+    <frame name="frame1" src="@routes.Assets.at("root/Title.html")" noresize="noresize" scrolling="yes">
+    <frameset cols="15%, 50%">
+        <frame name="frame2" src="@routes.Assets.at("root/Menu.html")" noresize="noresize" >
+        <frame name="frame3" src="@routes.Assets.at("root/Main.html")" noresize="noresize">
+    </frameset>
+</frameset>
+
 </html>

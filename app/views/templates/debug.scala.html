@@ -1,11 +1,37 @@
-@(debug : String)
+@(namesAndURLs : Map[String,String])
+
 
 <!DOCTYPE html>
 <html>
 <head>
-    <title></title>
+    <style>
+    </style>
+    <link rel="stylesheet" media ="screen" href="@routes.Assets.at("stylesheets/style.css")">
 </head>
+
 <body>
-@debug
+<div class = "main">
+    <div id="page_header">
+        <img src="../../../public/images/URS_LOGO_9_26_11.jpg" alt ="Logo">
+        University Registration System
+    </div>
+
+    <div id ="dat">
+
+        <div class="side-menu">
+
+        </div>
+
+        <div class = "menu">
+            @helpers.text.multi_link(namesAndURLs)
+        </div>
+
+    </div>
+    <div class = "result">
+
+    </div>
+
+</div>
+
+<footer>All rights reserved</footer>
 </body>
-</html>

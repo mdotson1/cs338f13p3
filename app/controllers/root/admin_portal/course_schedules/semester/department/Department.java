@@ -1,6 +1,8 @@
 package controllers.root.admin_portal.course_schedules.semester.department;
 
 import controllers.root.Resource;
+import controllers.root.admin_portal.departments.department.courses.Courses;
+import models.course.CourseOffering;
 import models.database.dao.concrete.CourseOfferingRepository;
 import models.forms.course_offering.CourseOfferingForm2;
 import play.api.mvc.Call;
@@ -12,6 +14,10 @@ import views.html.helpers.*;
 import models.course.Semester.Season;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 public class Department extends Controller {
 
@@ -47,20 +53,54 @@ public class Department extends Controller {
                 return badRequest(department.render(CourseOfferingRepository.
                         getInstance().coursesBySemesterDepartment(season, year,
                         dept), context, Resource.BACK_LINK(context),
-                        seasonAndYear, dept, Form.form(
-                        CourseOfferingForm2.class), postCall(seasonAndYear,
-                        dept)));
+                        seasonAndYear, dept, form, postCall(seasonAndYear,
+                        dept), null, null));
             }
 
-            CourseOfferingRepository.getInstance().add(
-                    form.get().toCourseOffering(dept, season, year));
+            final CourseOffering co = form.get().toCourseOffering(dept,
+                    season, year);
+
+            if (co.getCourse() == null) {
+                final String errorMsg = "That course does not exist. If you " +
+                        "would like to create that course, please click ";
+                final String url = Courses.url(dept);
+
+                final Map<String, String> nameAndUrl =
+                        new LinkedHashMap<String, String>();
+                nameAndUrl.put(url, "here");
+
+                return badRequest(department.render(CourseOfferingRepository.
+                        getInstance().coursesBySemesterDepartment(season, year,
+                        dept), context, Resource.BACK_LINK(context),
+                        seasonAndYear, dept, form, postCall(seasonAndYear,
+                        dept), nameAndUrl, errorMsg));
+            }
+
+            final boolean contains = CourseOfferingRepository.getInstance().
+                    contains(dept, co.getCourse().getCourseNumber(),
+                            co.getSectionNumber(), season, year);
+
+            if (contains) {
+                final String errorMsg = "Course offering " + dept + "-" +
+                        co.getCourse().getCourseNumber() + "-" +
+                        co.getSectionNumber() +" already exists.";
+
+                return badRequest(department.render(CourseOfferingRepository.
+                        getInstance().coursesBySemesterDepartment(season, year,
+                        dept), context, Resource.BACK_LINK(context),
+                        seasonAndYear, dept, form, postCall(seasonAndYear,
+                        dept), null, errorMsg));
+            } else {
+                CourseOfferingRepository.getInstance().add(
+                        form.get().toCourseOffering(dept, season, year));
+            }
         }
 
         return ok(department.render(CourseOfferingRepository.
                 getInstance().coursesBySemesterDepartment(season, year,
                 dept), context, Resource.BACK_LINK(context),
                 seasonAndYear, dept, Form.form(CourseOfferingForm2.class),
-                postCall(seasonAndYear, dept)));
+                postCall(seasonAndYear, dept), null, null));
     }
 
     public static Result get(final String seasonAndYear,

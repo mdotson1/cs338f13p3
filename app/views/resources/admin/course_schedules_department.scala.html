@@ -1,9 +1,11 @@
-@(courses : Iterator[models.course.Course], url : String, backUri : String, seasonAndYear : String, department : String, coForm : Form[models.forms.course_offering.CourseOfferingForm2], post : play.api.mvc.Call)
+@(courses : Iterator[models.course.Course], url : String, backUri : String, seasonAndYear : String, department : String, coForm : Form[models.forms.course_offering.CourseOfferingForm2], post : play.api.mvc.Call, nameAndURL : Map[String,String], errorMsg : String)
 
 @import helpers.text.h1
 @import helpers.tables.course_table
 @import helpers.forms.entity.course_offering.course_offering_form2
 @import helpers.text.back_link
+@import helpers.text.h2_color_link
+@import helpers.text.h2_color
 @import helpers.text.css
 
 <!DOCTYPE html>
@@ -14,6 +16,16 @@
     </head>
     <body>
         @h1("Courses Offered for " + seasonAndYear + " by the " + department + " Department")
+
+        @if(nameAndURL != null) {
+            @for(pair <- nameAndURL) {
+                @h2_color_link(pair, "red", errorMsg)
+            }
+        } else {
+            @if(errorMsg != null) {
+                @h2_color(errorMsg, "red")
+            }
+        }
 
         @course_table(courses, url, true, false, true, true, true)
         @course_offering_form2(coForm, post)
